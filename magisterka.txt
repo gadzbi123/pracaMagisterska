@@ -1,0 +1,38 @@
+dr inż. Robert Tutajewicz
+dr inż. Grzegorz Baron
+dr inż. Adrian Samgór
+
+Praca Magisterska - Marzec 2025
+
+Sz. P. X,
+Jestem studentem 2 stopnia Politechniki Śląskiej na wydziale Inżynierii Materiałowej na kierunku Informatyki Przemysłowej. Piszę do Pana dr
+z pytaniem czy byłby Pan chętny zostać moim promotorem do pracy magisterskiej. Moja obrona odbędzie się na przełomie lutego i marca 2025 r.
+Obecnie pracuje na stażu jako DevOps w Krakowie. Tematy, które mnie interesują to (nazwy nieostateczne):
+1. Concurrent Factory - Projekt o wysokim poziomie zrównoleglenia zadań z interfejsem graficznym przedstawiającym równoczesne działanie wielu serwisów/pracowników i możliwość dodawania zadań jak i pracowników.
+Alternatywą jest program graficzny przedstawieniający działania Kubernetesa.
+2. GVIM - Edytor tekstu posiadający podobne cechy co program vim/neovim. Implementacja porównywała by szybkość, stabilność i pełność mojej aplikacji i dwóch wcześniej wymienionych.
+3. GDistrobution - Własna implementacja jednej z wielu dostępnych implementacji linuksowych z możliwością zainstalowania rozwiązania i wykorzystania dystrybucji w życiu codziennym.
+4. Kurs Nauki - kurs języka, bądź frameworka z interaktywnymi zadaniami i ciągiem zadań do wykonania.
+Jeżeli byłby Pan dr chętny poprowadzić jeden z powyższych tematów proszę o kontakt.
+Pozdrawiam
+inż. Kacper Nitkiewicz
+
+Sz. P. X,
+Jestem studentem 2 stopnia Politechniki Śląskiej na wydziale Inżynierii Materiałowej na kierunku Informatyki Przemysłowej. Piszę do Pana dr
+z pytaniem czy byłby Pan chętny zostać moim promotorem do pracy magisterskiej. Moja obrona odbędzie się na przełomie lutego i marca 2025 r.
+Obecnie pracuje na stażu jako DevOps w Krakowie. Dostałem informacje, że temat pracy mgr. musi mieć charakter badawczy więc modyfikuje tematy z ostatniego maila:
+1. Pomiaru jakości oraz prędkości edytorów tekstowych (IDE) - aplikacja wykonałaby podstawowe funkcje,
+które można wykonać w edytorach tekstu (vscode, neovim, nano?) i sprawdziła ich szybkość użytkowania i kompleksowość.  
+2. Programy wyszukujące pliki w systemie (fzf,fzy,pick, docFetcher) /  treść w plikach (grep, ripgrep, dnGrep, docFetcher ) i sprawdzenie algorytmów zastosowanych, prędkości wyszukania, featcherów dostępnych. 
+Porównanie z własną implementacją?
+3. Analiza dystrybucji linuxowych z otwartego źródła - Porównanie funkcjonalności i software zastosowanego dwóch/trzech (Ubuntu, Fedora) popularnych popularnych dystrybucjach (serwerowych/desktopowych). 
+4. Analiza implementacyjna rozwiązań zrównoleglonych - Sprawdzenie szybkości kilku zadań z advent of code w różnych językach programowania (myślałem o js, go, c/c++, rust)
+(https://www.reddit.com/r/rust/comments/j61fvq/what_are_some_good_projects_to_learn_concurrent/)
+Jeżeli byłby Pan dr zainteresowany poprowadzeniem któregoś z tematów lub nie to proszę o kontakt.
+Pozdrawiam
+inż. Kacper Nitkiewicz
+
+System pomiaru jakości oprogramowania - myślałem o zrobieniu aplikacji webowej, która pobierałaby z gita kod źródłowy i oceniała go stosując np. metryki obiektowe (wykorzystując mechanizmy refleksji)
+Analiza porównawcza komunikacji z usługami zdalnym - REST vs SOAP - tu myślałem o opisaniu każdej z tych technologii,
+z stosowań w który dane technologie sprawują się lepiej i dokonania porównania ich na jakiś przykładzie (pod kątem czasu, zużycia zasobów itp.)
+Analiza porównawcza implementacji JAX-RS - temat zaczerpnąłem z propozycji innej uczelni, chodziło w nim o porównanie implementacji REST w różnych framewrokach
