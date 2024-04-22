@@ -1,4 +1,10 @@
-package searchThing
+package SearchThing
+
+import (
+	"log"
+	"os/exec"
+	"strings"
+)
 
 type SearchFileInterface interface {
 	FindRegularFile(string) []string
@@ -33,9 +39,12 @@ type ProgramName int
 const (
 	Grep ProgramName = iota
 	Ripgrep
+	Find
 )
 
-var programExecutableList []string = []string{"grep", "ripgrep"}
+var baseDir string = "/mnt/g/baza_mgr/jacek"
+
+var programExecutableList []string = []string{"grep", "ripgrep", "find"}
 
 type Program struct {
 	SearchFileInterface
@@ -48,22 +57,53 @@ type SearchFile struct {
 	program Program
 }
 
-func execCmd(p ProgramName, args ...string) {
-
-}
-func (p *Program) FindRegularFile(string) []string {
-	switch p.name {
-	case Grep:
-		execCmd(programExecutableList[Grep])
-	case Ripgrep:
-	}
-	return nil
-}
-
 func New(programName ProgramName) *SearchFile {
 	sf := &SearchFile{program: Program{name: programName}}
 	return sf
 }
-func (sf *SearchFile) FindRegularFile(s string) {
 
+func (p *Program) FindRegularFile(fileName string) []string {
+	var out []byte
+	var err any
+	switch p.name {
+	case Find:
+		out, err = exec.Command(programExecutableList[Find], baseDir, "-name", fileName).CombinedOutput()
+	case Grep:
+		err = "Grep cannot find files"
+	}
+	output := string(out)
+	if err != nil {
+		log.Fatalln("Error on FindRegularFile", output, err)
+	}
+	if len(out) == 0 {
+		return []string{}
+	}
+	//trim last newline
+	output_lines := strings.Split(output[:len(output)-1], "\n")
+	return output_lines
+}
+
+func (p *Program) FindFileByRegex() []string {
+	var out []byte
+	var err any
+	switch p.name {
+	case Find:
+		cmd := exec.Command(programExecutableList[Find], baseDir, "-regex", "\".*\\.doc.*\"")
+		args := cmd.Args
+		log.Println(args)
+		out, err = cmd.CombinedOutput()
+	case Grep:
+		err = "Grep cannot find files"
+	}
+	output := string(out)
+	if err != nil {
+		log.Fatalln("Error on FindFileByRegex", output, err)
+	}
+	log.Println("output", out)
+	if len(out) == 0 {
+		return []string{}
+	}
+	//trim last newline
+	output_lines := strings.Split(output[:len(output)-1], "\n")
+	return output_lines
 }

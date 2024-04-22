@@ -1,3 +1,3 @@
-module github.com/gadzbi123/searchThing
+module github.com/gadzbi123/SearchThing
 
 go 1.22.0
