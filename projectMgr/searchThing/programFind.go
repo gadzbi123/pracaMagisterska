@@ -36,30 +36,31 @@ func (p *ProgramFind) FindRegularFile(fileName string) ([]string, error) {
 
 func (p *ProgramFind) FindFileByRegex() ([]string, error) {
 	return []string{}, errors.New("find can't do regex search in golang")
-	/*
-		var out []byte
-		var err any
-		cmd := exec.Command(programExecutableList[Find], BASEDIR, "-regex", "\".*\\.doc.*\"")
-		args := cmd.Args
-		log.Println(args)
-		out, err = cmd.CombinedOutput()
-		output := string(out)
-		if err != nil {
-			log.Fatalln("Error on FindFileByRegex", output, err)
-		}
-		log.Println("output", out)
-		if len(out) == 0 {
-			return []string{}
-		}
-		//trim last newline
-		output_lines := strings.Split(output[:len(output)-1], "\n")
-		return output_lines
-	*/
+	/* var out []byte
+	var err any
+	cmd := exec.Command(programExecutableList[Find], BASEDIR, "-regex", "'.*\\.doc.*'")
+	args := cmd.Args
+	log.Println(args)
+	out, err = cmd.CombinedOutput()
+	output := string(out)
+	if err != nil {
+		log.Println("Error on FindFileByRegex", output, err)
+	}
+	if len(out) == 0 {
+		return []string{}, nil
+	}
+	//trim last newline
+	output_lines := strings.Split(output[:len(output)-1], "\n")
+	return output_lines, nil */
 }
 
-func FindFileInZips(string) []string {
-	return nil
+func FindFileInZips(string) ([]string, error) {
+	return []string{}, errors.New("find can't search inside zip")
 }
-func FindFileWithSpecialChars(string) []string {
-	return nil
+func FindFileWithSpecialChars(string) ([]string, error) {
+	return nil, nil
+}
+
+func FindFileByPermission(string) ([]string, error) {
+	return nil, nil
 }

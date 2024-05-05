@@ -9,6 +9,7 @@ type (
 		FindFileByRegex(string) ([]string, error)
 		FindFileInZips(string) ([]string, error)
 		FindFileWithSpecialChars(string) ([]string, error)
+		FindFileByPermission(string) ([]string, error)
 	}
 
 	SearchDirInterface interface {

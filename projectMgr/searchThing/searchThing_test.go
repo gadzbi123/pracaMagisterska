@@ -33,17 +33,19 @@ func TestFileNotExisting(t *testing.T) {
 }
 
 // REGEX SUCKS ON find
-// func TestFileRegexWithFind(t *testing.T) {
-// 	fileTester := New(Find)
-// 	result := fileTester.program.FindFileByRegex()
-// 	length := len(result)
-// 	if length == 0 {
-// 		t.Error("Result length should not be zero")
-// 		t.FailNow()
-// 	}
-// 	t.Log(length)
-// 	t.Log(result)
-// }
+func TestFileRegexWithFind(t *testing.T) {
+	fileTester := NewFind()
+	result, err := fileTester.FindFileByRegex()
+	if err != nil {
+		t.Error("Error during find file by regex")
+	}
+	length := len(result)
+	if length == 0 {
+		t.Error("Result length should not be zero")
+	}
+	t.Log(length)
+	t.Log(result)
+}
 
 // run tests
 // go test -test.v ./*.go
