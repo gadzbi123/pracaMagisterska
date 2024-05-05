@@ -10,7 +10,6 @@ import (
 type ProgramFind struct {
 	SearchFileInterface
 	SearchDirInterface
-	SearchTextInterface
 	name string
 }
 
@@ -56,4 +55,11 @@ func (p *ProgramFind) FindFileByRegex() ([]string, error) {
 		output_lines := strings.Split(output[:len(output)-1], "\n")
 		return output_lines
 	*/
+}
+
+func FindFileInZips(string) []string {
+	return nil
+}
+func FindFileWithSpecialChars(string) []string {
+	return nil
 }
