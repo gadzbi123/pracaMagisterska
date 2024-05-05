@@ -6,35 +6,48 @@ import (
 	"strings"
 )
 
-type SearchFileInterface interface {
-	FindRegularFile(string) []string
-	FindFileByFileExtension(string) []string
-	FindFileByRegex() []string
-	FindFileInZips() []string
-	FindFileWithSpecialChars() []string
-}
+type (
+	SearchFileInterface interface {
+		FindRegularFile(string) []string
+		FindFileByFileExtension(string) []string
+		FindFileByRegex() []string
+		FindFileInZips() []string
+		FindFileWithSpecialChars() []string
+	}
 
-type SearchDirInterface interface {
-	FindRegularDir(string) []string
-	FindDirByFileExtension(string) []string
-	FindDirByRegex() []string
-	FindDirInZips() []string
-	FindDirWithSpecialChars() []string
-}
+	SearchDirInterface interface {
+		FindRegularDir(string) []string
+		FindDirByFileExtension(string) []string
+		FindDirByRegex() []string
+		FindDirInZips() []string
+		FindDirWithSpecialChars() []string
+	}
 
-type SearchTextInterface interface {
-	FindRegularText(string) []string
-	FindTextByFileExtension(string) []string
-	FindTextByRegex() []string
-	FindTextInZips() []string
-	FindTextWithSpecialChars() []string
-}
+	SearchTextInterface interface {
+		FindRegularText(string) []string
+		FindTextByFileExtension(string) []string
+		FindTextByRegex() []string
+		FindTextInZips() []string
+		FindTextWithSpecialChars() []string
+	}
 
-type SearchByPiping interface {
-	todo()
-}
+	SearchByPiping interface {
+		todo()
+	}
 
-type ProgramName int
+	ProgramName int
+
+	Program struct {
+		SearchFileInterface
+		SearchDirInterface
+		SearchTextInterface
+		name ProgramName
+	}
+
+	SearchFile struct {
+		program Program
+	}
+)
 
 const (
 	Grep ProgramName = iota
@@ -42,20 +55,9 @@ const (
 	Find
 )
 
-var baseDir string = "/mnt/g/baza_mgr/jacek"
+var BASEDIR string = "/mnt/g/baza_mgr/jacek"
 
 var programExecutableList []string = []string{"grep", "ripgrep", "find"}
-
-type Program struct {
-	SearchFileInterface
-	SearchDirInterface
-	SearchTextInterface
-	name ProgramName
-}
-
-type SearchFile struct {
-	program Program
-}
 
 func New(programName ProgramName) *SearchFile {
 	sf := &SearchFile{program: Program{name: programName}}
@@ -67,7 +69,7 @@ func (p *Program) FindRegularFile(fileName string) []string {
 	var err any
 	switch p.name {
 	case Find:
-		out, err = exec.Command(programExecutableList[Find], baseDir, "-name", fileName).CombinedOutput()
+		out, err = exec.Command(programExecutableList[Find], BASEDIR, "-name", fileName).CombinedOutput()
 	case Grep:
 		err = "Grep cannot find files"
 	}
@@ -88,7 +90,7 @@ func (p *Program) FindFileByRegex() []string {
 	var err any
 	switch p.name {
 	case Find:
-		cmd := exec.Command(programExecutableList[Find], baseDir, "-regex", "\".*\\.doc.*\"")
+		cmd := exec.Command(programExecutableList[Find], BASEDIR, "-regex", "\".*\\.doc.*\"")
 		args := cmd.Args
 		log.Println(args)
 		out, err = cmd.CombinedOutput()

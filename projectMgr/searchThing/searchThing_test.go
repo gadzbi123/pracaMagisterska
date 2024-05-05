@@ -29,7 +29,7 @@ func TestFileNotExisting(t *testing.T) {
 	t.Log(result)
 }
 
-//REGEX SUCKS ON find
+// REGEX SUCKS ON find
 // func TestFileRegexWithFind(t *testing.T) {
 // 	fileTester := New(Find)
 // 	result := fileTester.program.FindFileByRegex()
