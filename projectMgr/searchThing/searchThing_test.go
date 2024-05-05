@@ -5,25 +5,28 @@ import (
 )
 
 func TestFileRegularFind(t *testing.T) {
-	fileTester := New(Find)
-
-	result := fileTester.program.FindRegularFile("body-idioms.htm")
+	fileTester := NewFind()
+	result, err := fileTester.FindRegularFile("body-idioms.htm")
+	if err != nil {
+		t.Error("Failed after regular file execution")
+	}
 	length := len(result)
 	if len(result) == 0 {
-		t.Error("Failed on finding regular file")
-		t.FailNow()
+		t.Error("The result length was zero")
 	}
 	t.Log(length)
 	t.Log(result)
 }
 
 func TestFileNotExisting(t *testing.T) {
-	fileTester := New(Find)
-	result := fileTester.program.FindRegularFile("Czasy*")
+	fileTester := NewFind()
+	result, err := fileTester.FindRegularFile("Czasy*")
+	if err != nil {
+		t.Error("Execution of regular file failed")
+	}
 	length := len(result)
 	if len(result) != 0 {
 		t.Error("Result length should be zero")
-		t.FailNow()
 	}
 	t.Log(length)
 	t.Log(result)
@@ -43,4 +46,4 @@ func TestFileNotExisting(t *testing.T) {
 // }
 
 // run tests
-// go test ./*.go
+// go test -test.v ./*.go
