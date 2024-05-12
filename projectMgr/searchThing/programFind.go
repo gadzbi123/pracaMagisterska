@@ -14,7 +14,11 @@ type ProgramFind struct {
 }
 
 func NewFind() *ProgramFind {
-	return &ProgramFind{name: programExecutableList[Find]}
+	n, err := exec.LookPath(programExecutableList[Find])
+	if err != nil {
+		log.Fatalf("Program %q not found\n", programExecutableList[Find])
+	}
+	return &ProgramFind{name: n}
 }
 
 func (p *ProgramFind) FindRegularFile(fileName string) ([]string, error) {
@@ -54,13 +58,42 @@ func (p *ProgramFind) FindFileByRegex() ([]string, error) {
 	return output_lines, nil */
 }
 
-func FindFileInZips(string) ([]string, error) {
+func (p *ProgramFind) FindFileInZips(string) ([]string, error) {
 	return []string{}, errors.New("find can't search inside zip")
 }
-func FindFileWithSpecialChars(string) ([]string, error) {
-	return nil, nil
+
+// Double quotes "" are not treated well by linux. They are often converted
+// to ' and ' which can be problematic
+func (p *ProgramFind) FindFileWithSpecialChars() ([]string, error) {
+	var out []byte
+	var err error
+	out, err = exec.Command(p.name, BASEDIR, "-name", "*\\'*").CombinedOutput()
+	output := string(out)
+	if err != nil {
+		log.Println("Error on FindSpecialCharsFile", output, err)
+		return []string{}, err
+	}
+	if len(out) == 0 {
+		return []string{}, nil
+	}
+	//trim last newline
+	output_lines := strings.Split(output[:len(output)-1], "\n")
+	return output_lines, nil
 }
 
-func FindFileByPermission(string) ([]string, error) {
-	return nil, nil
+func (p *ProgramFind) FindFileByPermission(perm string) ([]string, error) {
+	var out []byte
+	var err error
+	out, err = exec.Command(p.name, BASEDIR, "-perm", perm).CombinedOutput()
+	output := string(out)
+	if err != nil {
+		log.Println("Error on FindFileByPermission", output, err)
+		return []string{}, err
+	}
+	if len(out) == 0 {
+		return []string{}, nil
+	}
+	//trim last newline
+	output_lines := strings.Split(output[:len(output)-1], "\n")
+	return output_lines, nil
 }

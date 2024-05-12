@@ -8,7 +8,7 @@ type (
 		FindFileByFileExtension(string) ([]string, error)
 		FindFileByRegex(string) ([]string, error)
 		FindFileInZips(string) ([]string, error)
-		FindFileWithSpecialChars(string) ([]string, error)
+		FindFileWithSpecialChars() ([]string, error)
 		FindFileByPermission(string) ([]string, error)
 	}
 
@@ -32,6 +32,7 @@ type (
 		todo()
 	}
 )
+
 type ProgramName int
 
 const (

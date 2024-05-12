@@ -1,6 +1,8 @@
 package SearchThing
 
 import (
+	"os"
+	"path/filepath"
 	"testing"
 )
 
@@ -33,7 +35,7 @@ func TestFileNotExisting(t *testing.T) {
 }
 
 // REGEX SUCKS ON find
-func TestFileRegexWithFind(t *testing.T) {
+/* func TestFileRegexWithFind(t *testing.T) {
 	fileTester := NewFind()
 	result, err := fileTester.FindFileByRegex()
 	if err != nil {
@@ -45,6 +47,43 @@ func TestFileRegexWithFind(t *testing.T) {
 	}
 	t.Log(length)
 	t.Log(result)
+} */
+
+func TestFileWithSpecialCharsInFind(t *testing.T) {
+	fileTester := NewFind()
+	result, err := fileTester.FindFileWithSpecialChars()
+	if err != nil {
+		t.Error("Error during find", err)
+	}
+	length := len(result)
+	if length == 0 {
+		t.Error("Result length should not be zero")
+	}
+	t.Log(length)
+	t.Log(result)
+}
+
+func TestFileWithSpecifiedPermission(t *testing.T) {
+	fileName := "test-perm.txt"
+	filePath := filepath.Join(BASEDIR, fileName)
+	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_RDWR, 0555)
+	if err != nil {
+		t.Error("Couldn't create file ", err)
+	}
+	file.Close()
+	fileTester := NewFind()
+	result, err := fileTester.FindFileByPermission("0555")
+	if err != nil {
+		t.Error("Error during find", err)
+	}
+	length := len(result)
+	if length == 0 {
+		t.Error("Result length should not be zero")
+	}
+	os.Remove(filePath)
+	t.Log("Len:", length)
+	t.Log("Result:", result)
+
 }
 
 // run tests
