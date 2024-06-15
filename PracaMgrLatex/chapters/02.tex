@@ -1,0 +1,123 @@
+\chapter{[Tytuł rozdziału]}  % Analiza tematu
+% 
+
+%\begin{itemize}
+%\item Jaki problem chcę (muszę :-) rozwiązać?
+%\item Dlaczego rozwiązanie problemu jest ważne?
+%\item Jak inni rozwiązują ten problem?
+%\item Jakie są zalety i wady tych rozwiązań?
+%\end{itemize}
+
+Odwołania do literatury:
+książek \cite{bib:ksiazka},
+artykułów w czasopismach \cite{bib:artykul},
+materiałów konferencyjnych \cite{bib:konferencja}
+i stron www \cite{bib:internet}.
+
+Równania powinny być numerowane
+\begin{align}
+    y = \frac{\partial x}{\partial t}
+\end{align}
+
+%
+%\begin{itemize}
+%\item analiza tematu
+%\item wprowadzenie do dziedziny (\english{state of the art}) – sformułowanie problemu, 
+%\item poszerzone studia literaturowe, przegląd literatury tematu (należy wskazać źródła wszystkich informacji zawartych w pracy)
+%\item opis znanych rozwiązań, algorytmów, osadzenie pracy w kontekście
+%\item Tytuł rozdziału jest często zbliżony do tematu pracy. 
+%\item Rozdział jest wysycony cytowaniami do literatury \cite{bib:artykul,bib:ksiazka,bib:konferencja}. 
+%Cytowanie książki \cite{bib:ksiazka}, artykułu w czasopiśmie \cite{bib:artykul}, artykułu konferencyjnego \cite{bib:konferencja} lub strony internetowej \cite{bib:internet}.
+%\end{itemize}
+
+%\begin{Definition}\label{def:1}
+%Definicja to zdanie (lub układ zdań) odpowiadające na pytanie o strukturze „co to jest a?”. Definicja normalna jest zdaniem złożonym z 2 członów: definiowanego (łac. definiendum) i definiującego (łac. definiens), połączonych spójnikiem definicyjnym („jest to”, „to tyle, co” itp.). 
+%\end{Definition}
+%
+%\begin{Theorem}[Pitagorasa]\label{t:pitagoras}
+%W dowolnym trójkącie prostokątnym suma kwadratów długości przyprostokątnych jest równa kwadratowi długości przeciwprostokątnej tego trójkąta. 
+%\end{Theorem}
+%
+%\begin{Example}[generalizacja]\label{ex:generalizacja}
+%Przykładem generalizacji jest para: zwierzę i pies. Pies jest zwierzęciem. Pies jest uszczegółowieniem pojęcia zwierzę. Zwierzę jest uogólnieniem pojęcia pies.
+%\end{Example}
+
+Podjęcie problemu wyszukiwania plików po nazwach oraz zawartości jest bardzo
+złożonym i trudnym problemem w sferze programistycznej. Istnieje wiele rozwiązań
+tego problemu, które istnieją od początku pracy z komputerem. Narzędzia takie
+jak find, grep czy fzf pozwalają na wyszukiwanie zawartości która nas interesuje,
+ale kompleksowość tych narzędzi nie jest przystosowana do tak trudnego problemu,
+jakim jest wyszukiwanie treści w plikach, które są zarchiwizowane. Z taką samą
+niedogodnością spotykamy się w przypadku plików pochodzących z pakietu Microsoft
+Office 365, jednak jeśli rozwiążemy zadanie otrzymywania zawartości z archiwów,
+będziemy w stanie otrzymać również zawartość z plików z rozszerzeniami .doc,
+.docx czy .pptx.
+
+Narzędzie find to znane i popularne narzędzie wśród osób zaznajomionych z
+technologiami linuxowymi. Już bardzo często wykorzystywany do znajdowania plików
+w systemie, jednak nie nadaje sie do znajdowania zawartości plików.
+
+\begin{lstlisting}[language=bash]
+# Rezultat komendy tldr find
+# Find files by extension:
+    find root_path -name '*.ext'
+
+# Find files matching multiple path/name patterns:
+    find root_path -path '**/path/**/*.ext' -or -name '*pattern*'
+
+# Find directories matching a given name, in case-insensitive mode:
+    find root_path -type d -iname '*lib*'
+
+# Find files matching a given pattern, excluding specific paths:
+    find root_path -name '*.py' -not -path '*/site-packages/*'
+
+# Find files matching a given size range, limiting the recursive depth to "1":
+    find root_path -maxdepth 1 -size +500k -size -10M
+
+# Run a command for each file (use `{}` within the command to access the filename):
+    find root_path -name '*.ext' -exec wc -l {} \;
+
+# Find all files modified today and pass the results to a single command as arguments:
+    find root_path -daystart -mtime -1 -exec tar -cvf archive.tar {} \+
+
+# Find empty (0 byte) files and delete them:
+    find root_path -type f -empty -delete
+\end{lstlisting}
+
+Do przeszukiwania zawartości plików dobrze nadaje się narzędzie grep, który jest
+dostępny w każdej dystrybucji linuxa. Jego działanie jest dość podobne do finda,
+lecz posiada on możliwość wyszukiwania treść w plikach tekstowych jak również
+archiwach. Nie posiada on niestety możliwość szukania zawartości plików .pdf oraz
+nie wspiera formatów książkowych takich jak .djvu.
+\begin{lstlisting}[language=bash]
+# Rezultat komendy tldr grep 
+
+# Search for a pattern within a file:
+    grep "search_pattern" path/to/file
+
+# Search for an exact string (disables regular expressions):
+    grep -F|--fixed-strings "exact_string" path/to/file
+
+# Search for a pattern in all files recursively in a directory, showing line numbers of matches, ignoring binary files:
+    grep -r|--recursive -n|--line-number --binary-files without-match "search_pattern" path/to/directory
+
+# Use extended regular expressions (supports `?`, `+`, `{}`, `()` and `|`), in case-insensitive mode:
+    grep -E|--extended-regexp -i|--ignore-case "search_pattern" path/to/file
+
+# Print 3 lines of context around, before, or after each match:
+    grep --context|before-context|after-context 3 "search_pattern" path/to/file
+
+# Print file name and line number for each match with color output:
+    grep -H|--with-filename -n|--line-number --color=always "search_pattern" path/to/file
+
+# Search for lines matching a pattern, printing only the matched text:
+    grep -o|--only-matching "search_pattern" path/to/file
+
+# Search `stdin` for lines that do not match a pattern:
+    cat path/to/file | grep -v|--invert-match "search_pattern"
+\end{lstlisting}
+Istnieje również ripgrep, który jest sukcesorem wcześniej wymienionego
+narzędzia. Jego wydajność przewyższa grepa nawet trzydziestokrotnie w niektórych testach sprawnościowych,
+jednak zazwyczaj jest to niewielki wzrost. Nie posiada on również wsparcia dla formatów pdf i djvu.
+
+Można wyszukiwać również po treści piosenek ale było by to zbyt czasochłonne.
