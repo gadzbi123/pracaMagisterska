@@ -20,7 +20,7 @@ func TestFileRegularFind(t *testing.T) {
 	t.Log(result)
 }
 
-func TestFileNotExisting(t *testing.T) {
+func TestFileNotExistingFind(t *testing.T) {
 	fileTester := NewFind()
 	result, err := fileTester.FindRegularFile("Czasy*")
 	if err != nil {
@@ -63,7 +63,7 @@ func TestFileWithSpecialCharsInFind(t *testing.T) {
 	t.Log(result)
 }
 
-func TestFileWithSpecifiedPermission(t *testing.T) {
+func TestFileWithSpecifiedPermissionFind(t *testing.T) {
 	fileName := "test-perm.txt"
 	filePath := filepath.Join(BASEDIR, fileName)
 	file, err := os.OpenFile(filePath, os.O_APPEND|os.O_CREATE|os.O_RDWR, 0555)

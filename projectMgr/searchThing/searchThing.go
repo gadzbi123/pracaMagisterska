@@ -41,4 +41,4 @@ const (
 	Find
 )
 
-var programExecutableList []string = []string{"grep", "ripgrep", "find"}
+var programExecutableList []string = []string{"grep", "ripgrep", "find","fzf"}
