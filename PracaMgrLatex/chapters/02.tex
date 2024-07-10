@@ -121,3 +121,61 @@ narzędzia. Jego wydajność przewyższa grepa nawet trzydziestokrotnie w niekt�
 jednak zazwyczaj jest to niewielki wzrost. Nie posiada on również wsparcia dla formatów pdf i djvu.
 
 Można wyszukiwać również po treści piosenek ale było by to zbyt czasochłonne.
+
+////////////////////////////////////////////////////////////////////////////////
+Algorytm brute force
+
+Jest wiele algorytmów, które wyszukują tekst. Jednym z takich algorytmów jest 
+algorytm typu brute-force. Polega sprawdzaniu każdego bajtu, jego implementacja
+jest bardzo prosta i standardowa, a złożoność czasowe tego rozwiązania wynosi
+O(m * n), gdzie m to długość bloku (pattern), a n to długość tekstu (substring),
+którego szukamy. 
+
+```code
+for i := 0; i<len(pattern); i++{
+  for j := 0; j<len(substring); j++{
+    // compare bytes
+  }
+}
+```
+
+Zaletą tego algorytmu jest to, że nie posiada potrzeby przechowywać żadnych 
+danych w pamięci. Ten algorytm dobrze spradza się gdy posiadamy ograniczoną 
+ilość zasobów pamięci, co nie jest problemem w obecnych czasach, gdy pamięć jest
+stosunkowo tania i szerokodostępna.
+https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage
+https://jcmit.net/memoryprice.htm
+
+Powyższy algorytm można zrównoleglić, dzieląc wzorzec na mniejsze części
+i wyszukując tylko dane w tym obszarze, ale należy dołożyć końce wzorca, aby nie
+wynikła sytuacja, w której wzorzec by wystąpił, ale nie wzięto pod uwagę końca 
+zdania. 
+
+Przykład
+wzorzec     ABCABCABDABD
+podłańcuch  BCA
+rezultat:   4
+
+Jeżeli podzielimy wzorzec na dwa procesy wyszukujące algorytmem brute-force,
+otrzymamy dwa zadania:
+
+Zadanie 1               Zadanie 2
+wzorzec     ABCABC      wzorzec     ABDABD
+podłańcuch  BCA         podłańcuch  BCA
+rezultat:   -1          rezultat:   -1
+
+Zrównoleglenie procesu powoduje, że otrzymaliśmy nie poprawny wynik, gdyż w 
+żadnym z wzorców nie występuje podłańcuch "BCA", choć łańcuch występuje w 
+miejscu 4, to algorytm nie posiada wiedzy o dalszej części wzorca.
+
+Aby poprawić dany algorytm należy dołożyć znaki, które należy sprawdzać w 
+przypadku poprawnego rozpatrzenia ostatniego znaku.
+
+Zadanie 1               Zadanie 2
+wzorzec     ABCABC(AB)  wzorzec     ABDABD(nil)
+podłańcuch  BCA         podłańcuch  BCA
+rezultat:   4           rezultat:   -1
+
+W takim przypadku sprawdzamy tylko do sytuacji, w której BC jest częścią
+podłańcucha, ale podłańcuch nie został w pełni znaleziony. Długość ponownego 
+wyszukania byłaby równa len(podłańcuch) - 1.
