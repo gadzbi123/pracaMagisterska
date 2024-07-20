@@ -15,6 +15,7 @@ func prefix_sufix(s []byte) (i int) {
 	}
 	return
 }
+
 func moris_pratt_slow(s []byte, substr []byte) (res []int) {
 	slen := len(s)
 	substrlen := len(substr)
@@ -37,13 +38,51 @@ func moris_pratt_slow(s []byte, substr []byte) (res []int) {
 			}
 			if j == substrlen-1 {
 				res = append(res, i)
-				//sufix?
+				// sufix?
 			}
 		}
 	}
 	return
 }
+
+func moris_pratt(s []byte, substr []byte) (res []int) {
+	lenS := len(s)
+	lensubstr := len(substr)
+	curr := -1
+	preproc := make([]int, lensubstr+1)
+
+	// dla wzorca obliczamy tablicę substrresubstrroc[]
+	preproc[0] = -1
+	for i := 1; i <= lensubstr; i++ {
+		for (curr > -1) && (substr[curr] != substr[i-1]) {
+			curr = preproc[curr]
+		}
+		curr++
+		preproc[i] = curr
+	}
+
+	fmt.Println("preproc", preproc)
+	// substroszukujemy substrozycji wzorca w łańcuchu
+	curr = 0
+	found := 0
+	for i := 0; i < lenS; i++ {
+		for (curr > -1) && (substr[curr] != s[i]) {
+			curr = preproc[curr]
+		}
+		curr++
+		if curr == lensubstr {
+			for found < i-curr+1 {
+				found++
+			}
+			res = append(res, found)
+			found++
+			curr = preproc[curr]
+		}
+	}
+	return
+}
+
 func main() {
 	// fmt.Println(moris_pratt([]byte("ALGORYTMTMA I STRUKTURY DANYCHYCH"), []byte("TMA")))
-	fmt.Println(moris_pratt([]byte("BABAAABAABAAABABBABBBABBABABAABBAABAAABAABABABABAABBBAAAABBBBABBAABBBBBBABABAAA"), []byte("BBAAA")))
+	fmt.Println(moris_pratt([]byte("BABAAABAABAAABABBABBBABBABABAABBAABAAABAABABABABAABBBAAAABBBBABBAABBBBBBABABAAA"), []byte("BBAAAABB")))
 }

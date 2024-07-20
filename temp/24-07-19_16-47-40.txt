@@ -1,0 +1,33 @@
+Implementacja funkcji FindAllIndex jest odpowiednikiem funkcji wyszukującej 
+wszystkie znalezienia łańcucha we wzorze. Dokumentacja funkcji na stronie golang
+jest bardzo przejrzysta i posiada wszystkie kluczowe odnosiniki w przypadku
+kiedy chcielibyśmy modifikować daną funkcje.
+
+https://github.com/golang/go/blob/master/src/strings/search.go:16
+badCharSkip[b] zawiera odległość miedzy ostatnim bytem we wzorze a pojewieniem
+najbardziej po prawej stronie b w łańcuchu. Jeżeli b nie znajduje sie w łańcuchu
+to badCharSkip[b] jest równy długości wzoru.
+
+Gdy znajdziemy niepoprawnego bajta w wzorze to możemy bezpiecznie wykonać 
+przemieszczenie pasującego okna na badCharSkip[b] dopóki następny następny znak
+może zostać wyrównany. 
+
+goodSuffixSkip[i] definiuje jak daleko można wykonać przesunięcie pasującego
+okna zakładając, że przyrostek (suffix) odpowiada łańcuchowi pattern[i+1:], ale
+bajt pattern[i] nie odpowiada niemu. Należy rozważyć 2 przypadki:
+
+1. Pasujący przyrostek odpowiada gdzieś w łańcuchu (z innym bajtem następującym,
+który może mu odpowiadać). W takim przypadku, można dokonać przesunięcie do 
+pasującego okna, aby wyrównać następny przyrostek łańcucha. Przykład:
+łańcuch "mississi" ma przyrostek "issi" również pod indeksem 1. Wiec 
+goodSuffixSkip[3] == przesuniecie+len(przyrostek) => 3+4 == 7
+
+2. Jeżeli pasujacy przyrostek nie występuje w łańcuchu, to pasujące okno może 
+dzielić część jego przedrostku z końcem pasującego przyrostka. W tym przypadku,
+goodSuffixSkip[i] będzie zawierać wartośc przesuniecia okna, żeby wyrównać porcje
+przedrostka w porównaniu do przyrostka. Przykład, łańcuch "abcxxxabc", jeżeli
+pierwsze niedopasowanie występi w indeksie 3, pasujący przyrostek "xxabc" nie
+zostanie znaleziony nigdzie w łańcuchu. Natomiast przyrostek "abc" w pozycji 6
+jest przedrostkiem w całym łańcuchu, wiec goodSuffixSkip[3] == przesunięcie+
+len(przyrostek) => 6+5 == 11
+
