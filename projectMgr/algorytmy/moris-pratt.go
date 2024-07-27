@@ -51,7 +51,7 @@ func moris_pratt(s []byte, substr []byte) (res []int) {
 	curr := -1
 	preproc := make([]int, lensubstr+1)
 
-	// dla wzorca obliczamy tablicę substrresubstrroc[]
+	// dla wzorca obliczamy tablicę substr[]
 	preproc[0] = -1
 	for i := 1; i <= lensubstr; i++ {
 		for (curr > -1) && (substr[curr] != substr[i-1]) {
@@ -84,5 +84,8 @@ func moris_pratt(s []byte, substr []byte) (res []int) {
 
 func main() {
 	// fmt.Println(moris_pratt([]byte("ALGORYTMTMA I STRUKTURY DANYCHYCH"), []byte("TMA")))
-	fmt.Println(moris_pratt([]byte("BABAAABAABAAABABBABBBABBABABAABBAABAAABAABABABABAABBBAAAABBBBABBAABBBBBBABABAAA"), []byte("BBAAAABB")))
+	fmt.Println(moris_pratt(
+		[]byte("BABAAABAABAAABABBABBBABBABABAABBAABAAABAABABABABAABBBAAAABBBBABBAABBBBBBABABAAA"),
+		[]byte("BBAAAABB"),
+	))
 }

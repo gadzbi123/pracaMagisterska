@@ -7,6 +7,9 @@ minteddir=_minted-$(f)
 .PHONY : short
 .PHONY : clean
 
+setup:
+	evince main.pdf &
+	nvim .
 
 xelatex : $(f).tex
 	xelatex $(minted) -synctex=1 $(f)
