@@ -1,0 +1,21 @@
+/run/media/gadzbi/GryIFilmy/baza_mgr/jacek/ksiazki/angielski/English, Oxford American Desk Dictionary And Thesaurus v1.0 Palmos Incl Keymaker-Corepda.rar: Win.Downloader.88-1 FOUND
+[gadzbi@fedora ~]$ clamscan --infected --recursive /run/media/gadzbi/GryIFilmy
+
+LibClamAV Warning: cli_scanicon: found 1 invalid icon entries of 4 total
+LibClamAV Warning: cli_scanicon: found 1 invalid icon entries of 4 total
+/run/media/gadzbi/GryIFilmy/!!!Ważne_pliki/instalki/Downloads/OriginThinSetup.exe: Win.Worm.Chir-370 FOUND
+/run/media/gadzbi/GryIFilmy/!torrent/black_flag/_Redist/VisualCppRedist_AIO_x86_x64.exe: Win.Adware.InstallPack-9918495-0 FOUND
+/run/media/gadzbi/GryIFilmy/baza_mgr/jacek/ksiazki/angielski/English, Oxford American Desk Dictionary And Thesaurus v1.0 Palmos Incl Keymaker-Corepda.rar: Win.Downloader.88-1 FOUND
+
+----------- SCAN SUMMARY -----------
+Known viruses: 8696840
+Engine version: 1.0.6
+Scanned directories: 90827
+Scanned files: 619640
+Infected files: 3
+Data scanned: 104750.66 MB
+Data read: 1152145.00 MB (ratio 0.09:1)
+Time: 36584.965 sec (609 m 44 s)
+Start Date: 2024:07:30 17:16:50
+End Date:   2024:07:31 03:26:35
+
