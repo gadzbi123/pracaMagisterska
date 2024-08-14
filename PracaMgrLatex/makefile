@@ -29,6 +29,9 @@ $(f).pdf : $(f).tex
 	pdflatex $(minted) -synctex=1 $(f)
 	pdflatex $(minted) -synctex=1 $(f)
 
+build : $(f).tex
+	pdflatex $(minted) -synctex=1 $(f)
+
 short : $(f).tex
 	pdflatex $(minted) -synctex=1 $(f)
 

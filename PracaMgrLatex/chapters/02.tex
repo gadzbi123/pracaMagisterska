@@ -50,7 +50,7 @@ pozwalało na 16 Kbi pamięci. Model Motoroli 68000 posiada 5 MB dysku twardego,
 co nie może się równać z opecnym standardem darmowej pamięci udostępnianej w 
 chmurze przez Google (15 GB).
 
-Problem wszukiwania danych następił w momencie tworzenia dużej ilość zawartości.
+Problem wyszukiwania danych nastąpił w momencie tworzenia dużej ilość zawartości.
 Posiadane archiwum wynosi 14.7 GB danych, niektóre z zawartości są 
 zarchiwizowane co znacznie utrudnia odczytania z nich danych. Nie mniej jednak,
 posiadane narzędzia w systemach dają dużą dowolność w wyszukania zawartości,
@@ -105,7 +105,7 @@ w systemie, jednak nie nadaje sie do znajdowania zawartości plików.
 \end{figure}
 
 Do przeszukiwania zawartości plików dobrze nadaje się narzędzie grep, który jest
-dostępny w każdej dystrybucji linuxa. Jego działanie jest dość podobne do finda,
+dostępny w każdej dystrybucji Linuxa. Jego działanie jest dość podobne do finda,
 lecz posiada on możliwość wyszukiwania treść w plikach tekstowych jak również
 archiwach. Nie posiada on niestety możliwość szukania zawartości plików .pdf oraz
 nie wspiera formatów książkowych takich jak .djvu.
@@ -169,7 +169,7 @@ for i := 0; i<len(pattern); i++{
   }
 }
   \end{lstlisting}
-  \caption{Przykłady użycia programu grep}
+  \caption{Przykłady algorytmu brute force}
   \label{fig:code:bruteForceComparison}
 \end{figure}
 
@@ -177,8 +177,13 @@ Zaletą tego algorytmu jest to, że nie posiada potrzeby przechowywać żadnych
 danych w pamięci. Ten algorytm dobrze sprawdza się gdy posiadamy ograniczoną 
 ilość zasobów pamięci, co nie jest problemem w obecnych czasach, gdy pamięć jest
 stosunkowo tania i szeroko dostępna.
-https://ourworldindata.org/grapher/historical-cost-of-computer-memory-and-storage
-https://jcmit.net/memoryprice.htm
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\textwidth]{./images/historical-mem-price.png}
+  \caption{Historyczne dane cen pamięci w latach 1993-2023 \cite{internet:HistoricalMemPrice}}
+  \label{screenshot:MemPrices}
+\end{figure}
+%https://jcmit.net/memoryprice.htm
 
 Powyższy algorytm można zrównoleglić, dzieląc wzorzec na mniejsze części
 i wyszukując tylko dane w tym obszarze, ale należy dołożyć końce wzorca, aby nie
@@ -214,3 +219,99 @@ rezultat:   4           rezultat:   -1
 W takim przypadku sprawdzamy tylko do sytuacji, w której BC jest częścią
 podłańcucha, ale podłańcuch nie został w pełni znaleziony. Długość ponownego 
 wyszukania byłaby równa len(podłańcuch) - 1.
+
+\subsection{Algorytm Morisa-Pratta}
+
+Algorytm Morisa-Pratta jest dość prostym algorytmem wykorzystującym możliwość
+wcześniejszego sprocesowania podłańcucha wyszukiwanego w tekście co przyspiesza
+sposób procesowania tekstu. Polega on na wykorzystaniu faktu istnienia pasującego
+prefikso sufiksu. Pozwala to na pominięcie pewnych porównania niektórych znaków,
+bez szkody w wyniku wyszukiwania.
+
+Dzięki wykorzystaniu tej zależności możemy uniknąć cofania się indeksu i. 
+Tablice preproc wypełniamy poprzednią wartości tak długo aż zaistnieje różnica 
+pomiędzy obecnym a następnym znakiem tablicy substr. W przypadku różnicy 
+zwiększamy wartość zapisywaną do tablicy preprocesora o odległość różnicy znaków.
+W ten sposób następnym razem będzie możliwość pominięcia porównania tych znaków.
+
+\begin{figure}[h]
+  \centering
+  \begin{lstlisting}
+curr = -1
+preproc[0] = -1
+for i := 1; i <= len(substr); i++ {
+  for (curr > -1) && (substr[curr] != substr[i-1]) {
+    curr = preproc[curr]
+  }
+  curr++
+  preproc[i] = curr
+}
+  \end{lstlisting}
+  \caption{Przykład preprocesowania podłańcucha }
+  \label{fig:code:preprocessMorisPratt}
+\end{figure}
+
+W drugim etapie można wykorzystać wcześniej przygotowaną tablice przemieszczeń 
+\textbf{preproc}, aby obliczyć ilość przesunięcia w przypadku znalezienia 
+niepasującego prefiksu. Dzięki temu zwykle dłuższy tekst znajdujący się w 
+\textbf{s} możemy przeanalizować szybciej niż w przypadku algorytmu bruteforce.
+Powoduje to niestety problem w przypadku, gdy napis w którym wyszukujemy nie 
+jest wystarczająco długi.
+
+\begin{figure}[h]
+  \centering
+  \begin{lstlisting}
+res := []int{}
+curr := 0
+found := 0
+for i := 0; i < len(s); i++ {
+  for (curr > -1) && (substr[curr] != s[i]) {
+    curr = preproc[curr]
+  }
+  curr++
+  if curr == len(substr) {
+    for found < i-curr+1 {
+      found++
+    }
+    res = append(res, found)
+    found++
+    curr = preproc[curr]
+  }
+}
+  \end{lstlisting}
+  \caption{Przykład preprocesowania podłańcucha }
+  \label{fig:code:preprocessMorisPratt}
+\end{figure}
+
+W podstawowej bibliotece języka Golang, w pakiecie \textit{strings} istnieje 
+implementacja metody \textit{Index()}. Nie jest ona jednak w pełni przedstawiona
+w kodzie, natomiast w jej implementacji można zauważyć, że algorytm brute force
+jest wykorzystywany tylko w przypadku gdy długość wzorca wynosi więcej niż 64.
+
+\begin{figure}[h]
+  \centering
+  \begin{lstlisting}
+func Index(s, substr string) int {
+  n := len(substr)
+	switch {
+	case n == 0:
+		return 0
+  [...]
+	case n > len(s):
+		return -1
+	case n <= bytealg.MaxLen: // Zwykle ten case
+		// Use brute force when s and substr both are small
+		if len(s) <= bytealg.MaxBruteForce /* 64 */{
+			return bytealg.IndexString(s, substr)
+		}
+  [...]
+  }
+}
+  \end{lstlisting}
+  \caption{ Szukanie łańcucha w standardowej bibliotece Golang }
+  \label{fig:code:preprocessMorisPratt}
+\end{figure}
+
+W przypadku w go gdy wzorzec jest większy niż 64 to wykonuje się algorytm 
+podobny do Morisa-Pratta, który jednak posiada dodatkową walidacje w przypadku
+odkrycia false positives. Algorytm Morisa-Pratta nie potrzebuje takiej walidacji.
