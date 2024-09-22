@@ -1,3 +1,4 @@
+# clamscan -ir
 /run/media/gadzbi/GryIFilmy/baza_mgr/jacek/ksiazki/angielski/English, Oxford American Desk Dictionary And Thesaurus v1.0 Palmos Incl Keymaker-Corepda.rar: Win.Downloader.88-1 FOUND
 [gadzbi@fedora ~]$ clamscan --infected --recursive /run/media/gadzbi/GryIFilmy
 

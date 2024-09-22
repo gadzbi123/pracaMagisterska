@@ -61,7 +61,7 @@ która nas interesuje.
 Podjęcie problemu wyszukiwania plików po nazwach oraz zawartości jest bardzo
 złożonym i trudnym problemem w sferze programistycznej. Istnieje wiele rozwiązań
 tego problemu, które istnieją od początku pracy z komputerem. Narzędzia takie
-jak find, grep czy fzf \cite{internet:ToolsRegex} pozwalają na wyszukiwanie zawartości która nas interesuje,
+jak \textbf{find}, grep czy fzf \cite{bib:internet:Fzf} pozwalają na wyszukiwanie zawartości która nas interesuje,
 ale kompleksowość tych narzędzi nie jest przystosowana do tak trudnego problemu,
 jakim jest wyszukiwanie treści w plikach, które są zarchiwizowane. Z taką samą
 niedogodnością spotykamy się w przypadku plików pochodzących z pakietu Microsoft
@@ -180,9 +180,10 @@ stosunkowo tania i szeroko dostępna.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\textwidth]{./images/historical-mem-price.png}
-  \caption{Historyczne dane cen pamięci w latach 1993-2023 \cite{internet:HistoricalMemPrice}}
+  \caption{Historyczne dane cen pamięci w latach 1993-2023 }
   \label{screenshot:MemPrices}
 \end{figure}
+%\cite{internet:HistoricalMemPrice}
 %https://jcmit.net/memoryprice.htm
 
 Powyższy algorytm można zrównoleglić, dzieląc wzorzec na mniejsze części
@@ -190,19 +191,38 @@ i wyszukując tylko dane w tym obszarze, ale należy dołożyć końce wzorca, a
 wynikła sytuacja, w której wzorzec by wystąpił, ale nie wzięto pod uwagę końca 
 zdania. 
 
-%%% TABELE TODO
-Przykład
-wzorzec     ABCABCABDABD
-podłańcuch  BCA
-rezultat:   4
+\begin{center}
+  \begin{tabular}{ |c|c|  } 
+    \hline
+    \multicolumn{2}{|c|}{TYTUL} \\
+    \hline
+    wzorzec & ABCABCABDABD \\
+    \hline
+    podłańcuch & BCA \\
+    \hline
+    rezultat & 4 \\
+    \hline
+  \end{tabular}
+\end{center}
 
 Jeżeli podzielimy wzorzec na dwa procesy wyszukujące algorytmem brute-force,
 otrzymamy dwa zadania:
 
-Zadanie 1               Zadanie 2
-wzorzec     ABCABC      wzorzec     ABDABD
-podłańcuch  BCA         podłańcuch  BCA
-rezultat:   -1          rezultat:   -1
+\begin{center}
+  \begin{tabular}{ |c|c||c|c|  } 
+    \hline
+    \multicolumn{4}{|c|}{Zadania} \\
+    \hline
+    Zadanie 1 & & Zadanie 2 & \\
+    \hline
+    wzorzec & ABCABC & wzorzec & ABDABD \\
+    \hline
+    podłańcuch & BCA & podłańcuch & BCA \\
+    \hline
+    rezultat & -1 & rezultat & -1 \\ 
+    \hline
+  \end{tabular}
+\end{center}
 
 Zrównoleglenie procesu powoduje, że otrzymaliśmy nie poprawny wynik, gdyż w 
 żadnym z wzorców nie występuje podłańcuch "BCA", choć łańcuch występuje w 
@@ -211,10 +231,22 @@ miejscu 4, to algorytm nie posiada wiedzy o dalszej części wzorca.
 Aby poprawić dany algorytm należy dołożyć znaki, które należy sprawdzać w 
 przypadku poprawnego rozpatrzenia ostatniego znaku.
 
-Zadanie 1               Zadanie 2
-wzorzec     ABCABC(AB)  wzorzec     ABDABD(nil)
-podłańcuch  BCA         podłańcuch  BCA
-rezultat:   4           rezultat:   -1
+
+\begin{center}
+  \begin{tabular}{ |c|c||c|c|  } 
+    \hline
+    \multicolumn{4}{|c|}{Zadania} \\
+    \hline
+    Zadanie 1 & & Zadanie 2 & \\
+    \hline
+    wzorzec & ABCABC(AB) & wzorzec & ABDABD(nil) \\
+    \hline
+    podłańcuch & BCA & podłańcuch & BCA \\
+    \hline
+    rezultat & 4 & rezultat & -1 \\ 
+    \hline
+  \end{tabular}
+\end{center}
 
 W takim przypadku sprawdzamy tylko do sytuacji, w której BC jest częścią
 podłańcucha, ale podłańcuch nie został w pełni znaleziony. Długość ponownego 
