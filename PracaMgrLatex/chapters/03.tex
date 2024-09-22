@@ -1,14 +1,39 @@
+\chapter{[Przedmiot pracy]}
 
-\chapter{[Tytuł rozdziału]} 
+\begin{itemize}
+\item  Jak ja rozwiązuję problem?
+\begin{itemize}
+\item rozwiązanie zaproponowane przez dyplomanta
+\item analiza teoretyczna rozwiązania
+\item uzasadnienie wyboru zastosowanych metod, algorytmów, narzędzi
+\end{itemize}
+\end{itemize}
 
-tekst
+\section{Rozwiązanie zaproponowane przez dyplomanta}
 
-\section{[Tytuł podrozdziału]}
+Wykorzystanie kilku znanych algorytmów do przeszukiwania zawartości
+tekstu i sprawdzenie, który z nich najlepiej sprawdza się pod względem prędkości
+i dokładności wyszukiwania. 
 
-\section{[Tytuł podrozdziału]}
+Program nie ma na celu modyfikować informacji zawartych w plikach w żaden sposób.
+Powoduje to, że zostaną sprawdzane w statyczny sposób z co spowoduje zasadniczą
+regularność i spójność w wynikach danego algorytmu na tych samych danych.
 
+Innym sposobem na rozwiązanie problemu jest wykorzystanie dostępnych narzędzi i
+dostosowanie ich do problemu, który rozwiązujemy. Takie rozwiązanie może okazać
+się szybsze jeżeli zależy nam na uzyskaniu rezultatu natomiast istnieje 
+prawdopodobieństwo wykorzystania narzędzia nieodpowiedniego do danego problemu.
+
+\section{Uzasadnienie wyboru zastosowanych metod, algorytmów, narzędzi}
+Do utworzenia programu wykorzystam nowoczesny język programowania Golang \cite{bib:internet:golang}.
+Posiada on bardzo wygodny model współbierzności programu co może okazać się 
+kluczowe w przypadku tego rodzaju problemu. Dodatkowym plusem tego języka jest
+to, że jego składnia jest bardzo czytelna i wzorująca na prostocie początkowych
+kompilowanych języków programowania (C).
+%TODO make benchmarks on real data
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 W całym dokumencie powinny znajdować się odniesienia do zawartych w nim ilustracji (rys. \ref{fig:2}).
-
 \begin{figure}
 \centering
 \begin{tikzpicture}
@@ -113,13 +138,3 @@ Tekst dokumentu powinien również zawierać odniesienia do tabel (tab. \ref{id:
 \end{tabular}
 \end{table}  
 
-%\chapter{[Przedmiot pracy]}
-%
-%\begin{itemize}
-%\item  Jak ja rozwiązuję problem?
-%\begin{itemize}
-%\item rozwiązanie zaproponowane przez dyplomanta
-%\item analiza teoretyczna rozwiązania
-%\item uzasadnienie wyboru zastosowanych metod, algorytmów, narzędzi
-%\end{itemize}
-%\end{itemize}
