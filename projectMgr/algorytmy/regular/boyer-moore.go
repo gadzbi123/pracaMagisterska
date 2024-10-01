@@ -1,4 +1,4 @@
-package main
+package regular
 
 import (
 	"fmt"
@@ -37,7 +37,7 @@ func boyer_moore(s []byte, substr []byte) (res []int) {
 	return
 
 }
-func main() {
+func main3() {
 	a := []byte("ALGORYTMY I STRUKTURY DANYCHYCH")
 	b := []byte("YCH")
 	fmt.Println(boyer_moore(a, b))

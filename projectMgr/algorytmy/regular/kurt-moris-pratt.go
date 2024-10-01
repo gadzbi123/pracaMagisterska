@@ -1,4 +1,4 @@
-package main
+package regular
 
 import "fmt"
 
@@ -40,7 +40,7 @@ func kurt_moris_pratt(s []byte, substr []byte) (res []int) {
 	return
 }
 
-func main() {
+func main2() {
 	fmt.Println(kurt_moris_pratt(
 		[]byte("BABAAABAABAAABABBABBBABBABABAABBAABAAABAABABABABAABBBAAAABBBBABBAABBBBBBABABAAA"),
 		[]byte("BBAAAABB"),
