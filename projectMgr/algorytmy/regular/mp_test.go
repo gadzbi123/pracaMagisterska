@@ -10,22 +10,10 @@ import (
 
 var founds = []string{}
 
-const DIR = "/run/media/gadzbi/GryIFilmy/baza_mgr_large"
-
-func IsForbiddenFileExtension(path string) bool {
-	ext := filepath.Ext(path)
-	switch ext {
-	case ".jpg", ".gif", ".pdf", ".tar.gz", ".rar", ".zip", ".tgz", ".tar", ".gz":
-		return true
-	default:
-		return false
-	}
-}
-
-func BenchmarkMorisPrattSimple(b *testing.B) {
-	filepath.Walk(DIR, func(path string, info fs.FileInfo, err error) error {
+func WalkAndFindByAlgoAndWord(algo AlgoFunc, word []byte) filepath.WalkFunc {
+	f := func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
-			fmt.Printf("prevent panic by handling failure accessing a path %q: %v\n", path, err)
+			fmt.Printf("fail on the path %q: %v\n", path, err)
 			return err
 		}
 		if !info.IsDir() {
@@ -33,17 +21,41 @@ func BenchmarkMorisPrattSimple(b *testing.B) {
 				return nil
 			}
 			fileContent, err := os.ReadFile(path)
-			fmt.Println("Reading file: ", path)
+			// fmt.Println("Reading file: ", path)
 			if err != nil {
 				return err
 			}
-			if res := moris_pratt(fileContent, []byte("window")); len(res) != 0 {
+			if res := algo(fileContent, word); len(res) != 0 {
 				for _, r := range res {
-					founds = append(founds, string(fileContent[r:r+4]))
+					founds = append(founds, fmt.Sprintf("%v:%v", path, r))
 				}
 			}
 		}
 		return nil
-	})
-	fmt.Println("Result:", founds)
+	}
+	return f
+}
+
+func BenchmarkMorisPrattWindowWord(b *testing.B) {
+	founds = []string{}
+	filepath.Walk(DIR, WalkAndFindByAlgoAndWord(moris_pratt, []byte("window")))
+	if len(founds) != 11598 {
+		b.Fatal("result did not match with expeceted", len(founds), 11598)
+	}
+}
+
+func BenchmarkMorisPrattMainWord(b *testing.B) {
+	founds = []string{}
+	filepath.Walk(DIR, WalkAndFindByAlgoAndWord(moris_pratt, []byte("main")))
+	if len(founds) != 19716 {
+		b.Fatal("result did not match with expeceted", len(founds), 19716)
+	}
+}
+
+func BenchmarkMorisPrattFunction(b *testing.B) {
+	founds = []string{}
+	filepath.Walk(DIR, WalkAndFindByAlgoAndWord(moris_pratt, []byte("function")))
+	if len(founds) != 32619 {
+		b.Fatal("result did not match with expeceted", len(founds), 32619)
+	}
 }
