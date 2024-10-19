@@ -1,7 +1,6 @@
-package main
+package regular
 
 import (
-	"bytes"
 	"fmt"
 	"slices"
 )
@@ -57,13 +56,13 @@ func boyer_moore(str, substr []byte) []int {
 	len_substr := len(substr)
 	results := []int{}
 
-	if len_str == 0 || len_substr == 0 || len_str < len_substr {
-		return results
-	}
-
-	if bytes.Equal(str, substr) {
-		return []int{0}
-	}
+	// if len_str == 0 || len_substr == 0 || len_str < len_substr {
+	// 	return results
+	// }
+	//
+	// if bytes.Equal(str, substr) {
+	// 	return []int{0}
+	// }
 
 loop:
 	for i+len_substr <= len_str {
@@ -97,10 +96,10 @@ loop:
 
 	return results
 }
-func main() {
-	a := []byte("ALGORYTMY CH I STRUKTURY DANYCHYCHCH")
+func main3() {
+	a := []byte("ALGORYTMY CH I STRUKTURY DANYCHYCHCH CHCHCH")
 	res1 := (boyer_moore(a, []byte("CH")))
-	exp1 := []int{10, 29, 32, 34}
+	exp1 := []int{10, 29, 32, 34, 37, 39, 41}
 	if !slices.Equal(res1, exp1) {
 		panic(fmt.Sprintf("res1 not equal: %v != %v", res1, exp1))
 	}
@@ -108,5 +107,10 @@ func main() {
 	exp2 := []int{28, 31}
 	if !slices.Equal(res2, exp2) {
 		panic(fmt.Sprintf("res2 not equal: %v != %v", res2, exp2))
+	}
+	res3 := (boyer_moore(a, []byte("CHC")))
+	exp3 := []int{32, 37, 39}
+	if !slices.Equal(res3, exp3) {
+		panic(fmt.Sprintf("res3 not equal: %v != %v", res3, exp3))
 	}
 }

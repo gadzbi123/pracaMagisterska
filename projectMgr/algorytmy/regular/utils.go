@@ -5,11 +5,12 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 )
 
 const DIR = "/run/media/gadzbi/GryIFilmy/baza_mgr_large"
 
-type AlgoFunc = func([]byte, []byte) []int
+type AlgoFunc func([]byte, []byte) []int
 
 func IsForbiddenFileExtension(path string) bool {
 	ext := filepath.Ext(path)
@@ -20,9 +21,6 @@ func IsForbiddenFileExtension(path string) bool {
 		return false
 	}
 }
-
-var totalBytes = 0
-var totalFiles = 0
 
 func WalkAndFindByAlgoAndWord(algo AlgoFunc, founds *[]string, word []byte) filepath.WalkFunc {
 	f := func(path string, info fs.FileInfo, err error) error {
@@ -39,8 +37,6 @@ func WalkAndFindByAlgoAndWord(algo AlgoFunc, founds *[]string, word []byte) file
 			if err != nil {
 				return err
 			}
-			totalBytes += len(fileContent)
-			totalFiles++
 			if res := algo(fileContent, word); len(res) != 0 {
 				for _, r := range res {
 					*founds = append(*founds, fmt.Sprintf("%v:%v", path, r))
@@ -50,4 +46,17 @@ func WalkAndFindByAlgoAndWord(algo AlgoFunc, founds *[]string, word []byte) file
 		return nil
 	}
 	return f
+}
+
+func PrintFounds(founds []string) {
+	base := ""
+	for _, f := range founds {
+		splitted := strings.Split(f, ":")
+		if base == splitted[0] {
+			fmt.Printf(":%v", splitted[1])
+		} else {
+			base = splitted[0]
+			fmt.Printf("\n%v", f)
+		}
+	}
 }

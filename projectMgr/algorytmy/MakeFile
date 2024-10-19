@@ -1,5 +1,8 @@
 bench :
   go test -bench=./regular
 
-bench2 :
-  go test -bench=. ./regular/window_word_test.go ./regular/boyer_moore.go ./regular/kurt_moris_pratt.go ./regular/moris_pratt.go ./regular/utils.go 
+benchCount :
+  go test -test.bench=MainWord -benchmem ./regular -count=20
+  
+benchstat :
+  benchstat test_results/10_run_main.txt test_results/20_run_main.txt 

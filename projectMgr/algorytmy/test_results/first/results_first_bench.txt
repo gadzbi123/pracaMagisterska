@@ -1,0 +1,24 @@
+goos: linux
+goarch: amd64
+pkg: github.com/gadzbi123/algorytmy/regular
+cpu: Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz
+                         │ test_results/10_run_main.txt │     test_results/20_run_main.txt     │
+                         │            sec/op            │   sec/op    vs base                  │
+MorisPrattMainWord-8                         1.060 ± 8%   1.032 ± 1%       ~ (p=0.100 n=10+20)
+KurtMorisPrattMainWord-8                     1.057 ± 3%   1.029 ± 1%  -2.66% (p=0.013 n=10+20)
+BoyerMooreMainWord-8                         1.429 ± 9%   1.407 ± 4%       ~ (p=0.422 n=10+20)
+geomean                                      1.170        1.143       -2.30%
+
+                         │ test_results/10_run_main.txt │      test_results/20_run_main.txt      │
+                         │             B/op             │     B/op      vs base                  │
+MorisPrattMainWord-8                       249.2Mi ± 0%   249.2Mi ± 0%       ~ (p=0.373 n=10+20)
+KurtMorisPrattMainWord-8                   249.2Mi ± 0%   249.2Mi ± 0%       ~ (p=0.373 n=10+20)
+BoyerMooreMainWord-8                       249.0Mi ± 0%   249.0Mi ± 0%       ~ (p=0.067 n=10+20)
+geomean                                    249.1Mi        249.2Mi       +0.01%
+
+                         │ test_results/10_run_main.txt │     test_results/20_run_main.txt      │
+                         │          allocs/op           │  allocs/op   vs base                  │
+MorisPrattMainWord-8                        158.9k ± 0%   158.9k ± 0%       ~ (p=0.657 n=10+20)
+KurtMorisPrattMainWord-8                    158.9k ± 0%   158.9k ± 0%       ~ (p=0.770 n=10+20)
+BoyerMooreMainWord-8                        153.7k ± 0%   153.7k ± 0%       ~ (p=0.117 n=10+20)
+geomean                                     157.2k        157.2k       +0.00%
