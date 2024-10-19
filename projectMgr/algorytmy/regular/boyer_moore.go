@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"slices"
 )
 
 func boyer_moore_old(s []byte, substr []byte) (res []int) {
@@ -97,7 +98,15 @@ loop:
 	return results
 }
 func main() {
-	a := []byte("ALGORYTMY I STRUKTURY DANYCHYCH")
-	b := []byte("YCH")
-	fmt.Println(boyer_moore(a, b))
+	a := []byte("ALGORYTMY CH I STRUKTURY DANYCHYCHCH")
+	res1 := (boyer_moore(a, []byte("CH")))
+	exp1 := []int{10, 29, 32, 34}
+	if !slices.Equal(res1, exp1) {
+		panic(fmt.Sprintf("res1 not equal: %v != %v", res1, exp1))
+	}
+	res2 := (boyer_moore(a, []byte("YCH")))
+	exp2 := []int{28, 31}
+	if !slices.Equal(res2, exp2) {
+		panic(fmt.Sprintf("res2 not equal: %v != %v", res2, exp2))
+	}
 }
