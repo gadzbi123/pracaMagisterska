@@ -5,31 +5,25 @@ import (
 	"testing"
 )
 
-func BenchmarkMorisPrattFunction(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		var founds = []string{}
-		filepath.Walk(DIR, WalkAndFindByAlgoAndWord(moris_pratt, &founds, []byte("function")))
-		if len(founds) != 32619 {
-			b.Fatal("result did not match with expected", len(founds), 32619)
-		}
+func BenchmarkMorisPrattFunctionWord(b *testing.B) {
+	var founds = []string{}
+	filepath.Walk(DIR, WalkAndFindByAlgo(moris_pratt, &founds, []byte("function")))
+	if len(founds) != 32619 {
+		b.Fatal("result did not match with expected", len(founds), 32619)
 	}
 }
 
-func BenchmarkKurtMorisPrattFunction(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		var founds = []string{}
-		filepath.Walk(DIR, WalkAndFindByAlgoAndWord(kurt_moris_pratt, &founds, []byte("function")))
-		if len(founds) != 32619 {
-			b.Fatal("result did not match with expected", len(founds), 32619)
-		}
+func BenchmarkKurtMorisPrattFunctionWord(b *testing.B) {
+	var founds = []string{}
+	filepath.Walk(DIR, WalkAndFindByAlgo(kurt_moris_pratt, &founds, []byte("function")))
+	if len(founds) != 32619 {
+		b.Fatal("result did not match with expected", len(founds), 32619)
 	}
 }
-func BenchmarkBoyerMooreFunction(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		var founds = []string{}
-		filepath.Walk(DIR, WalkAndFindByAlgoAndWord(boyer_moore, &founds, []byte("function")))
-		if len(founds) != 32619 {
-			b.Fatal("result did not match with expected", len(founds), 32619)
-		}
+func BenchmarkBoyerMooreFunctionWord(b *testing.B) {
+	var founds = []string{}
+	filepath.Walk(DIR, WalkAndFindByAlgo(boyer_moore, &founds, []byte("function")))
+	if len(founds) != 32619 {
+		b.Fatal("result did not match with expected", len(founds), 32619)
 	}
 }

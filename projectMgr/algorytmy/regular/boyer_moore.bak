@@ -37,24 +37,24 @@ func boyer_moore_old(s []byte, substr []byte) (res []int) {
 }
 
 // Ref: https://github.com/cubicdaiya/bms/blob/master/bms.go
-func preproces(substr []byte) []int {
+func preproces(substr []byte) map[byte]int {
 	l := len(substr)
-	table := make([]int, 256)
+	table := make(map[byte]int)
 
 	for i := 0; i < l-1; i++ {
 		j := substr[i]
 		table[j] = l - i - 1
 	}
+
 	return table
 }
 
-var table []int
+var table map[byte]int
 
 func boyer_moore(str, substr []byte) []int {
 	if table == nil {
 		table = preproces(substr)
 	}
-	// fmt.Printf("table=%+v\n", table)
 	i := 0
 	len_str := len(str)
 	len_substr := len(substr)
@@ -72,14 +72,14 @@ loop:
 	for i+len_substr <= len_str {
 		for j := len_substr - 1; j >= 0; j-- {
 			if str[i+j] != substr[j] {
-				if loc := table[str[i+j]]; loc == 0 {
+				if _, ok := table[str[i+j]]; !ok {
 					if j == len_substr-1 {
 						i += len_substr
 					} else {
 						i += len_substr - j - 1
 					}
 				} else {
-					n := loc - len_substr + j + 1
+					n := table[str[i+j]] - (len_substr - j - 1)
 					if n <= 0 {
 						i++
 					} else {
@@ -91,8 +91,8 @@ loop:
 		}
 
 		results = append(results, i)
-		if v := table[str[i+len_substr-1]]; v != 0 {
-			i += v
+		if _, ok := table[str[i+len_substr-1]]; ok {
+			i += table[str[i+len_substr-1]]
 		} else {
 			i += len_substr
 		}

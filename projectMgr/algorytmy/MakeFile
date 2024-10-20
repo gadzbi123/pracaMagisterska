@@ -1,8 +1,0 @@
-bench :
-  go test -bench=./regular
-
-benchCount :
-  go test -test.bench=MainWord -benchmem ./regular -count=20
-  
-benchstat :
-  benchstat test_results/10_run_main.txt test_results/20_run_main.txt 
