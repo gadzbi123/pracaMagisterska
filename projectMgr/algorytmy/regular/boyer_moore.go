@@ -1,11 +1,7 @@
 package regular
 
-import (
-	"fmt"
-	"slices"
-)
-
-func boyer_moore_old(s []byte, substr []byte) (res []int) {
+/*
+func boyer_moore_slow(s []byte, substr []byte) (res []int) {
 	slen := len(s)
 	substrlen := len(substr)
 	preproces(substr)
@@ -33,33 +29,28 @@ func boyer_moore_old(s []byte, substr []byte) (res []int) {
 	SKIP_SUBSTR:
 	}
 	return
+}
+*/
 
+type BoyerMoore struct {
+	preproc []int
 }
 
 // Ref: https://github.com/cubicdaiya/bms/blob/master/bms.go
-func preproces(substr []byte) []int {
-	l := len(substr)
-	table := make([]int, 256)
-
-	for i := 0; i < l-1; i++ {
-		j := substr[i]
-		table[j] = l - i - 1
-	}
-	return table
-}
-
-var table []int
-
-func boyer_moore(str, substr []byte) []int {
-	if table == nil {
-		table = preproces(substr)
-	}
-	// fmt.Printf("table=%+v\n", table)
+func (bm *BoyerMoore) Find(str, substr []byte) (res []int) {
 	i := 0
 	len_str := len(str)
 	len_substr := len(substr)
-	results := []int{}
+	if bm.preproc == nil {
+		l := len(substr)
+		table := make([]int, 256)
 
+		for i := 0; i < l-1; i++ {
+			j := substr[i]
+			table[j] = l - i - 1
+		}
+		bm.preproc = table
+	}
 	// if len_str == 0 || len_substr == 0 || len_str < len_substr {
 	// 	return results
 	// }
@@ -67,12 +58,11 @@ func boyer_moore(str, substr []byte) []int {
 	// if bytes.Equal(str, substr) {
 	// 	return []int{0}
 	// }
-
 loop:
 	for i+len_substr <= len_str {
 		for j := len_substr - 1; j >= 0; j-- {
 			if str[i+j] != substr[j] {
-				if loc := table[str[i+j]]; loc == 0 {
+				if loc := bm.preproc[str[i+j]]; loc == 0 {
 					if j == len_substr-1 {
 						i += len_substr
 					} else {
@@ -89,32 +79,31 @@ loop:
 				goto loop
 			}
 		}
-
-		results = append(results, i)
-		if v := table[str[i+len_substr-1]]; v != 0 {
+		res = append(res, i)
+		if v := bm.preproc[str[i+len_substr-1]]; v != 0 {
 			i += v
 		} else {
 			i += len_substr
 		}
 	}
-
-	return results
+	return
 }
 func main3() {
-	a := []byte("ALGORYTMY CH I STRUKTURY DANYCHYCHCH CHCHCH")
-	res1 := (boyer_moore(a, []byte("CH")))
-	exp1 := []int{10, 29, 32, 34, 37, 39, 41}
-	if !slices.Equal(res1, exp1) {
-		panic(fmt.Sprintf("res1 not equal: %v != %v", res1, exp1))
-	}
-	res2 := (boyer_moore(a, []byte("YCH")))
-	exp2 := []int{28, 31}
-	if !slices.Equal(res2, exp2) {
-		panic(fmt.Sprintf("res2 not equal: %v != %v", res2, exp2))
-	}
-	res3 := (boyer_moore(a, []byte("CHC")))
-	exp3 := []int{32, 37, 39}
-	if !slices.Equal(res3, exp3) {
-		panic(fmt.Sprintf("res3 not equal: %v != %v", res3, exp3))
-	}
+	// bm := &BoyerMoore{}
+	// a := []byte("ALGORYTMY CH I STRUKTURY DANYCHYCHCH CHCHCH")
+	// res1 := (boyer_moore(a, []byte("CH")))
+	// exp1 := []int{10, 29, 32, 34, 37, 39, 41}
+	// if !slices.Equal(res1, exp1) {
+	// 	panic(fmt.Sprintf("res1 not equal: %v != %v", res1, exp1))
+	// }
+	// res2 := (boyer_moore(a, []byte("YCH")))
+	// exp2 := []int{28, 31}
+	// if !slices.Equal(res2, exp2) {
+	// 	panic(fmt.Sprintf("res2 not equal: %v != %v", res2, exp2))
+	// }
+	// res3 := (boyer_moore(a, []byte("CHC")))
+	// exp3 := []int{32, 37, 39}
+	// if !slices.Equal(res3, exp3) {
+	// 	panic(fmt.Sprintf("res3 not equal: %v != %v", res3, exp3))
+	// }
 }

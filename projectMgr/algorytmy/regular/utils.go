@@ -11,7 +11,9 @@ import (
 const DIR = "/run/media/gadzbi/GryIFilmy/baza_mgr_large"
 
 type AlgoFunc func([]byte, []byte) []int
-type AlgoFuncPreproc func([]byte, []byte, []byte) []int
+type AlgoStruct interface {
+	Find([]byte, []byte) []int
+}
 
 func IsForbiddenFileExtension(path string) bool {
 	ext := filepath.Ext(path)
@@ -23,7 +25,7 @@ func IsForbiddenFileExtension(path string) bool {
 	}
 }
 
-func WalkAndFindByAlgo(algo AlgoFunc, founds *[]string, word []byte) filepath.WalkFunc {
+func WalkAndFindByAlgo(algo AlgoStruct, founds *[]string, word []byte) filepath.WalkFunc {
 	f := func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			fmt.Printf("fail on the path %q: %v\n", path, err)
@@ -38,7 +40,7 @@ func WalkAndFindByAlgo(algo AlgoFunc, founds *[]string, word []byte) filepath.Wa
 			if err != nil {
 				return err
 			}
-			if res := algo(fileContent, word); len(res) != 0 {
+			if res := algo.Find(fileContent, word); len(res) != 0 {
 				for _, r := range res {
 					*founds = append(*founds, fmt.Sprintf("%v:%v", path, r))
 				}

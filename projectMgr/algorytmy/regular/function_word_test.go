@@ -7,7 +7,8 @@ import (
 
 func BenchmarkMorisPrattFunctionWord(b *testing.B) {
 	var founds = []string{}
-	filepath.Walk(DIR, WalkAndFindByAlgo(moris_pratt, &founds, []byte("function")))
+	mp := &MorisPratt{}
+	filepath.Walk(DIR, WalkAndFindByAlgo(mp, &founds, []byte("function")))
 	if len(founds) != 32619 {
 		b.Fatal("result did not match with expected", len(founds), 32619)
 	}
@@ -15,14 +16,16 @@ func BenchmarkMorisPrattFunctionWord(b *testing.B) {
 
 func BenchmarkKurtMorisPrattFunctionWord(b *testing.B) {
 	var founds = []string{}
-	filepath.Walk(DIR, WalkAndFindByAlgo(kurt_moris_pratt, &founds, []byte("function")))
+	kmp := &KurtMorisPratt{}
+	filepath.Walk(DIR, WalkAndFindByAlgo(kmp, &founds, []byte("function")))
 	if len(founds) != 32619 {
 		b.Fatal("result did not match with expected", len(founds), 32619)
 	}
 }
 func BenchmarkBoyerMooreFunctionWord(b *testing.B) {
 	var founds = []string{}
-	filepath.Walk(DIR, WalkAndFindByAlgo(boyer_moore, &founds, []byte("function")))
+	bm := &BoyerMoore{}
+	filepath.Walk(DIR, WalkAndFindByAlgo(bm, &founds, []byte("function")))
 	if len(founds) != 32619 {
 		b.Fatal("result did not match with expected", len(founds), 32619)
 	}
