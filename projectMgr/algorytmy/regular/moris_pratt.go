@@ -43,6 +43,8 @@ type MorisPratt struct {
 	preproc []int
 }
 
+var _ AlgoStruct = &MorisPratt{}
+
 func (mp *MorisPratt) Find(s []byte, substr []byte) (res []int) {
 	lenS := len(s)
 	lensubstr := len(substr)
