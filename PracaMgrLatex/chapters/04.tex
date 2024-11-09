@@ -110,3 +110,26 @@ TODO DIFF IMPLEMENTACJI
 Algorytm Boyera-Moore'a wykorzystywany w takich narzędziach jak Grep, posiada
 wolniejszy czas egzekucji, ale algorytm może zostać napisany w lepszy sposób, 
 aby otrzymać lepszy rezultat.
+
+TODO SLOW BOYER
+PORÓWNANIE STATYSTYK ALGOS
+
+Następna implementacja korzysta z algorytmu ze strony na githubie 
+\cite{bib:internet:BoyerMooreGit}. Jest ona znacznie wolniejsza od pozostałych
+algorytmów, dlatego że znaczną cześć czasu spędzamy na stworzeniu tablicy
+pre-procesora. Jako że zawsze sprawdzamy ten sam ciąg w wszystkich plikach w
+folderze, możemy stworzyć tablice pre-procasora przy pierwszym użyciu algorytmu,
+a następnie wykorzystywanie tej tablicy w wszystkich odczytach. To spowodowało, 
+że czasy wykonania algorytmu boyer moora są znacznie szybsze od pozostałych.
+
+PORÓWNANIE STATYSTYK ALGOS
+
+Dodatkową poprawą egzekucji algorytmów było ponowne wykorzystanie bufora, do 
+którego odczytywane zawartości plików. Powoduje to niestety, że należy wiedzieć
+jaki będzie rozmiar największego pliku, który odczytamy (11 MB bez plików 
+archiwów). Moglibyśmy przed rozpoczęciem algorytmu sprawdzać rozmiar maksymalny 
+pliku ale to wydłuży czas działania. Istnieje też sytuacja w której nie 
+chcielibyśmy tego ograniczać. 
+
+PORÓWNANIE PAMIECI ALGOS
+

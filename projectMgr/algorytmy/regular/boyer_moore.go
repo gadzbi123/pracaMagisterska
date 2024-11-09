@@ -35,6 +35,17 @@ func boyer_moore_slow(s []byte, substr []byte) (res []int) {
 	}
 	return
 }
+
+func preproces(substr []byte) map[byte]int {
+	l := len(substr)
+	table := make(map[byte]int)
+
+	for i := 0; i < l-1; i++ {
+		j := substr[i]
+		table[j] = l - i - 1
+	}
+
+	return tabl
 */
 
 type BoyerMoore struct {
