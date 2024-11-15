@@ -6,46 +6,40 @@ import (
 )
 
 /*
-func boyer_moore_slow(s []byte, substr []byte) (res []int) {
-	slen := len(s)
-	substrlen := len(substr)
-	preproces(substr)
-	for i := 0; i < slen; {
-		for j := 0; j < substrlen; j++ {
-			fmt.Println("start", s[i+j], substr[j], i+j, j)
-			if i+j >= slen {
-				fmt.Println("Max len return")
-				return
+	func (bm *BoyerMoore) Find(s []byte, substr []byte) (res []int) {
+		slen := len(s)
+		substrlen := len(substr)
+		if bm.preproc == nil {
+			table := make(map[byte]int)
+
+			for i := 0; i < substrlen-1; i++ {
+				j := substr[i]
+				table[j] = substrlen - i - 1
 			}
-			if s[i+j] == substr[j] {
-				fmt.Println("continue", s[i+j], substr[j], i+j, j)
-				if j == substrlen-1 {
-					res = append(res, i)
-					fmt.Println("found", i)
+			bm.preproc = table
+
+		}
+		for i := 0; i < slen; {
+			for j := substrlen - 1; j >= 0; j-- {
+				// fmt.Println("start", s[i+j], substr[j], i+j, j)
+				if s[i+j] != substr[j] {
+					fmt.Println("continue", s[i+j], substr[j], i+j, j)
+					if j == substrlen-1 {
+						res = append(res, i)
+						fmt.Println("found", i)
+						i += substrlen
+					}
+				} else if j == 0 {
+					i++
+					goto SKIP_SUBSTR
+				} else {
 					i += substrlen
 				}
-			} else if j == 0 {
-				i++
-				goto SKIP_SUBSTR
-			} else {
-				i += substrlen
 			}
+		SKIP_SUBSTR:
 		}
-	SKIP_SUBSTR:
+		return
 	}
-	return
-}
-
-func preproces(substr []byte) map[byte]int {
-	l := len(substr)
-	table := make(map[byte]int)
-
-	for i := 0; i < l-1; i++ {
-		j := substr[i]
-		table[j] = l - i - 1
-	}
-
-	return tabl
 */
 
 type BoyerMoore struct {
