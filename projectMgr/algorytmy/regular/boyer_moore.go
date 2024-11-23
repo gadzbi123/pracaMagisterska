@@ -3,6 +3,8 @@ package regular
 import (
 	"fmt"
 	"slices"
+
+	"github.com/gadzbi123/pracaMagisterska/algorytmy/utils"
 )
 
 /*
@@ -46,7 +48,7 @@ type BoyerMoore struct {
 	preproc []int
 }
 
-var _ AlgoStruct = &BoyerMoore{}
+var _ utils.AlgoStruct = &BoyerMoore{}
 
 // Ref: https://github.com/cubicdaiya/bms/blob/master/bms.go
 func (bm *BoyerMoore) Find(str, substr []byte) (res []int) {

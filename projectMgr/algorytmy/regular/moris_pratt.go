@@ -2,6 +2,8 @@ package regular
 
 import (
 	"fmt"
+
+	"github.com/gadzbi123/pracaMagisterska/algorytmy/utils"
 )
 
 // func prefix_sufix(s []byte) (i int) {
@@ -43,7 +45,7 @@ type MorisPratt struct {
 	preproc []int
 }
 
-var _ AlgoStruct = &MorisPratt{}
+var _ utils.AlgoStruct = &MorisPratt{}
 
 func (mp *MorisPratt) Find(s []byte, substr []byte) (res []int) {
 	lenS := len(s)

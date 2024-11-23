@@ -1,0 +1,66 @@
+goos: linux
+goarch: amd64
+pkg: github.com/gadzbi123/algorytmy/regular
+cpu: Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz
+BenchmarkMorisPrattMainWord-8       	       1	1034147954 ns/op	261430264 B/op	  158941 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1068252051 ns/op	261262520 B/op	  158865 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1086073512 ns/op	261280216 B/op	  158882 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1042450209 ns/op	261314912 B/op	  158884 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1023469206 ns/op	261353216 B/op	  158897 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1020033587 ns/op	261309944 B/op	  158875 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1016656969 ns/op	261369408 B/op	  158935 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1028334387 ns/op	261365400 B/op	  158906 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1028160237 ns/op	261317712 B/op	  158905 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1019412304 ns/op	261365536 B/op	  158939 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1017898130 ns/op	261344880 B/op	  158931 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1040687897 ns/op	261331760 B/op	  158895 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1018166283 ns/op	261352848 B/op	  158926 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1027624518 ns/op	261332888 B/op	  158909 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1043991505 ns/op	261302432 B/op	  158904 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1040950209 ns/op	261360176 B/op	  158920 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1050912398 ns/op	261351680 B/op	  158913 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1030008248 ns/op	261355120 B/op	  158897 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1040487823 ns/op	261352496 B/op	  158926 allocs/op
+BenchmarkMorisPrattMainWord-8       	       1	1178077768 ns/op	261368592 B/op	  158927 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1077413772 ns/op	261313472 B/op	  158891 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1114766689 ns/op	261372904 B/op	  158918 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1028330907 ns/op	261332744 B/op	  158910 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1022026902 ns/op	261300144 B/op	  158896 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1012990555 ns/op	261298272 B/op	  158892 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1017319963 ns/op	261324784 B/op	  158906 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1020368118 ns/op	261354400 B/op	  158899 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1062136633 ns/op	261336816 B/op	  158882 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1022768441 ns/op	261341160 B/op	  158919 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1042160443 ns/op	261379304 B/op	  158944 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1000388739 ns/op	261297664 B/op	  158889 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       2	 520292670 ns/op	130643744 B/op	   79440 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1032824280 ns/op	261334056 B/op	  158915 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1030217465 ns/op	261344920 B/op	  158921 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1035936812 ns/op	261419360 B/op	  158944 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1032047333 ns/op	261301232 B/op	  158902 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1026558319 ns/op	261346392 B/op	  158936 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1018068072 ns/op	261263024 B/op	  158908 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1028937284 ns/op	261360072 B/op	  158922 allocs/op
+BenchmarkKurtMorisPrattMainWord-8   	       1	1030810777 ns/op	261336176 B/op	  158921 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1351464173 ns/op	261056080 B/op	  153686 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1343729086 ns/op	261062952 B/op	  153686 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1331516330 ns/op	261050568 B/op	  153704 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1336918631 ns/op	261105856 B/op	  153706 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1381050805 ns/op	261074824 B/op	  153719 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1407848103 ns/op	261007008 B/op	  153682 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1468272946 ns/op	261118472 B/op	  153735 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1374789545 ns/op	261070752 B/op	  153720 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1513191377 ns/op	261078920 B/op	  153725 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1413609682 ns/op	261102848 B/op	  153690 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1405896098 ns/op	261102024 B/op	  153724 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1542369797 ns/op	261117496 B/op	  153722 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1398974940 ns/op	261110808 B/op	  153732 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1482073004 ns/op	261083544 B/op	  153726 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1433135720 ns/op	261041168 B/op	  153700 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1400889733 ns/op	261082912 B/op	  153716 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1627657189 ns/op	261118904 B/op	  153740 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1460333485 ns/op	261125264 B/op	  153734 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1384022843 ns/op	261099040 B/op	  153712 allocs/op
+BenchmarkBoyerMooreMainWord-8       	       1	1422491942 ns/op	261105504 B/op	  153749 allocs/op
+PASS
+ok  	github.com/gadzbi123/algorytmy/regular	71.021s

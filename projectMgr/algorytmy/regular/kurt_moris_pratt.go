@@ -1,12 +1,16 @@
 package regular
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/gadzbi123/pracaMagisterska/algorytmy/utils"
+)
 
 type KurtMorisPratt struct {
 	preproc []int
 }
 
-var _ AlgoStruct = &KurtMorisPratt{}
+var _ utils.AlgoStruct = &KurtMorisPratt{}
 
 func (kmp *KurtMorisPratt) Find(s []byte, substr []byte) (res []int) {
 	substrlen := len(substr)

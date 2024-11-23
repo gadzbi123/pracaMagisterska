@@ -1,3 +1,3 @@
-module github.com/gadzbi123/algorytmy
+module github.com/gadzbi123/pracaMagisterska/algorytmy
 
 go 1.22.7
