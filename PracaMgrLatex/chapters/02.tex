@@ -18,29 +18,29 @@
 \begin{align}
     y = \frac{\partial x}{\partial t}
 \end{align}
-
-
-\begin{itemize}
-\item analiza tematu
-\item wprowadzenie do dziedziny (\english{state of the art}) – sformułowanie problemu, 
-\item poszerzone studia literaturowe, przegląd literatury tematu (należy wskazać źródła wszystkich informacji zawartych w pracy)
-\item opis znanych rozwiązań, algorytmów, osadzenie pracy w kontekście
-\item Tytuł rozdziału jest często zbliżony do tematu pracy. 
-\item Rozdział jest wysycony cytowaniami do literatury \cite{bib:artykul,bib:ksiazka,bib:konferencja}. 
-Cytowanie książki \cite{bib:ksiazka}, artykułu w czasopiśmie \cite{bib:artykul}, artykułu konferencyjnego \cite{bib:konferencja} lub strony internetowej \cite{bib:internet}.
-\end{itemize}
-
-%\begin{Definition}\label{def:1}
-%Definicja to zdanie (lub układ zdań) odpowiadające na pytanie o strukturze „co to jest a?”. Definicja normalna jest zdaniem złożonym z 2 członów: definiowanego (łac. definiendum) i definiującego (łac. definiens), połączonych spójnikiem definicyjnym („jest to”, „to tyle, co” itp.). 
-%\end{Definition}
 %
-%\begin{Theorem}[Pitagorasa]\label{t:pitagoras}
-%W dowolnym trójkącie prostokątnym suma kwadratów długości przyprostokątnych jest równa kwadratowi długości przeciwprostokątnej tego trójkąta. 
-%\end{Theorem}
 %
-%\begin{Example}[generalizacja]\label{ex:generalizacja}
-%Przykładem generalizacji jest para: zwierzę i pies. Pies jest zwierzęciem. Pies jest uszczegółowieniem pojęcia zwierzę. Zwierzę jest uogólnieniem pojęcia pies.
-%\end{Example}
+%\begin{itemize}
+%\item analiza tematu
+%\item wprowadzenie do dziedziny (\english{state of the art}) – sformułowanie problemu, 
+%\item poszerzone studia literaturowe, przegląd literatury tematu (należy wskazać źródła wszystkich informacji zawartych w pracy)
+%\item opis znanych rozwiązań, algorytmów, osadzenie pracy w kontekście
+%\item Tytuł rozdziału jest często zbliżony do tematu pracy. 
+%\item Rozdział jest wysycony cytowaniami do literatury \cite{bib:artykul,bib:ksiazka,bib:konferencja}. 
+%Cytowanie książki \cite{bib:ksiazka}, artykułu w czasopiśmie \cite{bib:artykul}, artykułu konferencyjnego \cite{bib:konferencja} lub strony internetowej \cite{bib:internet}.
+%\end{itemize}
+
+\begin{Definition}\label{def:1}
+Definicja to zdanie (lub układ zdań) odpowiadające na pytanie o strukturze „co to jest a?”. Definicja normalna jest zdaniem złożonym z 2 członów: definiowanego (łac. definiendum) i definiującego (łac. definiens), połączonych spójnikiem definicyjnym („jest to”, „to tyle, co” itp.). 
+\end{Definition}
+
+\begin{Theorem}[Pitagorasa]\label{t:pitagoras}
+W dowolnym trójkącie prostokątnym suma kwadratów długości przyprostokątnych jest równa kwadratowi długości przeciwprostokątnej tego trójkąta. 
+\end{Theorem}
+
+\begin{Example}[generalizacja]\label{ex:generalizacja}
+Przykładem generalizacji jest para: zwierzę i pies. Pies jest zwierzęciem. Pies jest uszczegółowieniem pojęcia zwierzę. Zwierzę jest uogólnieniem pojęcia pies.
+\end{Example}
 \section{Sformułowanie problemu}
 Wyszukiwanie tekstu w systemach towarzszy ludziom od początków istnienia maszyn,
 choć pierwsze komputery nie posiadały ogromnych ilość pamięci co nie powodowało
@@ -49,12 +49,6 @@ zaprezentowany w 1972 posiadał jedynie 14 bitową magistrale adresową co
 pozwalało na 16 Kbi pamięci. Model Motoroli 68000 posiada 5 MB dysku twardego,
 co nie może się równać z opecnym standardem darmowej pamięci udostępnianej w 
 chmurze przez Google (15 GB).
-
-Problem wyszukiwania danych nastąpił w momencie tworzenia dużej ilość zawartości.
-Posiadane archiwum wynosi 14.7 GB danych, niektóre z zawartości są 
-zarchiwizowane co znacznie utrudnia odczytania z nich danych. Nie mniej jednak,
-posiadane narzędzia w systemach dają dużą dowolność w wyszukania zawartości,
-która nas interesuje.
 
 Zasadniczym problem naszej pracy jest wyszukiwanie zawartości tekstowej
 ogramnej ilość plików w różnych formatach. Takie podejście może okazać się 
@@ -66,7 +60,7 @@ rodzaju.
 Podjęcie problemu wyszukiwania plików po nazwach oraz zawartości jest bardzo
 złożonym i trudnym problemem w sferze programistycznej. Istnieje wiele rozwiązań
 tego problemu, które istnieją od początku pracy z komputerem. Narzędzia takie
-jak \textbf{find}, grep czy fzf \cite{bib:internet:Fzf} pozwalają na wyszukiwanie
+jak \textbf{find}, \textbf{grep} czy \textbf{fzf} \cite{bib:internet:Fzf} pozwalają na wyszukiwanie
 zawartości która nas interesuje, ale kompleksowość tych narzędzi nie jest 
 przystosowana do tak trudnego problemu, jakim jest wyszukiwanie treści w plikach,
 które są zarchiwizowane. Z taką samą niedogodnością spotykamy się w przypadku
@@ -74,77 +68,42 @@ plików pochodzących z pakietu Microsoft Office 365, jednak jeśli rozwiążemy
 zadanie otrzymywania zawartości z archiwów, będziemy w stanie otrzymać również 
 zawartość z plików z rozszerzeniami .doc, .docx czy .pptx.
 
+\subsection{Przykładowe narzędzia dostępne do wykorzystania}
+
 Narzędzie \textbf{find} to znane i popularne narzędzie wśród osób zaznajomionych z
 technologiami linuxowymi. Już bardzo często wykorzystywany do znajdowania plików
 w systemie, jednak nie nadaje sie do znajdowania zawartości plików.
 
-\begin{figure}[h]
-  \centering
-  \begin{lstlisting}
-# Find files by extension:
-    find root_path -name '*.ext'
-
-# Find files matching multiple path/name patterns:
-    find root_path -path '**/path/**/*.ext' -or -name '*pattern*'
-
-# Find directories matching a given name, in case-insensitive mode:
-    find root_path -type d -iname '*lib*'
-
-# Find files matching a given pattern, excluding specific paths:
-    find root_path -name '*.py' -not -path '*/site-packages/*'
-
-# Find files matching a given size range, limiting the recursive depth to "1":
-    find root_path -maxdepth 1 -size +500k -size -10M
-
-# Run a command for each file (use `{}` within the command to access the filename):
-    find root_path -name '*.ext' -exec wc -l {} \;
-
-# Find all files modified today and pass the results to a single command as arguments:
-    find root_path -daystart -mtime -1 -exec tar -cvf archive.tar {} \+
-
-# Find empty (0 byte) files and delete them:
-    find root_path -type f -empty -delete
-  \end{lstlisting}
-  \caption{Przykłady użycia programu find}
-  \label{fig:code:bashFindExamples}
-\end{figure}
+Przykłady użycia programu find:
+\begin{itemize} 
+  \label{fig:find-example}
+  \item find rootPath -name '*.ext'
+  \item find rootPath -path 'path/*.ext' 
+  \item find rootPath -name '*.py' -not -path '*/site-packages/*'
+  \item find rootPath -maxdepth 1 -size +500k -size -10M
+  \item find rootPath -type f -empty -delete
+\end{itemize}
+%\begin{figure}[h]
+%  \centering
+%  \begin{lstlisting}
+%  \end{lstlisting}
+%  \caption{Przykłady użycia programu find}
+%  \label{fig:code:bashFindExamples}
+%\end{figure}
 
 Do przeszukiwania zawartości plików dobrze nadaje się narzędzie grep, który jest
 dostępny w każdej dystrybucji Linuxa. Jego działanie jest dość podobne do finda,
-lecz posiada on możliwość wyszukiwania treść w plikach tekstowych jak również
-archiwach. Nie posiada on niestety możliwość szukania zawartości plików .pdf oraz
+lecz posiada on możliwość wyszukiwania treść w plikach tekstowych, lecz nie w 
+archiwach. Grep nie posiada też możliwość szukania zawartości plików .pdf oraz
 nie wspiera formatów książkowych takich jak .djvu.
 
-\begin{figure}[h]
-  \centering
-  \begin{lstlisting}
-# Search for a pattern within a file:
-    grep "search_pattern" path/to/file
-
-# Search for an exact string (disables regular expressions):
-    grep -F|--fixed-strings "exact_string" path/to/file
-sec
-# Search for a pattern in all files recursively in a directory, showing line numbers of matches, ignoring binary files:
-    grep -r|--recursive -n|--line-number --binary-files without-match "search_pattern" path/to/directory
-
-# Use extended regular expressions (supports `?`, `+`, `{}`, `()` and `|`), in case-insensitive mode:
-    grep -E|--extended-regexp -i|--ignore-case "search_pattern" path/to/file
-
-# Print 3 lines of context around, before, or after each match:
-    grep --context|before-context|after-context 3 "search_pattern" path/to/file
-
-# Print file name and line number for each match with color output:
-    grep -H|--with-filename -n|--line-number --color=always "search_pattern" path/to/file
-
-# Search for lines matching a pattern, printing only the matched text:
-    grep -o|--only-matching "search_pattern" path/to/file
-
-# Search `stdin` for lines that do not match a pattern:
-    cat path/to/file | grep -v|--invert-match "search_pattern"
-  \end{lstlisting}
-  \caption{Przykłady użycia programu grep}
-  \label{fig:code:bashGrepExamples}
-\end{figure}
+Przykłady użycia programu find:
+\begin{itemize} 
+  \label{fig:grep-example}
+  \item grep "searchPattern" path/to/file
+  \item grep -F|--fixed-strings "exactString" path/to/file
+  \item cat path/to/file | grep -v|--invert-match "searchPattern"
+\end{itemize}
 
 Istnieje również ripgrep, który jest sukcesorem wcześniej wymienionego
 narzędzia. Jego wydajność przewyższa grepa nawet trzydziestokrotnie w niektórych
@@ -155,7 +114,33 @@ również wsparcia dla formatów pdf i djvu.
 Można wyszukiwać również po treści piosenek, ale wymagałoby to utworzenie modelu
 sztucznej inteligencji, która wydobywałaby tekst z piosenek do postaci tekstowej.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Odniesienia do literatury}
+
+Istnieje wiele odniesień do wyszukiwania danych w literaturze. Praca Google 
+\cite{bib:internet:htmlSearchGoogle} odnosi się do problemu wyszukiwania tekstu 
+w dobie internetu i ilości danych, która jest przechowywana w chmurze. Wymagane
+jest indeksowanie, które przyspiesza wyszukiwanie, ale wykonane nie poprawnie 
+skutkuje słabymi wyszukiwaniami. Ilość danych wydobywana i dostarczana do
+użytkowników stanowi duże wyzwanie oraz wymaga wykorzystania skomplikowanych 
+algorytmów. 
+
+Należy również mieć świadomość, że wyszukiwanie tekstu html posiada dodatkową 
+złożoność związaną z linkami (ang. \english{anchor}). Linki mogą prowadzić do 
+kolejnych stron lub plików, które należy przeszukać w celu wydobycia informacji.
+Powoduje to, że proste wyszukiwanie wymaga adaptacji kodu, aby odnieść się do 
+przypadków o których wcześniej nie wiedziano.
+
+W plikach, które znajdują się na stronach mogą być na przykład archiwa, które
+mają różne wielkości oraz różne typy kompresji. Dodatkowo kompresja może być 
+bardziej agresywna lub nawet stratna.
+
+Podczas konferencji TREC \cite{bib:konferencja:TRECDuplicates} jeden z zespołów 
+napotkał problem, duplikacji danych. Chęć wydobycia danych w celu utworzenia
+tekstów wymagało odpowiedniej deduplikacji dokumentów oraz wyborze tej treści,
+która posiada najwięcej wartości. Mogłoby to być tematem rozszerzenie pracy. 
+
+\textbf{TODO MORE PAPERS ADDED}
+
 \section{Opis poznanych rozwiązań}
 \subsection{Algorytm brute force}
 
