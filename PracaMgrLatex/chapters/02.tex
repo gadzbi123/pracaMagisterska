@@ -147,8 +147,10 @@ która posiada najwięcej wartości. Mogłoby to być tematem rozszerzenie pracy
 Jest wiele algorytmów, które wyszukują tekst. Jednym z takich algorytmów jest 
 algorytm typu brute-force. Polega sprawdzaniu każdego bajtu, jego implementacja
 jest bardzo prosta i standardowa, a złożoność czasowe tego rozwiązania wynosi
-O(m * n), gdzie m to długość bloku (pattern), a n to długość tekstu (substring),
-którego szukamy. 
+O(m * n), gdzie m to długość bloku (pattern), a n to długość tekstu (substring) 
+wyszukiwanego. Ten sposób odnajdywania sprawdza się jednak tylko w przypadku,
+gdy pattern jest niezbyt długi. Przykładową implementacje algorytmu można 
+znaleźć na rysunku \ref{fig:code:bruteForceComparison}.
 
 \begin{figure}[h]
   \centering
@@ -164,9 +166,9 @@ for i := 0; i<len(pattern); i++{
 \end{figure}
 
 Zaletą tego algorytmu jest to, że nie posiada potrzeby przechowywać żadnych 
-danych w pamięci. Ten algorytm dobrze sprawdza się gdy posiadamy ograniczoną 
+danych w pamięci. Ten algorytm dobrze sprawdza się, gdy posiadamy ograniczoną 
 ilość zasobów pamięci, co nie jest problemem w obecnych czasach, gdy pamięć jest
-stosunkowo tania i szeroko dostępna.
+stosunkowo tania i szeroko dostępna \ref{screenshot:MemPrices}.
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\textwidth]{./images/historical-mem-price.png}
@@ -177,14 +179,15 @@ stosunkowo tania i szeroko dostępna.
 %https://jcmit.net/memoryprice.htm
 
 Powyższy algorytm można zrównoleglić, dzieląc wzorzec na mniejsze części
-i wyszukując tylko dane w tym obszarze, ale należy dołożyć końce wzorca, aby nie
-wynikła sytuacja, w której wzorzec by wystąpił, ale nie wzięto pod uwagę końca 
-zdania. 
+i wyszukując tylko dane w tym obszarze \ref{tabela:NormalProblemBruteForce}, 
+ale należy dołożyć końce wzorca, aby nie wynikła sytuacja, w której wzorzec by
+wystąpił, ale nie wzięto pod uwagę końca zdania. 
 
-\begin{center}
+\begin{table}
+  \centering
   \begin{tabular}{ |c|c|  } 
     \hline
-    \multicolumn{2}{|c|}{TYTUL} \\
+    \multicolumn{2}{|c|}{Metoda Brute Force} \\
     \hline
     wzorzec & ABCABCABDABD \\
     \hline
@@ -193,12 +196,13 @@ zdania.
     rezultat & 4 \\
     \hline
   \end{tabular}
-\end{center}
+  \caption{Zwykły problem wyszukiwania metodą brute force}
+  \label{tabela:NormalProblemBruteForce}
+\end{table}
 
-Jeżeli podzielimy wzorzec na dwa procesy wyszukujące algorytmem brute-force,
-otrzymamy dwa zadania:
 
-\begin{center}
+\begin{table}
+  \centering
   \begin{tabular}{ |c|c||c|c|  } 
     \hline
     \multicolumn{4}{|c|}{Zadania} \\
@@ -212,17 +216,18 @@ otrzymamy dwa zadania:
     rezultat & -1 & rezultat & -1 \\ 
     \hline
   \end{tabular}
-\end{center}
+  \caption{Zwykły problem wyszukiwania metodą brute force}
+  \label{tabela:splitTasksBruteForce}
+\end{table}
 
-Zrównoleglenie procesu powoduje, że otrzymaliśmy nie poprawny wynik, gdyż w 
-żadnym z wzorców nie występuje podłańcuch "BCA", choć łańcuch występuje w 
-miejscu 4, to algorytm nie posiada wiedzy o dalszej części wzorca.
+Jeżeli podzielimy wzorzec na dwa procesy wyszukujące algorytmem brute-force,
+otrzymamy dwa zadania \ref{tabela:splitTasksBruteForce}. Zrównoleglenie procesu 
+powoduje, że otrzymaliśmy nie poprawny wynik, gdyż w żadnym z wzorców nie
+występuje podłańcuch "BCA", choć łańcuch występuje w miejscu 4, to algorytm nie
+posiada wiedzy o dalszej części wzorca.
 
-Aby poprawić dany algorytm należy dołożyć znaki, które należy sprawdzać w 
-przypadku poprawnego rozpatrzenia ostatniego znaku.
-
-
-\begin{center}
+\begin{table}
+  \centering
   \begin{tabular}{ |c|c||c|c|  } 
     \hline
     \multicolumn{4}{|c|}{Zadania} \\
@@ -236,22 +241,28 @@ przypadku poprawnego rozpatrzenia ostatniego znaku.
     rezultat & 4 & rezultat & -1 \\ 
     \hline
   \end{tabular}
-\end{center}
+  \caption{Zwykły problem wyszukiwania metodą brute force}
+  \label{tabela:splitBruteForceCorrected}
+\end{table}
 
-W takim przypadku sprawdzamy tylko do sytuacji, w której BC jest częścią
-podłańcucha, ale podłańcuch nie został w pełni znaleziony. Długość ponownego 
-wyszukania byłaby równa len(podłańcuch) - 1.
+Aby poprawić dany algorytm należy dołożyć znaki, które należy sprawdzać w 
+przypadku poprawnego rozpatrzenia ostatniego znaku 
+\ref{tabela:splitBruteForceCorrected}. W takim przypadku sprawdzamy tylko do
+sytuacji, w której BC jest częścią podłańcucha, ale podłańcuch nie został w 
+pełni znaleziony. Długość ponownego wyszukania byłaby równa len(podłańcuch) - 1.
+
 
 \subsection{Algorytm Morisa-Pratta}
 
 Algorytm Morisa-Pratta jest dość prostym algorytmem wykorzystującym możliwość
 wcześniejszego sprocesowania podłańcucha wyszukiwanego w tekście co przyspiesza
-sposób procesowania tekstu. Polega on na wykorzystaniu faktu istnienia pasującego
-prefikso sufiksu. Pozwala to na pominięcie pewnych porównania niektórych znaków,
-bez szkody w wyniku wyszukiwania.
+sposób procesowania tekstu jak na rysunku \ref{fig:code:preprocessMorisPratt}.
+Polega on na wykorzystaniu faktu istnienia pasującego prefikso sufiksu.
+Pozwala to na pominięcie pewnych porównania niektórych znaków, bez szkody w
+wyniku wyszukiwania.
 
 Dzięki wykorzystaniu tej zależności możemy uniknąć cofania się indeksu i. 
-Tablice preproc wypełniamy poprzednią wartości tak długo aż zaistnieje różnica 
+Tablice preproc wypełniamy poprzednią wartości tak długo, aż zaistnieje różnica 
 pomiędzy obecnym a następnym znakiem tablicy substr. W przypadku różnicy 
 zwiększamy wartość zapisywaną do tablicy preprocesora o odległość różnicy znaków.
 W ten sposób następnym razem będzie możliwość pominięcia porównania tych znaków.
@@ -269,16 +280,17 @@ for i := 1; i <= len(substr); i++ {
   preproc[i] = curr
 }
   \end{lstlisting}
-  \caption{Przykład preprocesowania podłańcucha }
+  \caption{Przykład preprocesowania podłańcucha}
   \label{fig:code:preprocessMorisPratt}
 \end{figure}
 
 W drugim etapie można wykorzystać wcześniej przygotowaną tablice przemieszczeń 
 \textbf{preproc}, aby obliczyć ilość przesunięcia w przypadku znalezienia 
-niepasującego prefiksu. Dzięki temu zwykle dłuższy tekst znajdujący się w 
-\textbf{s} możemy przeanalizować szybciej niż w przypadku algorytmu bruteforce.
-Powoduje to niestety problem w przypadku, gdy napis w którym wyszukujemy nie 
-jest wystarczająco długi.
+niepasującego prefiksu \ref{fig:code:algoMorisPratt}. Dzięki temu zwykle dłuższy tekst znajdujący się w 
+\textbf{wzorcu s} możemy przeanalizować szybciej, niż w przypadku algorytmu 
+bruteforce. Powoduje to niestety problem w przypadku, gdy wyszukiwany wzorzec
+nie jest wystarczająco długi, gdyż wykonanie operacji preprocesu posiada 
+dodatkowy koszt, którego nie ma w algorytmie brute force.
 
 \begin{figure}[h]
   \centering
@@ -302,13 +314,8 @@ for i := 0; i < len(s); i++ {
 }
   \end{lstlisting}
   \caption{Przykład preprocesowania podłańcucha }
-  \label{fig:code:preprocessMorisPratt}
+  \label{fig:code:algoMorisPratt}
 \end{figure}
-
-W podstawowej bibliotece języka Golang, w pakiecie \textit{strings} istnieje 
-implementacja metody \textit{Index()}. Nie jest ona jednak w pełni przedstawiona
-w kodzie, natomiast w jej implementacji można zauważyć, że algorytm brute force
-jest wykorzystywany tylko w przypadku gdy długość wzorca wynosi więcej niż 64.
 
 \begin{figure}[h]
   \centering
@@ -321,9 +328,9 @@ func Index(s, substr string) int {
   [...]
 	case n > len(s):
 		return -1
-	case n <= bytealg.MaxLen: // Zwykle ten case
+	case n <= bytealg.MaxLen: // Usually this case is used
 		// Use brute force when s and substr both are small
-		if len(s) <= bytealg.MaxBruteForce /* 64 */{
+		if len(s) <= bytealg.MaxBruteForce /* max == 64 */{
 			return bytealg.IndexString(s, substr)
 		}
   [...]
@@ -331,9 +338,124 @@ func Index(s, substr string) int {
 }
   \end{lstlisting}
   \caption{ Szukanie łańcucha w standardowej bibliotece Golang }
-  \label{fig:code:preprocessMorisPratt}
+  \label{fig:code:golangSearchInsideString}
 \end{figure}
 
-W przypadku w go gdy wzorzec jest większy niż 64 to wykonuje się algorytm 
-podobny do Morisa-Pratta, który jednak posiada dodatkową walidacje w przypadku
-odkrycia false positives. Algorytm Morisa-Pratta nie potrzebuje takiej walidacji.
+W podstawowej bibliotece języka Golang, w pakiecie \textit{strings} istnieje 
+implementacja metody \textit{Index()}. Nie jest ona jednak w pełni przedstawiona
+w kodzie, natomiast w jej implementacji można zauważyć, że algorytm brute force
+jest wykorzystywany tylko w przypadku, gdy długość wzorca wynosi więcej niż 64 
+\ref{fig:code:golangSearchInsideString}. W Golang, gdy wzorzec jest większy niż
+64 znaki, to wykonuje się algorytm podobny do Morisa-Pratta, który jednak 
+posiada dodatkową walidacje w przypadku odkrycia false positives. 
+Algorytm Morisa-Pratta nie potrzebuje takiej walidacji.
+
+
+\subsection{Algorytm Kurta-Morisa-Pratta}
+
+\begin{listing}[H]
+    \begin{minted}[xleftmargin=0.15\textwidth,xrightmargin=0.2\textwidth,linenos]{diff}
+preproc := make([]int, lensubstr+1)
+preproc[0] = -1
+curr := -1
+for i := 1; i <= lensubstr; i++ {
+  for (curr > -1) && (substr[curr] != substr[i-1]) {
+    curr = preproc[curr]
+  }
+  curr++
+- preproc[i] = curr
++ if (i == lensubstr) || (substr[i] != substr[curr]) {
++   preproc[i] = curr
++ } else {
++   preproc[i] = preproc[curr]
++ }
+}
+mp.preproc = preproc
+    \end{minted}
+  \caption{Różnica pomiędzy algorytmami KMP i MP}
+  \label{fig:code:KurtMorisPrattVsMorisPratt}
+\end{listing}
+
+Kolejnym algorytmem, który rozpatrujemy jest implementacja rozszerzająca 
+poprzednią implementacje. Różnice można zauważyć na podstawie rysunku
+\ref{fig:code:KurtMorisPrattVsMorisPratt} i polega ona na dodatkowym sprawdzeniu
+gdy nie osiągnieliśmy długości łańcucha i obecny znak jest równy temu, który 
+znajduje się w podłańcuchu to możemy wykonać skok do elementu znajdującego
+sie w tablicy przygotowanej, a nie zostawać w obecnym puncie pętli. Ta różnica
+powoduje, że algorytm wykonuje się szybciej.
+
+Złożoność tego algorytmu wynosi $O(2*{k})$ co mieści się w złożoności $O({k})$,
+gdzie k jest długością wzorca, w którym podłańcuch jest wyszukiwany. W 
+najbardziej pesymistycznym przypadku, gdy próba dopasowania tekstu będzie 
+kończyć się porażką, będzie wymagało to $O({n})$ operacji co nie jest szybsze,
+niż algorytm naiwny. 
+
+\begin{table}
+  \centering
+  \begin{tabular}{ |c|c|  } 
+    % \hline
+    % \multicolumn{2}{|c|}{Przykład wykorzystania algorytmu KMP} \\
+    \hline
+    wzorzec S & AAAAAABAAAAAABAAAAAAA \\
+    \hline
+    podłańcuch W & AAAAAA \\
+    \hline
+    liczba cofnięć & 20 \\
+    \hline
+  \end{tabular}
+  \caption{Przykład wykorzystania algorytmu KMP}
+  \label{tabela:KMPExampleSlow}
+\end{table}
+
+Wzorzec T przedstawia najbardziej niekorzystny scenariusz 
+\ref{tabela:KMPExampleSlow}, co można zaobserwować na przykładzie tekstu 
+S = "AAAAAABAAAAAABAAAAAAA". W tym przypadku algorytm musi sprawdzić każde
+wystąpienie 'A' przed dotarciem do 'B', co jest bardzo nieefektywne. Sytuacja 
+pogarsza się wraz ze wzrostem liczby powtórzeń fragmentu "AAAAAAB". Mimo że 
+metoda tablicowa działa tu sprawnie (bez potrzeby cofania się), to jej 
+jednokrotne wykonanie dla podłańcucha W może być wolny, gdyż proces
+wyszukiwania często wymaga wielokrotnych przebiegów. Wielokrotne przeszukiwanie
+tekstu S w poszukiwaniu wzorca prowadzi do gorszej wydajności. W takich 
+przypadkach, gdzie mamy do czynienia z tego typu charakterystyką tekstu 
+i wzorca, algorytm Boyera-Moore'a może stanowić optymalne rozwiązanie.
+
+Algorytm KMP wykorzystuje w najgorszym przypadku liniowy przebieg, natomiast
+algorytm Boyera-Moore'a w najlepszym przypadku posiada złożoność $O(n+k)$, a w 
+najgorszym przypadku $O(n*k)$, gdzie n jest długością podłańcucha.
+
+\subsection{Algorytm Boyera-Moore'a}
+\label{sch:algoBoyerMoore}
+
+Zaletą algorytmu jest to, że ilość skoków pomiędzy porównaniami jest zwykle 
+większa od 1, a gdy istnieje sytuacja, w której litery w podłańcuchu nie
+potwarzają się, to możemy przeskoczyć o długość całego łańcucha.
+
+Algorytm Boyera-Moore'a wprowadza rewolucyjne podejście poprzez skanowanie 
+wzorca od prawej do lewej strony, w przeciwieństwie do MP i KMP, które 
+analizują tekst od lewej do prawej. Ta fundamentalna różnica pozwala BM na 
+znacznie efektywniejsze przeskakiwanie fragmentów tekstu, które na pewno nie 
+zawierają wzorca. BM wykorzystuje dwie heurystyki: "złego znaku" oraz "dobrego
+sufiksu", podczas gdy KMP i MP opierają się na pojedynczej tablicy prefiksowej.
+
+W kontekście implementacji, BM wymaga utworzenia dwóch tablic pomocniczych dla
+swoich heurystyk, co zwiększa złożoność pamięciową w porównaniu do pojedynczej 
+tablicy prefiksowej w KMP i MP. Jednak ta dodatkowa pamięć przekłada się na 
+możliwość wykonywania większych skoków w tekście. KMP i MP różnią się między 
+sobą głównie w sposobie konstrukcji tablicy prefiksowej - KMP wykorzystuje 
+bardziej zaawansowaną technikę, która pozwala na uniknięcie niektórych 
+niepotrzebnych porównań występujących w MP.
+
+Praktyczny wybór między tymi algorytmami zależy od charakterystyki danych
+wejściowych. BM sprawdza się najlepiej w przypadku długich wzorców i tekstów
+napisanych w językach naturalnych, gdzie występuje duża różnorodność znaków.
+KMP i MP są bardziej przewidywalne w działaniu i mogą być lepszym wyborem dla 
+krótkich wzorców lub tekstów o ograniczonym alfabecie, jak na przykład sekwencje
+DNA.
+
+Z tego też powodu należy wykonać heurystykę danych, które są analizowane.
+Można to zrobić na kilka sposobów, jednak z powodu iż nie jest to główny temat
+pracy zostaną użyte narzędzia potrzebne do takiej analizy.
+
+
+\subsection{TODO? Algorytm Karpa-Rabina}
+\subsection{TODO? Algorytm Aho-Corasick}

@@ -1,15 +1,90 @@
-\chapter{[Przedmiot pracy]}
+\chapter{Przedmiot pracy - Wybór najlepszego rozwiązania wyszukiwania tekstu
+pod względem wydajności}
 
-\begin{itemize}
-\item  Jak ja rozwiązuję problem?
-\begin{itemize}
-\item rozwiązanie zaproponowane przez dyplomanta
-\item analiza teoretyczna rozwiązania
-\item uzasadnienie wyboru zastosowanych metod, algorytmów, narzędzi
-\end{itemize}
-\end{itemize}
+%\begin{itemize}
+%  \item  Jak ja rozwiązuję problem?
+%  \begin{itemize}
+%    \item rozwiązanie zaproponowane przez dyplomanta
+%    \item analiza teoretyczna rozwiązania
+%    \item uzasadnienie wyboru zastosowanych metod, algorytmów, narzędzi
+%  \end{itemize}
+%\end{itemize}
 
 \section{Rozwiązanie zaproponowane przez dyplomanta}
+
+Przed wyborem metody sprawdzającej należy wykonać heurystyke danych. Jest to 
+wymagane, ponieważ wydajność algorytmu jest ściśle powiązana z danymi, które
+będziemy przeszukiwać. Jeżeli większość danych, które analizujemy mają charakter
+tekstowy, to lepszym rozwiązaniem będzie skorzystanie z ostatniego algorytmu
+\ref{sch:algoBoyerMoore}, jednak w innym przypadku warto wykorzystać jeden z 
+pozostałych.
+
+Do tego zadania należałoby przeznaczyć narzędzia, które dobrze sobie radzą z 
+taką analizą. 
+
+\begin{itemize}
+  \item duc
+  \item rclone
+  \begin{enumerate}
+    \item ls 
+    \item ncdu
+  \end{enumerate}
+  \item tree
+  \begin{enumerate}
+    \item tree -h --du | wc -l -> 14307
+    \item tree -h --du -> 13827 files, 481 dirs
+  \end{enumerate}
+  \item skomplikowane połączenie komend
+  \begin{verbatim}
+find . -type f -exec file --mime-type {} \; |
+awk -F': ' '{print $2}' |
+sort |
+uniq -c |
+sort -nr
+  \end{verbatim}
+\end{itemize}
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Typ MIME} & \textbf{Ilość} \\
+        \hline
+        image/jpeg & 5,303 \\
+        text/html & 2,473 \\
+        image/gif & 2,353 \\
+        text/xml & 1,233 \\
+        application/pdf & 656 \\
+        application/postscript & 488 \\
+        text/plain & 285 \\
+        application/x-java-applet & 270 \\
+        application/zip & 153 \\
+        text/x-c & 134 \\
+        application/gzip & 126 \\
+        text/x-c++ & 121 \\
+        text/csv & 64 \\
+        application/octet-stream & 56 \\
+        text/x-java & 49 \\
+        application/x-rar & 34 \\
+        application/x-tar & 9 \\
+        application/x-dosexec & 3 \\
+        application/msword & 3 \\
+        text/x-diff & 2 \\
+        inode/x-empty & 2 \\
+        application/x-compress-ttcomp & 2 \\
+        application/vnd.openxmlformats-officedocument.wordprocessingml.document & 2 \\
+        application/vnd.ms-cab-compressed & 2 \\
+        application/vnd.microsoft.portable-executable & 2 \\
+        application/mac-binhex40 & 2 \\
+        application/x-ms-ne-executable & 1 \\
+        application/x-msaccess & 1 \\
+        application/x-ace-compressed & 1 \\
+        \hline
+    \end{tabular}
+    \caption{Dystrybucja w danych na podstawie typu plików MIME}
+    \label{tabela:typyMIMEdataset}
+\end{table}
+% TODO GO FROM HERE
 
 Wykorzystanie kilku znanych algorytmów do przeszukiwania zawartości
 tekstu i sprawdzenie, który z nich najlepiej sprawdza się pod względem prędkości

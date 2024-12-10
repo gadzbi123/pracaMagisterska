@@ -1,7 +1,7 @@
 :
 f=main
-minted=
-# minted=-shell-escape 
+#minted=
+minted=-shell-escape 
 minteddir=_minted-$(f)
 
 .PHONY : short
