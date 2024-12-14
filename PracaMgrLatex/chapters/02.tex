@@ -144,14 +144,6 @@ która posiada najwięcej wartości. Mogłoby to być tematem rozszerzenie pracy
 \section{Opis poznanych rozwiązań}
 \subsection{Algorytm brute force}
 
-Jest wiele algorytmów, które wyszukują tekst. Jednym z takich algorytmów jest 
-algorytm typu brute-force. Polega sprawdzaniu każdego bajtu, jego implementacja
-jest bardzo prosta i standardowa, a złożoność czasowe tego rozwiązania wynosi
-O(m * n), gdzie m to długość bloku (pattern), a n to długość tekstu (substring) 
-wyszukiwanego. Ten sposób odnajdywania sprawdza się jednak tylko w przypadku,
-gdy pattern jest niezbyt długi. Przykładową implementacje algorytmu można 
-znaleźć na rysunku \ref{fig:code:bruteForceComparison}.
-
 \begin{figure}[h]
   \centering
   \begin{lstlisting}
@@ -165,23 +157,27 @@ for i := 0; i<len(pattern); i++{
   \label{fig:code:bruteForceComparison}
 \end{figure}
 
-Zaletą tego algorytmu jest to, że nie posiada potrzeby przechowywać żadnych 
-danych w pamięci. Ten algorytm dobrze sprawdza się, gdy posiadamy ograniczoną 
-ilość zasobów pamięci, co nie jest problemem w obecnych czasach, gdy pamięć jest
-stosunkowo tania i szeroko dostępna \ref{screenshot:MemPrices}.
+Jest wiele algorytmów, które wyszukują tekst. Jednym z takich algorytmów jest 
+algorytm typu brute-force. Polega sprawdzaniu każdego bajtu, jego implementacja
+jest bardzo prosta i standardowa, a złożoność czasowe tego rozwiązania wynosi
+O(m * n), gdzie m to długość bloku (pattern), a n to długość tekstu (substring) 
+wyszukiwanego. Ten sposób odnajdywania sprawdza się jednak tylko w przypadku,
+gdy pattern jest niezbyt długi. Przykładową implementacje algorytmu można 
+znaleźć na rysunku \ref{fig:code:bruteForceComparison}.
+
+
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.9\textwidth]{./images/historical-mem-price.png}
-  \caption{Historyczne dane cen pamięci w latach 1993-2023 }
+  \caption{Historyczne dane cen pamięci w latach 1993-2023}
   \label{screenshot:MemPrices}
 \end{figure}
 %\cite{internet:HistoricalMemPrice}
 %https://jcmit.net/memoryprice.htm
-
-Powyższy algorytm można zrównoleglić, dzieląc wzorzec na mniejsze części
-i wyszukując tylko dane w tym obszarze \ref{tabela:NormalProblemBruteForce}, 
-ale należy dołożyć końce wzorca, aby nie wynikła sytuacja, w której wzorzec by
-wystąpił, ale nie wzięto pod uwagę końca zdania. 
+Zaletą tego algorytmu jest to, że nie posiada potrzeby przechowywać żadnych 
+danych w pamięci. Ten algorytm dobrze sprawdza się, gdy posiadamy ograniczoną 
+ilość zasobów pamięci, co nie jest problemem w obecnych czasach, gdy pamięć jest
+stosunkowo tania i szeroko dostępna (rys. \ref{screenshot:MemPrices}).
 
 \begin{table}
   \centering
@@ -200,6 +196,10 @@ wystąpił, ale nie wzięto pod uwagę końca zdania.
   \label{tabela:NormalProblemBruteForce}
 \end{table}
 
+Powyższy algorytm można zrównoleglić, dzieląc wzorzec na mniejsze części
+i wyszukując tylko dane w tym obszarze jak w tabeli \ref{tabela:NormalProblemBruteForce}, 
+ale należy dołożyć końce wzorca, aby nie wynikła sytuacja, w której wzorzec by
+wystąpił, ale nie wzięto pod uwagę końca zdania. 
 
 \begin{table}
   \centering
@@ -216,12 +216,13 @@ wystąpił, ale nie wzięto pod uwagę końca zdania.
     rezultat & -1 & rezultat & -1 \\ 
     \hline
   \end{tabular}
-  \caption{Zwykły problem wyszukiwania metodą brute force}
+  \caption{Zwykły problem wyszukiwania ciągu równolegle metodą brute force 
+  zaimplementowany nie poprawnie}
   \label{tabela:splitTasksBruteForce}
 \end{table}
 
 Jeżeli podzielimy wzorzec na dwa procesy wyszukujące algorytmem brute-force,
-otrzymamy dwa zadania \ref{tabela:splitTasksBruteForce}. Zrównoleglenie procesu 
+otrzymamy dwa zadania przedstawione w tabeli \ref{tabela:splitTasksBruteForce}. Zrównoleglenie procesu 
 powoduje, że otrzymaliśmy nie poprawny wynik, gdyż w żadnym z wzorców nie
 występuje podłańcuch "BCA", choć łańcuch występuje w miejscu 4, to algorytm nie
 posiada wiedzy o dalszej części wzorca.
@@ -241,31 +242,19 @@ posiada wiedzy o dalszej części wzorca.
     rezultat & 4 & rezultat & -1 \\ 
     \hline
   \end{tabular}
-  \caption{Zwykły problem wyszukiwania metodą brute force}
+  \caption{Zwykły problem wyszukiwania ciągu równolegle metodą brute force 
+  zaimplementowany poprawnie}
   \label{tabela:splitBruteForceCorrected}
 \end{table}
 
 Aby poprawić dany algorytm należy dołożyć znaki, które należy sprawdzać w 
-przypadku poprawnego rozpatrzenia ostatniego znaku 
-\ref{tabela:splitBruteForceCorrected}. W takim przypadku sprawdzamy tylko do
+przypadku poprawnego rozpatrzenia ostatniego znaku (tab.
+\ref{tabela:splitBruteForceCorrected}). W takim przypadku sprawdzamy tylko do
 sytuacji, w której BC jest częścią podłańcucha, ale podłańcuch nie został w 
 pełni znaleziony. Długość ponownego wyszukania byłaby równa len(podłańcuch) - 1.
 
 
 \subsection{Algorytm Morisa-Pratta}
-
-Algorytm Morisa-Pratta jest dość prostym algorytmem wykorzystującym możliwość
-wcześniejszego sprocesowania podłańcucha wyszukiwanego w tekście co przyspiesza
-sposób procesowania tekstu jak na rysunku \ref{fig:code:preprocessMorisPratt}.
-Polega on na wykorzystaniu faktu istnienia pasującego prefikso sufiksu.
-Pozwala to na pominięcie pewnych porównania niektórych znaków, bez szkody w
-wyniku wyszukiwania.
-
-Dzięki wykorzystaniu tej zależności możemy uniknąć cofania się indeksu i. 
-Tablice preproc wypełniamy poprzednią wartości tak długo, aż zaistnieje różnica 
-pomiędzy obecnym a następnym znakiem tablicy substr. W przypadku różnicy 
-zwiększamy wartość zapisywaną do tablicy preprocesora o odległość różnicy znaków.
-W ten sposób następnym razem będzie możliwość pominięcia porównania tych znaków.
 
 \begin{figure}[h]
   \centering
@@ -284,13 +273,18 @@ for i := 1; i <= len(substr); i++ {
   \label{fig:code:preprocessMorisPratt}
 \end{figure}
 
-W drugim etapie można wykorzystać wcześniej przygotowaną tablice przemieszczeń 
-\textbf{preproc}, aby obliczyć ilość przesunięcia w przypadku znalezienia 
-niepasującego prefiksu \ref{fig:code:algoMorisPratt}. Dzięki temu zwykle dłuższy tekst znajdujący się w 
-\textbf{wzorcu s} możemy przeanalizować szybciej, niż w przypadku algorytmu 
-bruteforce. Powoduje to niestety problem w przypadku, gdy wyszukiwany wzorzec
-nie jest wystarczająco długi, gdyż wykonanie operacji preprocesu posiada 
-dodatkowy koszt, którego nie ma w algorytmie brute force.
+Algorytm Morisa-Pratta jest dość prostym algorytmem wykorzystującym możliwość
+wcześniejszego sprocesowania podłańcucha wyszukiwanego w tekście co przyspiesza
+sposób procesowania tekstu jak na rysunku \ref{fig:code:preprocessMorisPratt}.
+Polega on na wykorzystaniu faktu istnienia pasującego prefikso sufiksu.
+Pozwala to na pominięcie pewnych porównania niektórych znaków, bez szkody w
+wyniku wyszukiwania.
+
+Dzięki wykorzystaniu tej zależności możemy uniknąć cofania się indeksu i. 
+Tablice preproc wypełniamy poprzednią wartości tak długo, aż zaistnieje różnica 
+pomiędzy obecnym a następnym znakiem tablicy substr. W przypadku różnicy 
+zwiększamy wartość zapisywaną do tablicy preprocesora o odległość różnicy znaków.
+W ten sposób następnym razem będzie możliwość pominięcia porównania tych znaków.
 
 \begin{figure}[h]
   \centering
@@ -313,9 +307,17 @@ for i := 0; i < len(s); i++ {
   }
 }
   \end{lstlisting}
-  \caption{Przykład preprocesowania podłańcucha }
+  \caption{Przykład preprocesowania podłańcucha w algorytmie MP}
   \label{fig:code:algoMorisPratt}
 \end{figure}
+
+W drugim etapie można wykorzystać wcześniej przygotowaną tablice przemieszczeń 
+\textbf{preproc}, aby obliczyć ilość przesunięcia w przypadku znalezienia 
+niepasującego prefiksu (rys. \ref{fig:code:algoMorisPratt}). Dzięki temu zwykle dłuższy tekst znajdujący się w 
+\textbf{wzorcu s} możemy przeanalizować szybciej, niż w przypadku algorytmu 
+bruteforce. Powoduje to niestety problem w przypadku, gdy wyszukiwany wzorzec
+nie jest wystarczająco długi, gdyż wykonanie operacji preprocesu posiada 
+dodatkowy koszt, którego nie ma w algorytmie brute force.
 
 \begin{figure}[h]
   \centering
@@ -337,7 +339,7 @@ func Index(s, substr string) int {
   }
 }
   \end{lstlisting}
-  \caption{ Szukanie łańcucha w standardowej bibliotece Golang }
+  \caption{Szukanie łańcucha w standardowej bibliotece Golang}
   \label{fig:code:golangSearchInsideString}
 \end{figure}
 
@@ -345,7 +347,7 @@ W podstawowej bibliotece języka Golang, w pakiecie \textit{strings} istnieje
 implementacja metody \textit{Index()}. Nie jest ona jednak w pełni przedstawiona
 w kodzie, natomiast w jej implementacji można zauważyć, że algorytm brute force
 jest wykorzystywany tylko w przypadku, gdy długość wzorca wynosi więcej niż 64 
-\ref{fig:code:golangSearchInsideString}. W Golang, gdy wzorzec jest większy niż
+(rys. \ref{fig:code:golangSearchInsideString}). W Golang, gdy wzorzec jest większy niż
 64 znaki, to wykonuje się algorytm podobny do Morisa-Pratta, który jednak 
 posiada dodatkową walidacje w przypadku odkrycia false positives. 
 Algorytm Morisa-Pratta nie potrzebuje takiej walidacji.
@@ -378,7 +380,7 @@ mp.preproc = preproc
 
 Kolejnym algorytmem, który rozpatrujemy jest implementacja rozszerzająca 
 poprzednią implementacje. Różnice można zauważyć na podstawie rysunku
-\ref{fig:code:KurtMorisPrattVsMorisPratt} i polega ona na dodatkowym sprawdzeniu
+(rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}) i polega ona na dodatkowym sprawdzeniu
 gdy nie osiągnieliśmy długości łańcucha i obecny znak jest równy temu, który 
 znajduje się w podłańcuchu to możemy wykonać skok do elementu znajdującego
 sie w tablicy przygotowanej, a nie zostawać w obecnym puncie pętli. Ta różnica
@@ -408,7 +410,7 @@ niż algorytm naiwny.
 \end{table}
 
 Wzorzec T przedstawia najbardziej niekorzystny scenariusz 
-\ref{tabela:KMPExampleSlow}, co można zaobserwować na przykładzie tekstu 
+(tab. \ref{tabela:KMPExampleSlow}), co można zaobserwować na przykładzie tekstu 
 S = "AAAAAABAAAAAABAAAAAAA". W tym przypadku algorytm musi sprawdzić każde
 wystąpienie 'A' przed dotarciem do 'B', co jest bardzo nieefektywne. Sytuacja 
 pogarsza się wraz ze wzrostem liczby powtórzeń fragmentu "AAAAAAB". Mimo że 

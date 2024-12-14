@@ -1,5 +1,4 @@
-\chapter{Przedmiot pracy - Wybór najlepszego rozwiązania wyszukiwania tekstu
-pod względem wydajności}
+\chapter{Przedmiot pracy - Wybór najszybszego rozwiązania wyszukiwania tekstu}
 
 %\begin{itemize}
 %  \item  Jak ja rozwiązuję problem?
@@ -84,56 +83,134 @@ sort -nr
     \caption{Dystrybucja w danych na podstawie typu plików MIME}
     \label{tabela:typyMIMEdataset}
 \end{table}
-% TODO GO FROM HERE
 
 Wykorzystanie kilku znanych algorytmów do przeszukiwania zawartości
 tekstu i sprawdzenie, który z nich najlepiej sprawdza się pod względem prędkości
-i dokładności wyszukiwania. 
+i dokładności wyszukiwania. Porównano ilość plików (tab. \ref{tabela:typyMIMEdataset}),
+które występują w zbiorze danych i z powodu algorytmów, które zostały 
+wykorzystane należało odrzucić część z nich.
 
 Program nie ma na celu modyfikować informacji zawartych w plikach w żaden sposób.
-Powoduje to, że zostaną sprawdzane w statyczny sposób z co spowoduje zasadniczą
-regularność i spójność w wynikach danego algorytmu na tych samych danych.
+Algorytmy użyte skupiają się głównie na tekście, dlatego w procesie tworzenia 
+odrzucone zostają pliki z takimi rozszerzeniami jak
+\begin{enumerate}
+  \item pliki zdjęć:
+  \begin{itemize}
+    \item ".jpg",  
+    \item ".gif",
+  \end{itemize}
+  \item pliki pdf:
+  \begin{itemize}
+    \item ".pdf",
+  \end{itemize}
+  \item pliki archiwów:
+  \begin{itemize}
+    \item ".tar.gz",
+    \item ".rar", 
+    \item ".zip",
+    \item ".tgz",
+    \item ".tar",
+    \item ".gz",
+  \end{itemize}
+  \item pliki pochodzące od Microsoftu:
+  \begin{itemize}
+    \item ".doc", 
+    \item ".docx".
+  \end{itemize}
+\end{enumerate}
 
 Innym sposobem na rozwiązanie problemu jest wykorzystanie dostępnych narzędzi i
 dostosowanie ich do problemu, który rozwiązujemy. Takie rozwiązanie może okazać
-się szybsze jeżeli zależy nam na uzyskaniu rezultatu natomiast istnieje 
-prawdopodobieństwo wykorzystania narzędzia nieodpowiedniego do danego problemu.
+się lepsze, jeżeli zależy nam na uzyskaniu rezultatów szybciej natomiast istnieje 
+prawdopodobieństwo wykorzystania narzędzii, które rozwiązują problem gorzej,
+niż rozwiązanie stworzone wprost do tego typu problemu.
 
 \section{Uzasadnienie wyboru zastosowanych metod, algorytmów, narzędzi}
+
+\subsection{Użycie języka Golang}
+
 Do utworzenia programu wykorzystam nowoczesny język programowania Golang \cite{bib:internet:golang}.
 Posiada on bardzo wygodny model współbierzności programu co może okazać się 
 kluczowe w przypadku tego rodzaju problemu. Dodatkowym plusem tego języka jest
 to, że jego składnia jest bardzo czytelna i wzorująca na prostocie początkowych
 kompilowanych języków programowania (C).
-%TODO make benchmarks on real data
+
+Zaletą Golang jest to, że jest kompilowany i tworzy się natywny dla danego 
+systemu plik binarny. Daje to możliwość łatwego przenoszenia programu wynikowego.
+Jest to też przewaga nad innymi językami programowania takimi jak python czy
+javascript, gdyż te języki są interpretowane i z natury wolniejsze niż kod 
+binarny. Golang nie wymaga dodatkowego poziomu abstrakcji w postaci maszyny 
+wirtualnej czytającej bytecode jak w przypadku Javy i JVM.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\textwidth]{./images/GarbageCollector.png}
+\caption{Przykładowe działanie Garbage Collectora w programie}
+\label{fig:GarbageCollectorImage}
+\end{figure}
+%https://upload.wikimedia.org/wikipedia/commons/4/4a/Animation_of_the_Naive_Mark_and_Sweep_Garbage_Collector_Algorithm.gif
+
+Wadą tego języka może być fakt, iż język nie daje programiście możliwości pełnej
+kontroli pamięci. Język wykorzystuje ang. \english{Garbage Collector} (zbieracz 
+śmieci) przedstawiony na rysunku \ref{fig:GarbageCollectorImage}, który jest 
+alternatywą do sposobu manualnej alokacji pamięci. Można zauważyć, że objekty
+wykorzystywane w zbiorze korzenia (ang. \english{Root Set}) oznaczone na 
+niebiesko, zostaną utrzymane w pamięci z powodu powiązania z innymi elementami
+łączącymi się do zbioru korzenia. Kolorem czerwonym oznaczone są elementy, które
+przestały być powiązane z jakimkolwiek elementem, więc zostaną zwolniene z 
+użycia, po zakończeniu operacji sprawdzania. 
+
+GC wykorzystuje dwa warianty oznaczania danych. Pierwszy to tradycyjny sposób
+skalarny, w którym każde wykorzystanie elementu w kodzie jest liczone i
+zapisywane. W przypadku, gdy żaden fragment kodu nie wykorzystuje pamięci,
+\english{Garbage Collector}
+uwalnia zaalokowaną pamięć. Problem może skutkować wolniejszą egzekucją oraz
+pauzami w celu oczyszczenia pamięci.
+
+Drugą metodą, która jest preferowana to wariany wektorowy, który wykorzystuje 
+operacje SIMD, i dzięki temu może uwalniać większe ilości pamięci w  mniejszej
+ilości cykli. 
+
+Kolejną zaletą jest to, że wewnętrznie Golang wykorzystuje większe obszary
+zaalokowanej pamięci. W przypadku, gdy program nie potrzebuje pamięci, program
+wewnętrznie ją uwalnia, jednak nie oddaje jej odrazu do systemu, jeżeli będzie 
+ona wykorzystywana ponownie. Taki mechanizm zmniejsza częstotliwość operacji
+systemowych, które wymagają potwierdzenia alokacji, zanim praca na pamięci może
+zostać wykonana. 
+
+Program utworzony w ramach pracy porównuje różnicę pomiędzy sytuacją, w której
+programista sam zaalokował pamięć i wykorzystywał ją ponownie do czytania 
+zawartości plików oraz sytuacje, w której pozwolił kompilatorowi na własną
+optymalizacje alokowania bufora do odczytu plików.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-W całym dokumencie powinny znajdować się odniesienia do zawartych w nim ilustracji (rys. \ref{fig:2}).
-\begin{figure}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    y tick label style={
-        /pgf/number format/.cd,
-            fixed,   % po zakomentowaniu os rzednych jest indeksowana wykladniczo
-            fixed zerofill, % 1.0 zamiast 1
-            precision=1,
-        /tikz/.cd
-    },
-    x tick label style={
-        /pgf/number format/.cd,
-            fixed,
-            fixed zerofill,
-            precision=2,
-        /tikz/.cd
-    }
-]
-\addplot [domain=0.0:0.1] {rnd};
-\end{axis} 
-\end{tikzpicture}
-\caption{Wykres przebiegu funkcji.} % Podpis jest zawsze POD rysunkiem.
-\label{fig:2}
-\end{figure}
+%W całym dokumencie powinny znajdować się odniesienia do zawartych w nim ilustracji (rys. \ref{fig:2}).
+%\begin{figure}
+%\centering
+%\begin{tikzpicture}
+%\begin{axis}[
+%    y tick label style={
+%        /pgf/number format/.cd,
+%            fixed,   % po zakomentowaniu os rzednych jest indeksowana wykladniczo
+%            fixed zerofill, % 1.0 zamiast 1
+%            precision=1,
+%        /tikz/.cd
+%    },
+%    x tick label style={
+%        /pgf/number format/.cd,
+%            fixed,
+%            fixed zerofill,
+%            precision=2,
+%        /tikz/.cd
+%    }
+%]
+%\addplot [domain=0.0:0.1] {rnd};
+%\end{axis} 
+%\end{tikzpicture}
+%\caption{Wykres przebiegu funkcji.} % Podpis jest zawsze POD rysunkiem.
+%\label{fig:2}
+%\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%
@@ -184,32 +261,31 @@ W całym dokumencie powinny znajdować się odniesienia do zawartych w nim ilust
 %%%%%%%%%%%%%%%%%%%%%
 
 
-Tekst dokumentu powinien również zawierać odniesienia do tabel (tab. \ref{id:tab:wyniki}).
-
-\begin{table}
-\centering
-\caption{Opis tabeli nad nią.}
-\label{id:tab:wyniki}
-\begin{tabular}{rrrrrrrr}
-\toprule
-	         &                                     \multicolumn{7}{c}{metoda}                                      \\
-	         \cmidrule{2-8}
-	         &         &         &        \multicolumn{3}{c}{alg. 3}        & \multicolumn{2}{c}{alg. 4, $\gamma = 2$} \\
-	         \cmidrule(r){4-6}\cmidrule(r){7-8}
-	$\zeta$ &     alg. 1 &   alg. 2 & $\alpha= 1.5$ & $\alpha= 2$ & $\alpha= 3$ &   $\beta = 0.1$  &   $\beta = -0.1$ \\
-\midrule
-	       0 &  8.3250 & 1.45305 &       7.5791 &    14.8517 &    20.0028 & 1.16396 &                       1.1365 \\
-	       5 &  0.6111 & 2.27126 &       6.9952 &    13.8560 &    18.6064 & 1.18659 &                       1.1630 \\
-	      10 & 11.6126 & 2.69218 &       6.2520 &    12.5202 &    16.8278 & 1.23180 &                       1.2045 \\
-	      15 &  0.5665 & 2.95046 &       5.7753 &    11.4588 &    15.4837 & 1.25131 &                       1.2614 \\
-	      20 & 15.8728 & 3.07225 &       5.3071 &    10.3935 &    13.8738 & 1.25307 &                       1.2217 \\
-	      25 &  0.9791 & 3.19034 &       5.4575 &     9.9533 &    13.0721 & 1.27104 &                       1.2640 \\
-	      30 &  2.0228 & 3.27474 &       5.7461 &     9.7164 &    12.2637 & 1.33404 &                       1.3209 \\
-	      35 & 13.4210 & 3.36086 &       6.6735 &    10.0442 &    12.0270 & 1.35385 &                       1.3059 \\
-	      40 & 13.2226 & 3.36420 &       7.7248 &    10.4495 &    12.0379 & 1.34919 &                       1.2768 \\
-	      45 & 12.8445 & 3.47436 &       8.5539 &    10.8552 &    12.2773 & 1.42303 &                       1.4362 \\
-	      50 & 12.9245 & 3.58228 &       9.2702 &    11.2183 &    12.3990 & 1.40922 &                       1.3724 \\
-\bottomrule
-\end{tabular}
-\end{table}  
+%Tekst dokumentu powinien również zawierać odniesienia do tabel (tab. \ref{id:tab:wyniki}).
+%\begin{table}
+%\centering
+%\caption{Opis tabeli nad nią.}
+%\label{id:tab:wyniki}
+%\begin{tabular}{rrrrrrrr}
+%\toprule
+%	         &                                     \multicolumn{7}{c}{metoda}                                      \\
+%	         \cmidrule{2-8}
+%	         &         &         &        \multicolumn{3}{c}{alg. 3}        & \multicolumn{2}{c}{alg. 4, $\gamma = 2$} \\
+%	         \cmidrule(r){4-6}\cmidrule(r){7-8}
+%	$\zeta$ &     alg. 1 &   alg. 2 & $\alpha= 1.5$ & $\alpha= 2$ & $\alpha= 3$ &   $\beta = 0.1$  &   $\beta = -0.1$ \\
+%\midrule
+%	       0 &  8.3250 & 1.45305 &       7.5791 &    14.8517 &    20.0028 & 1.16396 &                       1.1365 \\
+%	       5 &  0.6111 & 2.27126 &       6.9952 &    13.8560 &    18.6064 & 1.18659 &                       1.1630 \\
+%	      10 & 11.6126 & 2.69218 &       6.2520 &    12.5202 &    16.8278 & 1.23180 &                       1.2045 \\
+%	      15 &  0.5665 & 2.95046 &       5.7753 &    11.4588 &    15.4837 & 1.25131 &                       1.2614 \\
+%	      20 & 15.8728 & 3.07225 &       5.3071 &    10.3935 &    13.8738 & 1.25307 &                       1.2217 \\
+%	      25 &  0.9791 & 3.19034 &       5.4575 &     9.9533 &    13.0721 & 1.27104 &                       1.2640 \\
+%	      30 &  2.0228 & 3.27474 &       5.7461 &     9.7164 &    12.2637 & 1.33404 &                       1.3209 \\
+%	      35 & 13.4210 & 3.36086 &       6.6735 &    10.0442 &    12.0270 & 1.35385 &                       1.3059 \\
+%	      40 & 13.2226 & 3.36420 &       7.7248 &    10.4495 &    12.0379 & 1.34919 &                       1.2768 \\
+%	      45 & 12.8445 & 3.47436 &       8.5539 &    10.8552 &    12.2773 & 1.42303 &                       1.4362 \\
+%	      50 & 12.9245 & 3.58228 &       9.2702 &    11.2183 &    12.3990 & 1.40922 &                       1.3724 \\
+%\bottomrule
+%\end{tabular}
+%\end{table}  
 

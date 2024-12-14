@@ -1,109 +1,147 @@
 \chapter{Badania}
-%
-% 
-%
-%Rozdział przedstawia przeprowadzone badania. Jest to zasadnicza część i~musi wyraźnie dominować w~pracy.
-%Badania i analizę wyników należy przeprowadzić, tak jak jest przyjęte w środowisku naukowym (na przykład korzystanie z danych benchmarkowych, walidacja krzyżowa, zapewnienie powtarzalności testów itd). 
-%
-%\section{Metodyka badań}
-%
-%\begin{itemize}
-%\item opis metodyki badań
-%\item opis stanowiska badawczego (opis interfejsu aplikacji badawczych -- w~załączniku)
-%\end{itemize}
-%
-%
-%\section{Zbiory danych}
-%
-%\begin{itemize}
-%\item opis danych
-%\end{itemize}
-%
-%
-%\section{Wyniki}
-%
-%\begin{itemize}
-%\item prezentacja wyników, opracowanie i poszerzona dyskusja  wyników, wnioski
-%\end{itemize}
-%
-% 
-%\begin{table}
-%\centering
-%\caption{Opis tabeli nad nią.}
-%\label{id:tab:wyniki}
-%\begin{tabular}{rrrrrrrr}
-%\toprule
-%	         &                                     \multicolumn{7}{c}{metoda}                                      \\
-%	         \cmidrule{2-8}
-%	         &         &         &        \multicolumn{3}{c}{alg. 3}        & \multicolumn{2}{c}{alg. 4, $\gamma = 2$} \\
-%	         \cmidrule(r){4-6}\cmidrule(r){7-8}
-%	$\zeta$ &     alg. 1 &   alg. 2 & $\alpha= 1.5$ & $\alpha= 2$ & $\alpha= 3$ &   $\beta = 0.1$  &   $\beta = -0.1$ \\
-%\midrule
-%	       0 &  8.3250 & 1.45305 &       7.5791 &    14.8517 &    20.0028 & 1.16396 &                       1.1365 \\
-%	       5 &  0.6111 & 2.27126 &       6.9952 &    13.8560 &    18.6064 & 1.18659 &                       1.1630 \\
-%	      10 & 11.6126 & 2.69218 &       6.2520 &    12.5202 &    16.8278 & 1.23180 &                       1.2045 \\
-%	      15 &  0.5665 & 2.95046 &       5.7753 &    11.4588 &    15.4837 & 1.25131 &                       1.2614 \\
-%	      20 & 15.8728 & 3.07225 &       5.3071 &    10.3935 &    13.8738 & 1.25307 &                       1.2217 \\
-%	      25 &  0.9791 & 3.19034 &       5.4575 &     9.9533 &    13.0721 & 1.27104 &                       1.2640 \\
-%	      30 &  2.0228 & 3.27474 &       5.7461 &     9.7164 &    12.2637 & 1.33404 &                       1.3209 \\
-%	      35 & 13.4210 & 3.36086 &       6.6735 &    10.0442 &    12.0270 & 1.35385 &                       1.3059 \\
-%	      40 & 13.2226 & 3.36420 &       7.7248 &    10.4495 &    12.0379 & 1.34919 &                       1.2768 \\
-%	      45 & 12.8445 & 3.47436 &       8.5539 &    10.8552 &    12.2773 & 1.42303 &                       1.4362 \\
-%	      50 & 12.9245 & 3.58228 &       9.2702 &    11.2183 &    12.3990 & 1.40922 &                       1.3724 \\
-%\bottomrule
-%\end{tabular}
-%\end{table}  
-%
-%
-% 
-%\begin{figure}
-%\centering
-%\begin{tikzpicture}
-%\begin{axis}[
-%    y tick label style={
-%        /pgf/number format/.cd,
-%            fixed,   % po zakomentowaniu os rzednych jest indeksowana wykladniczo
-%            fixed zerofill, % 1.0 zamiast 1
-%            precision=1,
-%        /tikz/.cd
-%    },
-%    x tick label style={
-%        /pgf/number format/.cd,
-%            fixed,
-%            fixed zerofill,
-%            precision=2,
-%        /tikz/.cd
-%    }
-%]
-%\addplot [domain=0.0:0.1] {rnd};
-%\end{axis} 
-%\end{tikzpicture}
-%\caption{Podpis rysunku po rysunkiem.}
-%\label{fig:2}
-%\end{figure}
-%
-%
-%\begin{figure}
-%\begin{lstlisting}
-%if (_nClusters < 1)
-%	throw std::string ("unknown number of clusters");
-%if (_nIterations < 1 and _epsilon < 0)
-%	throw std::string ("You should set a maximal number of iteration or minimal difference -- epsilon.");
-%if (_nIterations > 0 and _epsilon > 0)
-%	throw std::string ("Both number of iterations and minimal epsilon set -- you should set either number of iterations or minimal epsilon.");
-%\end{lstlisting}
-%\caption{Przykład pseudokodu}
-%\end{figure}
+
+ 
+
+Rozdział przedstawia przeprowadzone badania. Jest to zasadnicza część i~musi wyraźnie dominować w~pracy.
+Badania i analizę wyników należy przeprowadzić, tak jak jest przyjęte w środowisku naukowym (na przykład korzystanie z danych benchmarkowych, walidacja krzyżowa, zapewnienie powtarzalności testów itd). 
+
+\section{Metodyka badań}
+
+\begin{itemize}
+\item opis metodyki badań
+\item opis stanowiska badawczego (opis interfejsu aplikacji badawczych -- w~załączniku)
+\end{itemize}
+
+
+\section{Zbiory danych}
+
+\begin{itemize}
+\item opis danych
+\end{itemize}
+
+
+\section{Wyniki}
+
+\begin{itemize}
+\item prezentacja wyników, opracowanie i poszerzona dyskusja  wyników, wnioski
+\end{itemize}
+
+ 
+\begin{table}
+\centering
+\caption{Opis tabeli nad nią.}
+\label{id:tab:wyniki}
+\begin{tabular}{rrrrrrrr}
+\toprule
+	         &                                     \multicolumn{7}{c}{metoda}                                      \\
+	         \cmidrule{2-8}
+	         &         &         &        \multicolumn{3}{c}{alg. 3}        & \multicolumn{2}{c}{alg. 4, $\gamma = 2$} \\
+	         \cmidrule(r){4-6}\cmidrule(r){7-8}
+	$\zeta$ &     alg. 1 &   alg. 2 & $\alpha= 1.5$ & $\alpha= 2$ & $\alpha= 3$ &   $\beta = 0.1$  &   $\beta = -0.1$ \\
+\midrule
+	       0 &  8.3250 & 1.45305 &       7.5791 &    14.8517 &    20.0028 & 1.16396 &                       1.1365 \\
+	       5 &  0.6111 & 2.27126 &       6.9952 &    13.8560 &    18.6064 & 1.18659 &                       1.1630 \\
+	      10 & 11.6126 & 2.69218 &       6.2520 &    12.5202 &    16.8278 & 1.23180 &                       1.2045 \\
+	      15 &  0.5665 & 2.95046 &       5.7753 &    11.4588 &    15.4837 & 1.25131 &                       1.2614 \\
+	      20 & 15.8728 & 3.07225 &       5.3071 &    10.3935 &    13.8738 & 1.25307 &                       1.2217 \\
+	      25 &  0.9791 & 3.19034 &       5.4575 &     9.9533 &    13.0721 & 1.27104 &                       1.2640 \\
+	      30 &  2.0228 & 3.27474 &       5.7461 &     9.7164 &    12.2637 & 1.33404 &                       1.3209 \\
+	      35 & 13.4210 & 3.36086 &       6.6735 &    10.0442 &    12.0270 & 1.35385 &                       1.3059 \\
+	      40 & 13.2226 & 3.36420 &       7.7248 &    10.4495 &    12.0379 & 1.34919 &                       1.2768 \\
+	      45 & 12.8445 & 3.47436 &       8.5539 &    10.8552 &    12.2773 & 1.42303 &                       1.4362 \\
+	      50 & 12.9245 & 3.58228 &       9.2702 &    11.2183 &    12.3990 & 1.40922 &                       1.3724 \\
+\bottomrule
+\end{tabular}
+\end{table}  
+
+
+ 
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    y tick label style={
+        /pgf/number format/.cd,
+            fixed,   % po zakomentowaniu os rzednych jest indeksowana wykladniczo
+            fixed zerofill, % 1.0 zamiast 1
+            precision=1,
+        /tikz/.cd
+    },
+    x tick label style={
+        /pgf/number format/.cd,
+            fixed,
+            fixed zerofill,
+            precision=2,
+        /tikz/.cd
+    }
+]
+\addplot [domain=0.0:0.1] {rnd};
+\end{axis} 
+\end{tikzpicture}
+\caption{Podpis rysunku po rysunkiem.}
+\label{fig:2}
+\end{figure}
+
+
+\begin{figure}
+\begin{lstlisting}
+if (_nClusters < 1)
+	throw std::string ("unknown number of clusters");
+if (_nIterations < 1 and _epsilon < 0)
+	throw std::string ("You should set a maximal number of iteration or minimal difference -- epsilon.");
+if (_nIterations > 0 and _epsilon > 0)
+	throw std::string ("Both number of iterations and minimal epsilon set -- you should set either number of iterations or minimal epsilon.");
+\end{lstlisting}
+\caption{Przykład pseudokodu}
+\end{figure}
+
+
+\section{Metodyka badań}
+
+\begin{figure}
+\centering
+\begin{subfigure}{0.8\textwidth}
+    \includegraphics[width=\textwidth]{./images/GraphFirstAttempt.png}
+    \caption{Wykres czasów bez statycznego bufora oraz z ponownym rekalkujacją
+    bufora pre alokowanego.}
+    \label{fig:GraphFirstAttempt}
+\end{subfigure}
+%\hfill
+\begin{subfigure}{0.8\textwidth}
+    \includegraphics[width=\textwidth]{./images/GraphPreAllocBM.png}
+    \caption{Wykres czasów bez statycznego bufora z kalkulacją bufora 
+    prealokowanego dla algorytmu Boyer Moore'a. }
+    \label{fig:GraphPreAllocBM}
+\end{subfigure}
+\begin{subfigure}{0.8\textwidth}
+%TODO dodac grafike
+    \includegraphics[width=\textwidth]{./images/GraphStaticPreallocAndFileBuffer.png}
+    \caption{Wykres czasów z statycznym buforem prealokacji oraz statycznym buforem
+    dla zawartości pliku.}
+    \label{fig:GraphStaticPreallocAndFileBuffer}
+\end{subfigure}
+\caption{Wykresy kolejnych iteracji na algorytmach}
+\label{fig:GraphsIterationComparison}
+\end{figure}
+%Rys. \ref{fig:GraphsIterationComparison} przestawia wiele ważnych informacji, np. rys. \ref{fig:prawy-gorny} jest na prawo u góry.
+
 Pierwszy test wydajnościowy, który został przeprowadzony, sprawdzał wszystkie 
-foldery w których znajdowały się pliki bez rozszerzeń, które nie miałyby sensu,
-do odczytania przez algorytm. Są to takie rozszerzenia jak .pdf, .zip, .tar czy
-inne rozszerzenia archiwów jak i pliki zawierające obrazy takie jak .jpg czy 
-gif. Wykonano testy na 3 algorytmach, gdzie odczytywano 5191 plików i łącznie 
-około 240 MB danych. Oto rezultaty określonych algorytmów.
+foldery, w których znajdowały się pliki, które nie miałyby sensu by być odczytane
+przez algorytm. Wykonano testy na 3 algorytmach, gdzie odczytywano 5191 plików 
+i łącznie 240 MB danych. Oto rezultaty określonych algorytmów.
 
 Algorytm Morisa-Pratta jest nieznacznie wolniejszy od algorytmu 
 Kurta-Morisa-Pratta. Jest to spowodowane niewielką optymalizacją pomiędzy tymi 
-dwoma alogrytmami.
+dwoma algorytmami. Według danych na rysunku \ref{fig:GraphFirstAttempt} można 
+zauważyć, KMP w niektórych przypadkach jest wolniejszy, niż algorytm MP, 
+ponieważ posiada większe odchylenie standardowe, co powoduje, że jest mniej
+stabilny. 
+
+Patrząc na statystki możemy zauważyć, że podczas pracy algorytmów, wystąpiły 
+wartości odstające (ang. \english{Outlier}) w niektórych wykonaniach dla 
+algorytmu KMP. Gdy usuniemy je pojawia się bardziej rzetelna informacja o 
+różnicy pomiędzy wynikami
+%TODO start here
 
 TODO DIFF IMPLEMENTACJI
 
