@@ -11,9 +11,9 @@
 
 \section{Rozwiązanie zaproponowane przez dyplomanta}
 
-Przed wyborem metody sprawdzającej należy wykonać heurystyke danych. Jest to 
+Przed wyborem metody sprawdzającej należy wykonać heurystykę danych. Jest to 
 wymagane, ponieważ wydajność algorytmu jest ściśle powiązana z danymi, które
-będziemy przeszukiwać. Jeżeli większość danych, które analizujemy mają charakter
+będziemy przeszukiwać. Jeżeli większość analizowanych danych mają charakter
 tekstowy, to lepszym rozwiązaniem będzie skorzystanie z ostatniego algorytmu
 \ref{sch:algoBoyerMoore}, jednak w innym przypadku warto wykorzystać jeden z 
 pozostałych.
@@ -87,8 +87,8 @@ sort -nr
 Wykorzystanie kilku znanych algorytmów do przeszukiwania zawartości
 tekstu i sprawdzenie, który z nich najlepiej sprawdza się pod względem prędkości
 i dokładności wyszukiwania. Porównano ilość plików (tab. \ref{tabela:typyMIMEdataset}),
-które występują w zbiorze danych i z powodu algorytmów, które zostały 
-wykorzystane należało odrzucić część z nich.
+które występują w zbiorze danych i odrzucono część z nich z powodu sposobu, w jaki
+analizowano dane.
 
 Program nie ma na celu modyfikować informacji zawartych w plikach w żaden sposób.
 Algorytmy użyte skupiają się głównie na tekście, dlatego w procesie tworzenia 
@@ -122,7 +122,7 @@ odrzucone zostają pliki z takimi rozszerzeniami jak
 Innym sposobem na rozwiązanie problemu jest wykorzystanie dostępnych narzędzi i
 dostosowanie ich do problemu, który rozwiązujemy. Takie rozwiązanie może okazać
 się lepsze, jeżeli zależy nam na uzyskaniu rezultatów szybciej natomiast istnieje 
-prawdopodobieństwo wykorzystania narzędzii, które rozwiązują problem gorzej,
+prawdopodobieństwo wykorzystania narzędzi, które rozwiązują problem gorzej,
 niż rozwiązanie stworzone wprost do tego typu problemu.
 
 \section{Uzasadnienie wyboru zastosowanych metod, algorytmów, narzędzi}
@@ -153,35 +153,35 @@ wirtualnej czytającej bytecode jak w przypadku Javy i JVM.
 Wadą tego języka może być fakt, iż język nie daje programiście możliwości pełnej
 kontroli pamięci. Język wykorzystuje ang. \english{Garbage Collector} (zbieracz 
 śmieci) przedstawiony na rysunku \ref{fig:GarbageCollectorImage}, który jest 
-alternatywą do sposobu manualnej alokacji pamięci. Można zauważyć, że objekty
+alternatywą do sposobu manualnej alokacji pamięci. Można zauważyć, że obiekty
 wykorzystywane w zbiorze korzenia (ang. \english{Root Set}) oznaczone na 
 niebiesko, zostaną utrzymane w pamięci z powodu powiązania z innymi elementami
 łączącymi się do zbioru korzenia. Kolorem czerwonym oznaczone są elementy, które
-przestały być powiązane z jakimkolwiek elementem, więc zostaną zwolniene z 
+przestały być powiązane z jakimkolwiek elementem, więc zostaną zwolnienie z 
 użycia, po zakończeniu operacji sprawdzania. 
 
 GC wykorzystuje dwa warianty oznaczania danych. Pierwszy to tradycyjny sposób
 skalarny, w którym każde wykorzystanie elementu w kodzie jest liczone i
 zapisywane. W przypadku, gdy żaden fragment kodu nie wykorzystuje pamięci,
 \english{Garbage Collector}
-uwalnia zaalokowaną pamięć. Problem może skutkować wolniejszą egzekucją oraz
+uwalnia przydzieloną pamięć. Problem może skutkować wolniejszą egzekucją oraz
 pauzami w celu oczyszczenia pamięci.
 
-Drugą metodą, która jest preferowana to wariany wektorowy, który wykorzystuje 
+Drugą metodą, która jest preferowana to warianty wektorowy, który wykorzystuje 
 operacje SIMD, i dzięki temu może uwalniać większe ilości pamięci w  mniejszej
 ilości cykli. 
 
 Kolejną zaletą jest to, że wewnętrznie Golang wykorzystuje większe obszary
-zaalokowanej pamięci. W przypadku, gdy program nie potrzebuje pamięci, program
-wewnętrznie ją uwalnia, jednak nie oddaje jej odrazu do systemu, jeżeli będzie 
+przydzielonej pamięci. W przypadku, gdy program nie potrzebuje pamięci, program
+wewnętrznie ją uwalnia, jednak nie oddaje jej od razu do systemu, jeżeli będzie 
 ona wykorzystywana ponownie. Taki mechanizm zmniejsza częstotliwość operacji
-systemowych, które wymagają potwierdzenia alokacji, zanim praca na pamięci może
-zostać wykonana. 
+systemowych, które wymagają potwierdzenia alokacji, zanim praca na pamięci 
+zostanie wykonana. 
 
 Program utworzony w ramach pracy porównuje różnicę pomiędzy sytuacją, w której
-programista sam zaalokował pamięć i wykorzystywał ją ponownie do czytania 
+programista sam przydzielił pamięć i wykorzystywał ją ponownie do czytania 
 zawartości plików oraz sytuacje, w której pozwolił kompilatorowi na własną
-optymalizacje alokowania bufora do odczytu plików.
+optymalizację alokowania bufora do odczytu plików.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

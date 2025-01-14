@@ -15,9 +15,10 @@
 %i stron www \cite{bib:internet}.
 %
 %Równania powinny być numerowane
-\begin{align}
-    y = \frac{\partial x}{\partial t}
-\end{align}
+%wzór
+%\begin{align}
+%    y = \frac{\partial x}{\partial t}
+%\end{align}
 %
 %
 %\begin{itemize}
@@ -42,26 +43,27 @@
 %Przykładem generalizacji jest para: zwierzę i pies. Pies jest zwierzęciem. Pies jest uszczegółowieniem pojęcia zwierzę. Zwierzę jest uogólnieniem pojęcia pies.
 %\end{Example}
 \section{Sformułowanie problemu}
-Wyszukiwanie tekstu w systemach towarzszy ludziom od początków istnienia maszyn,
-choć pierwsze komputery nie posiadały ogromnych ilość pamięci co nie powodowało
+Wyszukiwanie tekstu w systemach towarzyszy ludziom od początków istnienia maszyn,
+choć pierwsze komputery nie posiadały ogromnych ilość pamięci, co nie powodowało
 potrzeby istnienia algorytmów wyszukujących tekst. Procesor Intel 8008 
-zaprezentowany w 1972 posiadał jedynie 14 bitową magistrale adresową co 
-pozwalało na 16 Kbi pamięci. Model Motoroli 68000 posiada 5 MB dysku twardego,
-co nie może się równać z opecnym standardem darmowej pamięci udostępnianej w 
-chmurze przez Google (15 GB).
+zaprezentowany w 1972 posiadał jedynie 14-bitową magistralę adresową, co 
+pozwalało na 16 KB pamięci \cite{bib:internet:Intel8008}. Obecna ilość pamięci,
+którą otrzymujemy w sieci za pośrednictwem chmury Google - 15 GB \cite{bib:internet:GoogleCloud},
+nieporównywalnie przewyższa ilość pamięci wykorzystywaną w projektach z tamtych
+czasów.
 
 Zasadniczym problem naszej pracy jest wyszukiwanie zawartości tekstowej
-ogramnej ilość plików w różnych formatach. Takie podejście może okazać się 
-problematyczne w przypadku plików dzwiękowych, filomowych czy zdjęć wszelkiego
-rodzaju.
+ogromnej ilość plików w różnych formatach. Takie podejście może okazać się 
+problematyczne \newline w przypadku plików dźwiękowych, filmowych czy zdjęć
+wszelkiego rodzaju.
 
-\section{State of art}
+\section{Dostępne rozwiązania} %state of art
 
 Podjęcie problemu wyszukiwania plików po nazwach oraz zawartości jest bardzo
 złożonym i trudnym problemem w sferze programistycznej. Istnieje wiele rozwiązań
 tego problemu, które istnieją od początku pracy z komputerem. Narzędzia takie
 jak \textbf{find}, \textbf{grep} czy \textbf{fzf} \cite{bib:internet:Fzf} pozwalają na wyszukiwanie
-zawartości która nas interesuje, ale kompleksowość tych narzędzi nie jest 
+zawartości, która nas interesuje, ale kompleksowość tych narzędzi nie jest 
 przystosowana do tak trudnego problemu, jakim jest wyszukiwanie treści w plikach,
 które są zarchiwizowane. Z taką samą niedogodnością spotykamy się w przypadku
 plików pochodzących z pakietu Microsoft Office 365, jednak jeśli rozwiążemy 
@@ -71,48 +73,93 @@ zawartość z plików z rozszerzeniami .doc, .docx czy .pptx.
 \subsection{Przykładowe narzędzia dostępne do wykorzystania}
 
 Narzędzie \textbf{find} to znane i popularne narzędzie wśród osób zaznajomionych z
-technologiami linuxowymi. Już bardzo często wykorzystywany do znajdowania plików
-w systemie, jednak nie nadaje sie do znajdowania zawartości plików.
+technologiami Linuxa. Już bardzo często wykorzystywany do znajdowania plików
+w systemie, jednak nie nadaje się do znajdowania zawartości plików.
 
-Przykłady użycia programu find:
-\begin{itemize} 
-  \label{fig:find-example}
-  \item find rootPath -name '*.ext'
-  \item find rootPath -path 'path/*.ext' 
-  \item find rootPath -name '*.py' -not -path '*/site-packages/*'
-  \item find rootPath -maxdepth 1 -size +500k -size -10M
-  \item find rootPath -type f -empty -delete
-\end{itemize}
-%\begin{figure}[h]
-%  \centering
-%  \begin{lstlisting}
-%  \end{lstlisting}
-%  \caption{Przykłady użycia programu find}
-%  \label{fig:code:bashFindExamples}
-%\end{figure}
+\begin{figure}[h]
+  \centering
+\begin{tcolorbox}[
+    colback=white,
+    colframe=black,
+    boxrule=0.5pt,
+    arc=0pt
+]
+  \begin{minted}{bash}
+find /biblioteka -name '*.pdf'
+find /biblioteka -path 'książki/*.docx' 
+find /biblioteka -name '*.py' -not -path '*/site-packages/*'  
+find /biblioteka -maxdepth 1 -size +500k -size -10M           
+find /biblioteka -type f -empty -delete 
+  \end{minted}
+\end{tcolorbox}
+\caption{Przykład użycia programu find}
+\label{fig:cmd:findExamples}
+\end{figure}
 
-Do przeszukiwania zawartości plików dobrze nadaje się narzędzie grep, który jest
-dostępny w każdej dystrybucji Linuxa. Jego działanie jest dość podobne do finda,
-lecz posiada on możliwość wyszukiwania treść w plikach tekstowych, lecz nie w 
-archiwach. Grep nie posiada też możliwość szukania zawartości plików .pdf oraz
-nie wspiera formatów książkowych takich jak .djvu.
+Jak pokazano na rysunku \ref{fig:cmd:findExamples} te przykładowe komendy find
+pozwalają na wyszukanie zawartości folderu biblioteka, a kolejne argumenty 
+pozwalają na doprecyzowanie określonych właściwości pliku. Argument \textbf{-name}
+pozwala na wyszukanie wszystkich słów odpowiadających nazwie pliku, jednak nie
+uwzględniają ścieżki. Argument \textbf{-path} pozwala na wyszukanie plików, 
+które odpowiadają podanej ścieżce, a nie jedynie nazwie pliku.
 
-Przykłady użycia programu find:
-\begin{itemize} 
-  \label{fig:grep-example}
-  \item grep "searchPattern" path/to/file
-  \item grep -F|--fixed-strings "exactString" path/to/file
-  \item cat path/to/file | grep -v|--invert-match "searchPattern"
-\end{itemize}
+Połączenie argumentów \textbf{-name} oraz argumentu \textbf{-not} z \textbf{-path}
+umożliwi wyszukanie tych plików, z rozszerzeniem .py, które nie znajdują się w
+folderze paczek dodatkowych (ang. \english{site-packages}). Kolejna komenda 
+wyszuka wszystkie pliki znajdujące się tylko w folderze /biblioteka (\textbf{-maxdepth 1})
+oraz weźmie pod uwagę wszystkie pliki większe niż 500 KB i mniejsze niż 10 MB.
 
-Istnieje również ripgrep, który jest sukcesorem wcześniej wymienionego
+Ostatnia komenda z rysunku \ref{fig:cmd:findExamples} daje możliwość usunięcia 
+\textbf{-delete} plików (nie folderów) \textbf{-type f}, które są puste \textbf{-empty}.
+
+Do przeszukiwania zawartości plików dobrze nadaje się narzędzie grep, które jest
+dostępny w każdej dystrybucji Linuxa. Jego działanie jest dość podobne do find'a,
+gdyż posiada on możliwość wyszukiwania treść w plikach tekstowych. Grep nie 
+posiada też możliwość szukania zawartości archiwów, plików .pdf oraz nie wspiera
+formatów książkowych takich jak .djvu.
+
+\begin{figure}[h]
+  \centering
+\begin{tcolorbox}[
+    colback=white,
+    colframe=black,
+    boxrule=0.5pt,
+    arc=0pt
+]
+  \begin{minted}{bash}
+grep "szukany-tekst" /biblioteka/plik1.txt 
+grep -r "szukany-tekst" /biblioteka 
+grep -i "szukany-tekst" /biblioteka/plik1.txt
+grep -w "szukany-tekst" /biblioteka/plik1.txt
+grep -C 2 "szukany-tekst" plik1.txt
+cat /biblioteka/plik1.txt | grep -v "szukany-tekst" 
+  \end{minted}
+\end{tcolorbox}
+\caption{Przykład użycia programu grep}
+\label{fig:cmd:grepExamples}
+\end{figure}
+
+Na rysunku powyżej możemy zobaczyć przykładowe komendy programu grep 
+\ref{fig:cmd:grepExamples}. Pierwsza komenda wyszukuje tekst podany jako 
+pierwszy argument w plik1.txt. Kolejna komenda pozwala nam przeszukać wszystkie 
+foldery znajdujące się w folderze /biblioteka rekursywnie \textbf{-r}, gdzie 
+zawartość plików posiada "szukany-tekst". Trzecia komenda wyszuka wszystkie 
+instancje "szukany-tekst" ignorując przy tym wielkość liter. W tym przypadku 
+można wyszukać tekst posiadający treść "szUKaNY-tEKst". Dodając argument \textbf{-w}
+wyświetla się wiersza, w którym znajdowało się dopasowanie. 
+
+Przedostatnia komenda w \ref{fig:cmd:grepExamples} pozwala na sprawdzenie 
+kontekstu, w którym znajduje się znalezione ciąg znaków. Jeżeli "szukany-tekst" 
+znajduje się w linii 25, to program przedstawi nam linie 23-27 z wyszczególnioną
+treścią, którą wyszukiwano. Ostatnia komenda przedstawia, że program można 
+wykorzystać, przyjmując zawartość innego programu przy pomocy standardowego 
+wejścia strumieniowego. Ta komenda zwróci nam wszystkie linie, w których 
+"szukany-tekst" nie występuje.
+
+Istnieje również ripgrep, który jest następcą wcześniej wymienionego
 narzędzia. Jego wydajność przewyższa grepa nawet trzydziestokrotnie w niektórych
-testach sprawnościowych, jednak zazwyczaj jest to niewielki wzrost. Nie jest on
-niestety domyślnie instalowany na większości systemów linuxowych. Nie posiada on
-również wsparcia dla formatów pdf i djvu.
-
-Można wyszukiwać również po treści piosenek, ale wymagałoby to utworzenie modelu
-sztucznej inteligencji, która wydobywałaby tekst z piosenek do postaci tekstowej.
+testach wydajnościowych w wymiarze czasu. Nie jest on niestety domyślnie 
+instalowany na większości systemów linuxowych. 
 
 \section{Odniesienia do literatury}
 
@@ -128,18 +175,16 @@ Należy również mieć świadomość, że wyszukiwanie tekstu html posiada doda
 złożoność związaną z linkami (ang. \english{anchor}). Linki mogą prowadzić do 
 kolejnych stron lub plików, które należy przeszukać w celu wydobycia informacji.
 Powoduje to, że proste wyszukiwanie wymaga adaptacji kodu, aby odnieść się do 
-przypadków o których wcześniej nie wiedziano.
+przypadków, o których wcześniej nie wiedziano.
 
-W plikach, które znajdują się na stronach mogą być na przykład archiwa, które
-mają różne wielkości oraz różne typy kompresji. Dodatkowo kompresja może być 
-bardziej agresywna lub nawet stratna.
+%W plikach, które znajdują się na stronach mogą być na przykład archiwa, które
+%mają różne wielkości oraz różne typy kompresji. Dodatkowo kompresja może być 
+%bardziej agresywna lub nawet stratna.
 
 Podczas konferencji TREC \cite{bib:konferencja:TRECDuplicates} jeden z zespołów 
 napotkał problem, duplikacji danych. Chęć wydobycia danych w celu utworzenia
-tekstów wymagało odpowiedniej deduplikacji dokumentów oraz wyborze tej treści,
+tekstów wymagało usunięcia duplikacji dokumentów oraz wyborze tej treści,
 która posiada najwięcej wartości. Mogłoby to być tematem rozszerzenie pracy. 
-
-\textbf{TODO MORE PAPERS ADDED}
 
 \section{Opis poznanych rozwiązań}
 \subsection{Algorytm brute force}
@@ -160,10 +205,12 @@ for i := 0; i<len(pattern); i++{
 Jest wiele algorytmów, które wyszukują tekst. Jednym z takich algorytmów jest 
 algorytm typu brute-force. Polega sprawdzaniu każdego bajtu, jego implementacja
 jest bardzo prosta i standardowa, a złożoność czasowe tego rozwiązania wynosi
-O(m * n), gdzie m to długość bloku (pattern), a n to długość tekstu (substring) 
-wyszukiwanego. Ten sposób odnajdywania sprawdza się jednak tylko w przypadku,
-gdy pattern jest niezbyt długi. Przykładową implementacje algorytmu można 
-znaleźć na rysunku \ref{fig:code:bruteForceComparison}.
+$O(len(pattern) * len(substring))$, gdzie len(pattern) to długość bloku 
+przeszukiwanego, a len(substring) to długość tekstu szukanego. Ten algorytm nie 
+pozwala na wykonanie optymalizacji wykorzystywanej w kolejnych algorytmach, 
+takich jak przesunięcie się do następnej instancji znaku powtórzonego. 
+Przykładową implementację algorytmu można znaleźć na rysunku
+\ref{fig:code:bruteForceComparison}.
 
 
 \begin{figure}[h]
@@ -174,91 +221,13 @@ znaleźć na rysunku \ref{fig:code:bruteForceComparison}.
 \end{figure}
 %\cite{internet:HistoricalMemPrice}
 %https://jcmit.net/memoryprice.htm
-Zaletą tego algorytmu jest to, że nie posiada potrzeby przechowywać żadnych 
-danych w pamięci. Ten algorytm dobrze sprawdza się, gdy posiadamy ograniczoną 
-ilość zasobów pamięci, co nie jest problemem w obecnych czasach, gdy pamięć jest
-stosunkowo tania i szeroko dostępna (rys. \ref{screenshot:MemPrices}).
-
-\begin{table}
-  \centering
-  \begin{tabular}{ |c|c|  } 
-    \hline
-    \multicolumn{2}{|c|}{Metoda Brute Force} \\
-    \hline
-    wzorzec & ABCABCABDABD \\
-    \hline
-    podłańcuch & BCA \\
-    \hline
-    rezultat & 4 \\
-    \hline
-  \end{tabular}
-  \caption{Zwykły problem wyszukiwania metodą brute force}
-  \label{tabela:NormalProblemBruteForce}
-\end{table}
-
-Powyższy algorytm można zrównoleglić, dzieląc wzorzec na mniejsze części
-i wyszukując tylko dane w tym obszarze jak w tabeli \ref{tabela:NormalProblemBruteForce}, 
-ale należy dołożyć końce wzorca, aby nie wynikła sytuacja, w której wzorzec by
-wystąpił, ale nie wzięto pod uwagę końca zdania. 
-
-\begin{table}
-  \centering
-  \begin{tabular}{ |c|c||c|c|  } 
-    \hline
-    \multicolumn{4}{|c|}{Zadania} \\
-    \hline
-    Zadanie 1 & & Zadanie 2 & \\
-    \hline
-    wzorzec & ABCABC & wzorzec & ABDABD \\
-    \hline
-    podłańcuch & BCA & podłańcuch & BCA \\
-    \hline
-    rezultat & -1 & rezultat & -1 \\ 
-    \hline
-  \end{tabular}
-  \caption{Zwykły problem wyszukiwania ciągu równolegle metodą brute force 
-  zaimplementowany nie poprawnie}
-  \label{tabela:splitTasksBruteForce}
-\end{table}
-
-Jeżeli podzielimy wzorzec na dwa procesy wyszukujące algorytmem brute-force,
-otrzymamy dwa zadania przedstawione w tabeli \ref{tabela:splitTasksBruteForce}. Zrównoleglenie procesu 
-powoduje, że otrzymaliśmy nie poprawny wynik, gdyż w żadnym z wzorców nie
-występuje podłańcuch "BCA", choć łańcuch występuje w miejscu 4, to algorytm nie
-posiada wiedzy o dalszej części wzorca.
-
-\begin{table}
-  \centering
-  \begin{tabular}{ |c|c||c|c|  } 
-    \hline
-    \multicolumn{4}{|c|}{Zadania} \\
-    \hline
-    Zadanie 1 & & Zadanie 2 & \\
-    \hline
-    wzorzec & ABCABC(AB) & wzorzec & ABDABD(nil) \\
-    \hline
-    podłańcuch & BCA & podłańcuch & BCA \\
-    \hline
-    rezultat & 4 & rezultat & -1 \\ 
-    \hline
-  \end{tabular}
-  \caption{Zwykły problem wyszukiwania ciągu równolegle metodą brute force 
-  zaimplementowany poprawnie}
-  \label{tabela:splitBruteForceCorrected}
-\end{table}
-
-Aby poprawić dany algorytm należy dołożyć znaki, które należy sprawdzać w 
-przypadku poprawnego rozpatrzenia ostatniego znaku (tab.
-\ref{tabela:splitBruteForceCorrected}). W takim przypadku sprawdzamy tylko do
-sytuacji, w której BC jest częścią podłańcucha, ale podłańcuch nie został w 
-pełni znaleziony. Długość ponownego wyszukania byłaby równa len(podłańcuch) - 1.
-
 
 \subsection{Algorytm Morisa-Pratta}
 
 \begin{figure}[h]
   \centering
   \begin{lstlisting}
+preproc := make([]byte, len(substr)+1)
 curr = -1
 preproc[0] = -1
 for i := 1; i <= len(substr); i++ {
@@ -269,21 +238,23 @@ for i := 1; i <= len(substr); i++ {
   preproc[i] = curr
 }
   \end{lstlisting}
-  \caption{Przykład preprocesowania podłańcucha}
+  \caption{Przykład uprzedniego procesowania tekstu szukanego}
   \label{fig:code:preprocessMorisPratt}
 \end{figure}
 
-Algorytm Morisa-Pratta jest dość prostym algorytmem wykorzystującym możliwość
-wcześniejszego sprocesowania podłańcucha wyszukiwanego w tekście co przyspiesza
-sposób procesowania tekstu jak na rysunku \ref{fig:code:preprocessMorisPratt}.
-Polega on na wykorzystaniu faktu istnienia pasującego prefikso sufiksu.
-Pozwala to na pominięcie pewnych porównania niektórych znaków, bez szkody w
-wyniku wyszukiwania.
+Algorytm Morisa-Pratta jest algorytmem, wykorzystującym możliwość procesowania 
+łańcucha wyszukiwanego w tekście wykorzystując wcześniej pasującą do siebie część
+(rys. \ref{fig:code:preprocessMorisPratt}).
+Polega on na wykorzystaniu faktu istnienia pasującego prefikso-sufiksu.
+Pozwala to na pominięcie porównania znaków, które się powtarzają w łańcuchu poszukiwanym.
 
 Dzięki wykorzystaniu tej zależności możemy uniknąć cofania się indeksu i. 
-Tablice preproc wypełniamy poprzednią wartości tak długo, aż zaistnieje różnica 
-pomiędzy obecnym a następnym znakiem tablicy substr. W przypadku różnicy 
-zwiększamy wartość zapisywaną do tablicy preprocesora o odległość różnicy znaków.
+Od teraz jako tablicę przechowującą informacje o przesunięciu w przypadku 
+błędnego znaku, którą zainicjowaliśmy w \ref{fig:code:preprocessMorisPratt}
+będziemy się odwoływać jako tablica \textbf{preproc}.
+Tablice \textbf{preproc} wypełniamy poprzednią wartości tak długo, aż zaistnieje różnica 
+pomiędzy obecnym a następnym znakiem tablicy poszukiwanej (tablicy \textbf{substr}). W przypadku różnicy 
+zwiększamy wartość zapisywaną do tablicy \textbf{preproc} o odległość różnicy znaków.
 W ten sposób następnym razem będzie możliwość pominięcia porównania tych znaków.
 
 \begin{figure}[h]
@@ -307,21 +278,23 @@ for i := 0; i < len(s); i++ {
   }
 }
   \end{lstlisting}
-  \caption{Przykład preprocesowania podłańcucha w algorytmie MP}
+  \caption{Przykład procesowania łańcucha poszukiwanego w algorytmie Morisa Pratta}
   \label{fig:code:algoMorisPratt}
 \end{figure}
 
 W drugim etapie można wykorzystać wcześniej przygotowaną tablice przemieszczeń 
 \textbf{preproc}, aby obliczyć ilość przesunięcia w przypadku znalezienia 
-niepasującego prefiksu (rys. \ref{fig:code:algoMorisPratt}). Dzięki temu zwykle dłuższy tekst znajdujący się w 
-\textbf{wzorcu s} możemy przeanalizować szybciej, niż w przypadku algorytmu 
-bruteforce. Powoduje to niestety problem w przypadku, gdy wyszukiwany wzorzec
-nie jest wystarczająco długi, gdyż wykonanie operacji preprocesu posiada 
-dodatkowy koszt, którego nie ma w algorytmie brute force.
+niepasującego prefiksu (rys. \ref{fig:code:algoMorisPratt}). Dzięki temu zwykle 
+dłuższy tekst znajdujący się we wzorcu \textbf{s} możemy przeanalizować szybciej
+niż w przypadku algorytmu brute-force. Powoduje to niestety problem w przypadku,
+gdy wyszukiwany wzorzec nie jest wystarczająco długi, gdyż wykonanie operacji 
+wcześniejszego procesowania posiada dodatkowy koszt, którego nie ma w algorytmie brute-force.
 
-\begin{figure}[h]
-  \centering
-  \begin{lstlisting}
+% \begin{minipage}[t][7cm][t]{\textwidth}
+\vspace{-3cm} 
+%   \centering
+% \begin{minted}{go}
+\begin{lstlisting}[basicstyle=\small]
 func Index(s, substr string) int {
   n := len(substr)
 	switch {
@@ -338,20 +311,22 @@ func Index(s, substr string) int {
   [...]
   }
 }
-  \end{lstlisting}
-  \caption{Szukanie łańcucha w standardowej bibliotece Golang}
-  \label{fig:code:golangSearchInsideString}
-\end{figure}
+\end{lstlisting}
+\vspace{-.1cm} 
+% \end{minted}
+%   \caption{Szukanie łańcucha w standardowej bibliotece Golang}
+%   \label{fig:code:golangSearchInsideString}
+% \vspace{-1cm} 
+% \end{minipage}
 
 W podstawowej bibliotece języka Golang, w pakiecie \textit{strings} istnieje 
 implementacja metody \textit{Index()}. Nie jest ona jednak w pełni przedstawiona
-w kodzie, natomiast w jej implementacji można zauważyć, że algorytm brute force
+w kodzie, natomiast w jej implementacji można zauważyć, że algorytm brute-force
 jest wykorzystywany tylko w przypadku, gdy długość wzorca wynosi więcej niż 64 
 (rys. \ref{fig:code:golangSearchInsideString}). W Golang, gdy wzorzec jest większy niż
 64 znaki, to wykonuje się algorytm podobny do Morisa-Pratta, który jednak 
-posiada dodatkową walidacje w przypadku odkrycia false positives. 
+posiada dodatkową walidację w przypadku odkrycia wyniku fałszywie dodatniego. 
 Algorytm Morisa-Pratta nie potrzebuje takiej walidacji.
-
 
 \subsection{Algorytm Kurta-Morisa-Pratta}
 
@@ -378,19 +353,19 @@ mp.preproc = preproc
   \label{fig:code:KurtMorisPrattVsMorisPratt}
 \end{listing}
 
-Kolejnym algorytmem, który rozpatrujemy jest implementacja rozszerzająca 
-poprzednią implementacje. Różnice można zauważyć na podstawie rysunku
-(rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}) i polega ona na dodatkowym sprawdzeniu
-gdy nie osiągnieliśmy długości łańcucha i obecny znak jest równy temu, który 
-znajduje się w podłańcuchu to możemy wykonać skok do elementu znajdującego
-sie w tablicy przygotowanej, a nie zostawać w obecnym puncie pętli. Ta różnica
+Kolejny rozpatrywany algorytm jest implementacja rozszerzająca poprzednią 
+implementację przedstawioną w algorytmie Morisa-Pratta. Różnice można zauważyć na podstawie rysunku
+(rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}) i występuje w nim następująca różnica.
+Gdy nie osiągnięto długości łańcucha i obecny znak jest równy temu, który 
+znajduje się w łańcuchu szukany, to można wykonać skok do znaku znajdującego
+się w tablicy przygotowanej, a nie sprawdzać kolejny znak w pętli. Ta różnica
 powoduje, że algorytm wykonuje się szybciej.
 
-Złożoność tego algorytmu wynosi $O(2*{k})$ co mieści się w złożoności $O({k})$,
-gdzie k jest długością wzorca, w którym podłańcuch jest wyszukiwany. W 
-najbardziej pesymistycznym przypadku, gdy próba dopasowania tekstu będzie 
-kończyć się porażką, będzie wymagało to $O({n})$ operacji co nie jest szybsze,
-niż algorytm naiwny. 
+Złożoność tego algorytmu wynosi $O(2*{len(pattern)})$, gdzie pattern to długość
+tekstu przeszukiwanego. W najbardziej pesymistycznym przypadku, gdy próba dopasowania tekstu będzie 
+kończyć się porażką, będzie to wymagało ilości operacji powrotu równej długości 
+łańcucha szukanego. Powoduje to, że złożoność obliczeniowa sprowadza się do
+$O({len(substr)}*{len(pattern)})$ co posiada tę samą złożoność co algorytm naiwny. 
 
 \begin{table}
   \centering
@@ -400,7 +375,7 @@ niż algorytm naiwny.
     \hline
     wzorzec S & AAAAAABAAAAAABAAAAAAA \\
     \hline
-    podłańcuch W & AAAAAA \\
+    łańcuch W & AAAAAA \\
     \hline
     liczba cofnięć & 20 \\
     \hline
@@ -409,41 +384,41 @@ niż algorytm naiwny.
   \label{tabela:KMPExampleSlow}
 \end{table}
 
-Wzorzec T przedstawia najbardziej niekorzystny scenariusz 
+Wzorzec przeszukiwany T przedstawia najbardziej niekorzystny scenariusz 
 (tab. \ref{tabela:KMPExampleSlow}), co można zaobserwować na przykładzie tekstu 
 S = "AAAAAABAAAAAABAAAAAAA". W tym przypadku algorytm musi sprawdzić każde
 wystąpienie 'A' przed dotarciem do 'B', co jest bardzo nieefektywne. Sytuacja 
 pogarsza się wraz ze wzrostem liczby powtórzeń fragmentu "AAAAAAB". Mimo że 
 metoda tablicowa działa tu sprawnie (bez potrzeby cofania się), to jej 
-jednokrotne wykonanie dla podłańcucha W może być wolny, gdyż proces
+jednokrotne wykonanie dla łańcucha szukanego W może być wolny, gdyż proces
 wyszukiwania często wymaga wielokrotnych przebiegów. Wielokrotne przeszukiwanie
 tekstu S w poszukiwaniu wzorca prowadzi do gorszej wydajności. W takich 
 przypadkach, gdzie mamy do czynienia z tego typu charakterystyką tekstu 
 i wzorca, algorytm Boyera-Moore'a może stanowić optymalne rozwiązanie.
 
 Algorytm KMP wykorzystuje w najgorszym przypadku liniowy przebieg, natomiast
-algorytm Boyera-Moore'a w najlepszym przypadku posiada złożoność $O(n+k)$, a w 
-najgorszym przypadku $O(n*k)$, gdzie n jest długością podłańcucha.
+algorytm Boyera-Moore'a w najlepszym przypadku posiada złożoność $O({len(wzorzec)}+{len(łańcuch)})$, a w 
+najgorszym przypadku $O({len(wzorzec)}*{len(łańcuch)})$.
 
 \subsection{Algorytm Boyera-Moore'a}
 \label{sch:algoBoyerMoore}
 
 Zaletą algorytmu jest to, że ilość skoków pomiędzy porównaniami jest zwykle 
-większa od 1, a gdy istnieje sytuacja, w której litery w podłańcuchu nie
-potwarzają się, to możemy przeskoczyć o długość całego łańcucha.
+większa od 1, a gdy istnieje sytuacja, w której litery w łańcuchu szukanym nie
+powtarzają się, to możemy przeskoczyć o długość całego łańcucha szukanego.
 
 Algorytm Boyera-Moore'a wprowadza rewolucyjne podejście poprzez skanowanie 
 wzorca od prawej do lewej strony, w przeciwieństwie do MP i KMP, które 
-analizują tekst od lewej do prawej. Ta fundamentalna różnica pozwala BM na 
+analizują tekst od lewej do prawej. Ta fundamentalna różnica pozwala algorytmowi BM na 
 znacznie efektywniejsze przeskakiwanie fragmentów tekstu, które na pewno nie 
 zawierają wzorca. BM wykorzystuje dwie heurystyki: "złego znaku" oraz "dobrego
 sufiksu", podczas gdy KMP i MP opierają się na pojedynczej tablicy prefiksowej.
 
-W kontekście implementacji, BM wymaga utworzenia dwóch tablic pomocniczych dla
+W kontekście implementacji algorytm Boyera-Moore'a wymaga utworzenia dwóch tablic pomocniczych dla
 swoich heurystyk, co zwiększa złożoność pamięciową w porównaniu do pojedynczej 
 tablicy prefiksowej w KMP i MP. Jednak ta dodatkowa pamięć przekłada się na 
 możliwość wykonywania większych skoków w tekście. KMP i MP różnią się między 
-sobą głównie w sposobie konstrukcji tablicy prefiksowej - KMP wykorzystuje 
+sobą głównie w sposobie konstrukcji tablicy prefiksowej. KMP wykorzystuje 
 bardziej zaawansowaną technikę, która pozwala na uniknięcie niektórych 
 niepotrzebnych porównań występujących w MP.
 
@@ -451,12 +426,12 @@ Praktyczny wybór między tymi algorytmami zależy od charakterystyki danych
 wejściowych. BM sprawdza się najlepiej w przypadku długich wzorców i tekstów
 napisanych w językach naturalnych, gdzie występuje duża różnorodność znaków.
 KMP i MP są bardziej przewidywalne w działaniu i mogą być lepszym wyborem dla 
-krótkich wzorców lub tekstów o ograniczonym alfabecie, jak na przykład sekwencje
+krótkich wzorców lub tekstów o ograniczonym alfabecie jak na przykład sekwencje
 DNA.
 
 Z tego też powodu należy wykonać heurystykę danych, które są analizowane.
 Można to zrobić na kilka sposobów, jednak z powodu iż nie jest to główny temat
-pracy zostaną użyte narzędzia potrzebne do takiej analizy.
+pracy, zostaną użyte narzędzia potrzebne do takiej analizy.
 
 
 \subsection{TODO? Algorytm Karpa-Rabina}

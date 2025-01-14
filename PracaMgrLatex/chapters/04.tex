@@ -105,7 +105,7 @@ danych dostarczonego w celu wyszukania treści.
 
 Hipotezą badań jest to, że kolejne algorytmy będą wykonywały się szybciej niż ich
 poprzednicy. Hipotezą pomocniczą jest to, iż im większy zbiór informacji zebrany
-na podstawie podłańcucha tym większa prędkość algorytmu. Dodatkową hipotezą jest
+na podstawie łańcucha szukanego tym większa prędkość algorytmu. Dodatkową hipotezą jest
 to, iż wykorzystanie \english{Garbage Collectora} wpływa na stabilność 
 otrzymywanych wyników.
 
@@ -140,12 +140,12 @@ ze względu na wcześniej przeanalizowaną zawartość. Tymi słowami były
 \textit{"window"}, \textit{"function"}, \textit{"main"}.
 
 \subsection{Przebieg funkcji benchmarku}
-\textit{"founds"} jest zmienną przechowującą miejsce, w których znaleziono 
-ciąg wyszukiwany, a mp to struktura przechowująca implementacje algorytmu oraz
-bufor pre-procesora dla ciągu wyszukiwanego. Pierwsza implementacja nie 
-posiadała tej struktury i bufor pre-procesora był obliczany przy każdym 
-przebiegu algorytmu. To znacznie wpłyneło na prędkość działania algorytmu 
-Boyera Moora.
+\textit{"founds"} jest zmienną przechowującą miejsce znalezionego 
+ciągu wyszukiwanego, a mp to struktura przechowująca implementacje algorytmu oraz
+bufor wcześniejszego procesowania dla ciągu wyszukiwanego. Pierwsza implementacja nie 
+posiadała tej struktury i bufor wcześniejszego procesowania był obliczany przy każdym 
+przebiegu algorytmu. To znacznie wpłynęło na prędkość działania algorytmu 
+Boyera-Moora.
 
 \begin{Definition}\label{def:WalkFuncGolang}
 WalkFunc jest to typ funkcji przyjmowany przez funkcje Walk w module filePath.
@@ -160,8 +160,8 @@ zbioru danych oraz przyjmuje funkcje zdefiniowaną jako WalkFunc
 \ref{def:WalkFuncGolang}. Z powodu potrzeby czytania tylko zawartości plików,
 wykorzystaliśmy funkcje WalkAndFindByAlgo, która będzie czytała pliki, ale 
 pozwoli algorytmom podanym w argumencie na przeszukanie zawartości w celu 
-znalezienia słowa \textit{"window"}. Po zakończeniu funkcji Walk, posiadamy
-tablice founds, wypełnioną miejscami, w których wystąpiło znalezienie podanego
+znalezienia słowa \textit{"window"}. Po zakończeniu funkcji Walk otrzymano 
+tablice znalezionych \textbf{founds}, wypełnioną miejscami, w których wystąpiło znalezienie podanego
 ciągu. W liniach 8-10 każdy test posiada walidacje, aby wszystkie wyniki 
 otrzymane przez algorytm, były zgodne.
 
@@ -314,8 +314,9 @@ zdecydowano się na nie rozpakowywanie zawartości podczas wyszukiwania.
 \end{figure}
 
 Pierwszy test wydajnościowy, który został przeprowadzony, sprawdzał wszystkie 
-foldery, w których znajdowały się pliki, które nie miałyby sensu by być odczytane
-przez algorytm. Wykonano testy na 3 algorytmach, gdzie odczytywano 5191 plików 
+foldery, w których znajdowały się pliki. Za drugim razem ograniczono się tylko
+do plików, które mogą posiadać oczekiwaną zawartość, odrzucając zatem część 
+plików ze zbioru. Wykonano testy na 3 algorytmach, gdzie odczytywano 5191 plików 
 i łącznie 240 MB danych. Oto rezultaty określonych algorytmów.
 
 Algorytm Morisa-Pratta jest nieznacznie wolniejszy od algorytmu 
@@ -332,47 +333,46 @@ stabilny.
 %różnicy pomiędzy wynikami.
 
 Algorytm Boyera-Moore'a wykorzystywany w takich narzędziach jak grep, posiada
-wolniejszy czas egzekucji co wynika z rys. \ref{fig:GraphFirstAttempt}, ale 
+wolniejszy czas egzekucji, co wynika z rys. \ref{fig:GraphFirstAttempt}, ale 
 algorytm może zostać napisany w lepszy sposób. Z powodu implementacji, nie 
-wykorzystywaliśmy ponownie bufora pre-procesora, co wpływało na znaczne
+wykorzystywaliśmy ponownie bufora wcześniejszego procesowania, co wpływało na znaczne
 spowolnienie algorytmu.
 
 Implementacja, której wyniki widzimy na grafie \ref{fig:GraphFirstAttempt} jest
 znacznie wolniejsza od pozostałych algorytmów. Powodem jest spędzanie znacznej
-cześć czasu na stworzeniu tablicy pre-procesora. Wiadomym jest, że zawsze 
-sprawdzamy ten sam ciąg w wszystkich plikach w folderze. Istnieje możliwość 
-stworzenia tablicy pre-procasora przy pierwszym użyciu algorytmu, a następnie
-wykorzystanie tej tablicy w wszystkich odczytach.
+cześć czasu na stworzeniu tablicy wcześniejszego procesowania. Wiadome jest, że zawsze 
+sprawdzamy ten sam ciąg we wszystkich plikach w folderze. Istnieje możliwość 
+stworzenia tablicy wcześniejszego procesowania przy pierwszym użyciu algorytmu, a następnie
+wykorzystanie tej tablicy we wszystkich odczytach.
 
 Na następnym wykresie \ref{fig:GraphPreAllocBM} można zauważyć poprawę, gdy
-implementacja algorytmu Boyer Moora wykorzystuje ten sam bufor pre-procesora, a
+implementacja algorytmu Boyer-Moora wykorzystuje ten sam bufor wcześniejszego procesowania, a
 pozostałe algorytmy tworzą go od nowa, kiedy otwierany jest kolejny plik. Celem 
 takiej implementacji było uzyskanie informacji o wpływie ponownego wykorzystania
-bufora pre-procesora na czas wykonania. 
+bufora wcześniejszego procesowania na czas wykonania. 
 
 Aby sprawdzić faktyczne wyniki, należało zaimplementować ponowne wykorzystanie
-bufora pre-procesora dla wszystkich algorytmów. Wyniki z drugiego wykresu 
-potwierdziły wartość ponownego użycia bufora pre-procesora w prędkości wykonania
+bufora wcześniejszego procesowania dla wszystkich algorytmów. Wyniki z drugiego wykresu 
+potwierdziły wartość ponownego użycia bufora wcześniejszego procesowania w prędkości wykonania
 algorytmu.
 
-Kolejny wykres \ref{fig:GraphStaticPreallocAndFileBuffer} przedstawia 
-implementacje, w której wszystkie algorytmy tworzą i wykorzystują ponownie ten
-sam bufor pre-procesora i również wykorzystują bufor, który będzie przechowywał
-zawartość plików. Taki bufor wcześniej był alokowany automatycznie przez Golang,
-co powodowało, że mogliśmy w niektórych przypadkach, prosić system operacyjny o
-dodatkową pamięć podczas wykonywania algorytmu. Gdy na początku programu 
-utworzymy taki bufor sami, algorytm Boyera Moora odnotował 5 \% poprawę 
-\ref{fig:GraphStaticPreallocAndFileBuffer} w stosunku do poprzedniej 
-implementacji.
+Ostatni wykres \ref{fig:GraphStaticPreallocAndFileBuffer} przedstawia implementację wykorzystującą ponownie bufor wcześniejszego
+procesowania, jak i bufor przechowujący plik.
+Bufor wcześniejszego procesowania był przydzielany przy każdym otwarciu nowego pliku,
+co powodowało, że ten bufor mógł być zbierane przez \english{Garbage Collector}.
+W przypadku użycia stałego bufora zapewniamy, że program nie będzie się pozbywał
+bufora. Gdy na początku programu utworzymy bufor sami (nie polegając na optymalizacji języka),
+algorytm Boyera-Moore'a odnotował 5 \% poprawę \ref{fig:GraphStaticPreallocAndFileBuffer}
+w stosunku do poprzedniej implementacji.
 
 Niestety statyczny bufor przechowujący plik, należy alokować, znając rozmiar 
-największego pliku w folderze, który wynosił 11 MB. Było tak gdyż odrzucaliśmy
+największego pliku w folderze, który wynosił 11 MB. Było tak, gdyż odrzucaliśmy
 obrazy. Moglibyśmy przed rozpoczęciem algorytmu sprawdzać rozmiar maksymalny 
 pliku, ale to wydłuży czas działania. 
 
-Istnieje też sytuacja w której nie chcielibyśmy tego ograniczać, ponieważ nie
+Istnieje też sytuacja, w której nie chcielibyśmy tego ograniczać, ponieważ nie
 znamy największego pliku, a podanie zbyt małej ilość na bufor pliku spowoduje,
 że nie otrzymamy poprawnych wyników, gdyż nie zmieści się on w całości do 
 pamięci.
 
-\textbf{TODO porównanie wykorzystania pamięci (nie daje dużo info)}
+%\textbf{TODO porównanie wykorzystania pamięci (nie daje dużo info)}

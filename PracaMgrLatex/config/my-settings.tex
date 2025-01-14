@@ -34,13 +34,13 @@ escapeinside={@*}{*@},%
 
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
 % pakiet minted
-%\usepackage{minted}
+% \usepackage{minted}
 
 % pakiet wymaga specjalnego kompilowania:
 % pdflatex -shell-escape main.tex
 % xelatex  -shell-escape main.tex
 
-%\usepackage[chapter]{minted} % [section]
+\usepackage[chapter]{minted} % [section]
 %%\usemintedstyle{bw}   % czarno-białe kody 
 %
 %\setminted % https://ctan.org/pkg/minted
@@ -58,7 +58,9 @@ escapeinside={@*}{*@},%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+\usepackage{microtype}
+\usepackage{tcolorbox}
+\let\cleardoublepage\clearpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                             %
