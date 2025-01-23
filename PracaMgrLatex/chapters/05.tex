@@ -15,3 +15,28 @@
 \item Czy cel pracy zrealizowany? 
 \end{itemize}
 
+\section{Możliwości rozwoju}
+
+Program można usprawnić w celu wyszukiwania większej ilości zawartości przy
+pomocy dodatkowej implementacji dla transkrypcji. Pozwoliłaby ona na wyszukanie
+treści w plikach audio, a istnieje wiele narzędzi, które są darmowe i już
+na to pozwalają.
+
+Kolejnym elementem, który można rozważyć w celu kontynuacji pracy, byłoby 
+wykorzystanie OCR (ang. \english{Optical Character Recognition}). Zaimplementowanie
+takiego rozwiązania pozwoli pozyskać treść ze zdjęć oraz pdfów, które składają 
+się ze zdjęć i tekstowych skanów treści.
+
+W celu uzyskania lepszych rezultatów można, zamiast wykorzystywać gotową 
+bibliotekę — stworzyć bibliotekę dekompresującą, wszystkich brakujących i nie
+poprawnie działających formatów archiwów. Jest to jednak dość wymagające zadanie
+oraz możliwość testowania tego rozwiązania jest ograniczona. Jak bardzo 
+plik może być uszkodzony, żeby można było odczytać z niego dane, które nie są
+niepoprawne.
+
+Kolejnym usprawnieniem dla programu byłoby wprowadzenie pamięci podręcznej (ang. \english{caching}).
+Takie rozwiązanie pozwoliłoby na zapamiętanie plików, które już kiedyś dekompresowano.
+Pliki skompresowane zwykle nie mogą być zapisane, wiec po pierwszej dekompresji
+można zachować tylko znalezione wystąpienia. Należy jednak przechować 
+informacje o tym, czy suma kontrolna (ang. \english{hash}) archiwum się nie 
+zmieniła.

@@ -11,6 +11,8 @@
 
 \section{Rozwiązanie zaproponowane przez dyplomanta}
 
+\subsection{Rozwiązanie problemu wyszukiwania tekstu w pliku tekstowym}
+
 Przed wyborem metody sprawdzającej należy wykonać heurystykę danych. Jest to 
 wymagane, ponieważ wydajność algorytmu jest ściśle powiązana z danymi, które
 będziemy przeszukiwać. Jeżeli większość analizowanych danych mają charakter
@@ -124,6 +126,21 @@ dostosowanie ich do problemu, który rozwiązujemy. Takie rozwiązanie może oka
 się lepsze, jeżeli zależy nam na uzyskaniu rezultatów szybciej natomiast istnieje 
 prawdopodobieństwo wykorzystania narzędzi, które rozwiązują problem gorzej,
 niż rozwiązanie stworzone wprost do tego typu problemu.
+
+\subsection{Rozwiązanie problemu zarchiwizowanych plików w zbiorze danych}
+
+Zbiór danych składa się danych zawierających archiwa oraz pliki skompresowane,
+które zawierają drzewo innych plików skompresowanych i archiwów.
+Aby odczytać wystąpienia, należy je rozpakować, jednak to powoduje ciągłe 
+wydłużanie się ścieżki, a w Windows jest ona ograniczona do 256 znaków. Na 
+systemie Linux ten limit nie powinien być problemem, gdyż system pozwala na 
+ścieżki długości 4096 znaków, jednak ta różnica może wpływać na jakość działania
+programu na różnych systemach.
+
+Pliki zawierające archiwum zostaną rozpakowane do osobnego folderu, a następnie
+wykonane zostanie rekurencyjne wyszukanie zawartość w każdym folderze i pliku.
+Ta metoda zostanie powtórzona tak długo, aż wszystkie pliki zostaną odczytane 
+i nie będzie już więcej archiwów do rozpakowania.
 
 \section{Uzasadnienie wyboru zastosowanych metod, algorytmów, narzędzi}
 

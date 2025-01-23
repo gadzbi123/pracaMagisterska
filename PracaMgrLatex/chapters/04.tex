@@ -308,14 +308,16 @@ by odczytać zawartość archiwów docx w ten sam sposób jak w przypadku innych
 archiwów.
 
 Archiwa, które są analizowane też trudno odczytać, gdyż stosowane są różne 
-rozszerzenia np. zip, rar, 7z, tar.gz. To powoduje, że należy wykorzystać wiele
-metod konwersji tych plików do faktycznej struktury możliwej do odczytania.
+rozszerzenia np. zip, rar, 7z, tar. To powoduje, że należy wykorzystać wiele
+metod konwersji tych plików do faktycznej struktury możliwej do odczytania. 
+Biblioteka, którą wykorzystano nie obsługuje plików skompresowanych przez gzip.
+To powoduje, że pliki z rozszerzeniem .gz nie będą otwierane.
 
 Pobrane archiwa posiadały brakujące dane i to powodowało, że biblioteka konwertująca
 archiwa miała problem z ich otwarciem. Z tego powodu część danych musiała być 
 pominięta, aby program nie został przerwany przez SEGV. Wykorzystana biblioteka
-musiała zostać niepoprawnie zaimplementowana, gdyż istnieją programy potrafiące
-otworzyć te archiwa, choć nie wszystkie. 
+musiała zostać niepoprawnie zaimplementowana, gdyż istnieją programy umiejące 
+otworzyć te archiwa, choć nie wszystkie z tych narzędzi działały poprawnie. 
 
 \begin{figure}
 \centering
