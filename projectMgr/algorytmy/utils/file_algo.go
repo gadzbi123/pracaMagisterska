@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"io"
@@ -14,10 +15,10 @@ import (
 const (
 	PERF_DIR = "/run/media/gadzbi/GryIFilmy/baza_mgr_large"
 
-	max_buffer_size = 11 * MB
+	// max_buffer_size = 11 * MB
 )
 
-var global_buffer []byte = make([]byte, max_buffer_size)
+// var global_buffer []byte = make([]byte, max_buffer_size)
 
 type AlgoFunc func([]byte, []byte) []int
 type AlgoStruct interface {
@@ -33,6 +34,15 @@ func IsForbiddenOrArchiveFileExtension(path string) bool {
 		return false
 	}
 }
+func IsUnsupportedFileExtension(path string) bool {
+	unsupportedExt := []string{".ps.gz"}
+	for _, ext := range unsupportedExt {
+		if strings.HasSuffix(path, ext) {
+			return true
+		}
+	}
+	return false
+}
 func IsForbiddenFileExtension(path string) bool {
 	ext := filepath.Ext(path)
 	switch ext {
@@ -42,66 +52,20 @@ func IsForbiddenFileExtension(path string) bool {
 		return false
 	}
 }
+func IsGzipExtension(path string) bool {
+	ext := filepath.Ext(path)
+	switch ext {
+	case ".tgz", ".gz", ".tar.gz":
+		return true
+	default:
+		return false
+	}
 
+}
 func isEmptyFile(n int, err error) bool {
 	return n == 0 && errors.Is(err, io.EOF)
 }
 
-func WalkAndFindCmd(algo AlgoStruct, founds *[]string, word []byte, prealloc_buffer *[]byte) filepath.WalkFunc {
-	f := func(path string, info fs.FileInfo, err error) error {
-		if err != nil {
-			slog.Debug("fail on the path", "path", path, "err", err)
-			return err
-		}
-		if info.IsDir() {
-			return nil
-		}
-		if IsForbiddenOrArchiveFileExtension(path) {
-			return nil
-		}
-		if prealloc_buffer != nil {
-			pb := *prealloc_buffer
-			fd, err := os.Open(path)
-			if err != nil {
-				slog.Debug("fail to open file", "path", path, "err", err)
-				return err
-			}
-			defer fd.Close()
-			n, err := fd.Read(pb)
-			if err != nil {
-				if isEmptyFile(n, err) {
-					return nil
-				}
-				slog.Debug("fail to read file", "path", path, "err", err)
-				return err
-			}
-			buff := pb[:n]
-			if res := algo.Find(buff, word); len(res) != 0 {
-				for _, r := range res {
-					*founds = append(*founds, fmt.Sprintf("%v:%v", path, r))
-				}
-			}
-			if n, err := fd.Read(pb); !isEmptyFile(n, err) {
-				slog.Debug("file was not read fully", "path", path, "err", err, "remaining", n)
-				return err
-			}
-			return nil
-		} else {
-			buff, err := os.ReadFile(path)
-			if err != nil {
-				slog.Debug("failed to read file", "error", err)
-				return err
-			}
-			if res := algo.Find(buff, word); len(res) != 0 {
-				for _, r := range res {
-					*founds = append(*founds, fmt.Sprintf("%v:%v", path, r))
-				}
-			}
-			return nil
-		}
-	}
-	return f
-}
 func WalkAndFindByAlgo(algo AlgoStruct, founds *[]string, word []byte) filepath.WalkFunc {
 	f := func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
@@ -120,24 +84,17 @@ func WalkAndFindByAlgo(algo AlgoStruct, founds *[]string, word []byte) filepath.
 			return err
 		}
 		defer fd.Close()
-		n, err := fd.Read(global_buffer)
-		if err != nil {
-			if isEmptyFile(n, err) {
-				return nil
-			}
-			slog.Debug("fail to read file", "path", path, "err", err)
-			return err
-		}
-		buff := global_buffer[:n]
-		if res := algo.Find(buff, word); len(res) != 0 {
-			for _, r := range res {
-				*founds = append(*founds, fmt.Sprintf("%v:%v", path, r))
+		scanner := bufio.NewScanner(fd)
+		// we don't care about new lines here :)
+		for scanner.Scan() {
+			if res := algo.Find(scanner.Bytes(), word); len(res) != 0 {
+				//think about printing later
+				for range res {
+					*founds = append(*founds, fmt.Sprintf("%v:%v", path))
+				}
 			}
 		}
-		if n, err := fd.Read(global_buffer); !isEmptyFile(n, err) {
-			slog.Debug("file was not read fully", "path", path, "err", err, "remaining", n)
-			return err
-		}
+
 		return nil
 	}
 	return f

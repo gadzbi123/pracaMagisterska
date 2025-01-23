@@ -34,15 +34,15 @@ func FillTrie(subchains []string) (root *Trie) {
 }
 
 func main() {
-	var łańcuch []byte = []byte("abedget")
-	var podłańcuchy [][]byte = [][]byte{
-		[]byte("ab"),
-		[]byte("about"),
-		[]byte("at"),
-		[]byte("ate"),
-		[]byte("be"),
-		[]byte("bed"),
-		[]byte("edge"),
-		[]byte("get"),
-	}
+	// var łańcuch []byte = []byte("abedget")
+	// var podłańcuchy [][]byte = [][]byte{
+	// 	[]byte("ab"),
+	// 	[]byte("about"),
+	// 	[]byte("at"),
+	// 	[]byte("ate"),
+	// 	[]byte("be"),
+	// 	[]byte("bed"),
+	// 	[]byte("edge"),
+	// 	[]byte("get"),
+	// }
 }

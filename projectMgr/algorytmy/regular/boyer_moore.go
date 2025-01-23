@@ -7,43 +7,6 @@ import (
 	"github.com/gadzbi123/pracaMagisterska/algorytmy/utils"
 )
 
-/*
-	func (bm *BoyerMoore) Find(s []byte, substr []byte) (res []int) {
-		slen := len(s)
-		substrlen := len(substr)
-		if bm.preproc == nil {
-			table := make(map[byte]int)
-
-			for i := 0; i < substrlen-1; i++ {
-				j := substr[i]
-				table[j] = substrlen - i - 1
-			}
-			bm.preproc = table
-
-		}
-		for i := 0; i < slen; {
-			for j := substrlen - 1; j >= 0; j-- {
-				// fmt.Println("start", s[i+j], substr[j], i+j, j)
-				if s[i+j] != substr[j] {
-					fmt.Println("continue", s[i+j], substr[j], i+j, j)
-					if j == substrlen-1 {
-						res = append(res, i)
-						fmt.Println("found", i)
-						i += substrlen
-					}
-				} else if j == 0 {
-					i++
-					goto SKIP_SUBSTR
-				} else {
-					i += substrlen
-				}
-			}
-		SKIP_SUBSTR:
-		}
-		return
-	}
-*/
-
 type BoyerMoore struct {
 	preproc []int
 }

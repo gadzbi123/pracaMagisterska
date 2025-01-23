@@ -282,11 +282,40 @@ Total & 3253691.41 & 13831 \\
 %inode/x-empty                                       0.00 KB       20
 %Total                                         15149469.59 KB     7353
 
-Zbiór danych posiadał znaczną ilość obrazów, archiwów oraz plików pdf, które nie
-będziemy skanować (tab. \ref{tabela:typy-MIME-z-iloscia}). Dane przedstawione 
-zostały zredukowane z 15 GB do 3 GB, ponieważ posiadały również pliki audio oraz
-wideo. Część archiwów została wypakowana przed wykonaniem wyszukiwania, gdyż 
-zdecydowano się na nie rozpakowywanie zawartości podczas wyszukiwania.
+Zbiór danych (tab. \ref{tabela:typy-MIME-z-iloscia}) posiadał znaczną ilość plików pdf, które w niektórych przypadkach
+można było odczytać. Gdy pdf został stworzony z dokumentu tekstowego takiego
+jak docx czy odt, to zawartość tekstowa została zawarta w dokumencie pdf. Jeżeli
+natomiast pdf został stworzony ze skanu książki, nie zapisała się treść tekstowa.
+Wtedy cała treść jest przechowana w postaci zdjęcia, które nie można odczytać użytym
+rozwiązaniem.
+
+Możliwość odczytania zawartości daje narzędzie OCR (ang. \english{Optical Character Recognition}).
+Narzędzie może służyć do oczytania zawartości plików pdf oraz tekstu z obrazów.
+Takie rozwiązanie nie zostanie użyte w pracy, gdyż nie skupiamy się tu na 
+algorytmach sztucznej inteligencji.
+
+Pliki audio to piosenki oraz podcasty, których nie można łatwo odczytać algorytmem.
+Do oczytania treści z takich plików można wykorzystać narzędzia dokonujące 
+trankrypcji, czyli konwersujące rozpoznaną mowę na tekst, jednak te rozwiązania bazują 
+na sztucznej inteligencji.
+
+Kolejnym problemem okazało się odczytanie plików formatu doc, które są starym 
+formatem dokumentów wykorzystywanych przez Microsoft i ich zakodowana treść nie
+jest łatwa do odczytu. W odróżnieniu od formatu docx, który jest archiwum, 
+narzędzie nie podejmie się odczytania plików doc. Z uwagi na to, że archiwum danych
+jest dość stare, nie wystąpiły tam dokumenty formatu docx. Gdyby wystąpił można
+by odczytać zawartość archiwów docx w ten sam sposób jak w przypadku innych 
+archiwów.
+
+Archiwa, które są analizowane też trudno odczytać, gdyż stosowane są różne 
+rozszerzenia np. zip, rar, 7z, tar.gz. To powoduje, że należy wykorzystać wiele
+metod konwersji tych plików do faktycznej struktury możliwej do odczytania.
+
+Pobrane archiwa posiadały brakujące dane i to powodowało, że biblioteka konwertująca
+archiwa miała problem z ich otwarciem. Z tego powodu część danych musiała być 
+pominięta, aby program nie został przerwany przez SEGV. Wykorzystana biblioteka
+musiała zostać niepoprawnie zaimplementowana, gdyż istnieją programy potrafiące
+otworzyć te archiwa, choć nie wszystkie. 
 
 \begin{figure}
 \centering
