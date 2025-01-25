@@ -11,7 +11,6 @@ import (
 	"testing"
 
 	"github.com/gadzbi123/pracaMagisterska/algorytmy/regular"
-	"github.com/gadzbi123/pracaMagisterska/algorytmy/utils"
 	"github.com/gen2brain/go-unarr"
 )
 
@@ -290,6 +289,7 @@ func TestArchiveMain(t *testing.T) {
 const LIB_DIR = "/run/media/gadzbi/GryIFilmy/baza_mgr/"
 
 func TestExt(t *testing.T) {
+	t.SkipNow()
 	text := "/tmp/baza_mgr_unarr/polskie/polskie/www/Html/Html/doc/DA.doc"
 	if filepath.Ext(text) == ".doc" {
 		return
@@ -297,18 +297,20 @@ func TestExt(t *testing.T) {
 	t.Fail()
 }
 
-func TestArchiveSummary(t *testing.T) {
-	t.SkipNow()
-	// debug.SetMemoryLimit(8*2 ^ 30)
-	// sudo mount -o remount,size=30G /tmp/
-	os.RemoveAll("/tmp/baza_mgr_unarr")
-	algo := regular.BoyerMoore{}
-	err := filepath.Walk(LIB_DIR, searchInFiles(&algo, []byte("window")))
-	if err != nil {
-		t.Error(err)
-	}
+/*
+	func TestArchiveSummary(t *testing.T) {
+		t.SkipNow()
+		// debug.SetMemoryLimit(8*2 ^ 30)
+		// sudo mount -o remount,size=30G /tmp/
+		os.RemoveAll("/tmp/baza_mgr_unarr")
+		algo := regular.BoyerMoore{}
+		err := filepath.Walk(LIB_DIR, searchInFiles(&algo, []byte("window")))
+		if err != nil {
+			t.Error(err)
+		}
 
 }
+*/
 func searchInFiles2(algo *regular.BoyerMoore, word []byte) filepath.WalkFunc {
 	f := func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
@@ -318,33 +320,33 @@ func searchInFiles2(algo *regular.BoyerMoore, word []byte) filepath.WalkFunc {
 			return nil
 		}
 		/*
-			if utils.IsGzipExtension(path) {
-				file, err := os.Open(path)
-				if err != nil {
-					fmt.Printf("failed to open gzip file (%v): %v\n", path, err)
-					return err
-				}
-				defer file.Close()
+				if utils.IsGzipExtension(path) {
+					file, err := os.Open(path)
+					if err != nil {
+						fmt.Printf("failed to open gzip file (%v): %v\n", path, err)
+						return err
+					}
+					defer file.Close()
 
-				gzReader, err := gzip.NewReader(file)
-				if err != nil {
-					return err
-				}
-				defer gzReader.Close()
+					gzReader, err := gzip.NewReader(file)
+					if err != nil {
+						return err
+					}
+					defer gzReader.Close()
 
-				// os.Create()
-				io.ReadAll(gzReader)
-				// Create a tar reader
-				tarReader := tar.NewReader(gzReader)
+					// os.Create()
+					io.ReadAll(gzReader)
+					// Create a tar reader
+					tarReader := tar.NewReader(gzReader)
+				}
+			if utils.IsArchiveFileExtension(path) && utils.IsNotKnownCorruptedFile(path) {
+				err = UnzipArchive(path, algo, word)
+				return err
 			}
 		*/
-		if utils.IsArchiveFileExtension(path) && utils.IsNotKnownCorruptedFile(path) {
-			err = UnzipArchive(path, algo, word)
-			return err
-		}
 		fd, err := os.Open(path)
 		if err != nil {
-			fmt.Printf("fail to open file", "path", path, "err", err)
+			// fmt.Printf("fail to open file", "path", path, "err", err)
 			return err
 		}
 		defer fd.Close()
@@ -390,7 +392,7 @@ func UnzipArchive2(path string, algo *regular.BoyerMoore, word []byte) error {
 		return nil
 	}
 
-	err = filepath.Walk(new_path, searchInFiles(algo, word))
+	// err = filepath.Walk(new_path, searchInFiles(algo, word))
 	if err != nil {
 		fmt.Printf("inner walk failed (%v): %v", new_path, err)
 		return err

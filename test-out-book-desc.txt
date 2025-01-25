@@ -1,0 +1,3 @@
+/tmp/baza_mgr_unarr/Informatyka.unzipped/Informatyka/bazy/Oracle_Unleashed/oun13fi.htm:l943
+/tmp/baza_mgr_unarr/ksiazki.unzipped/ksiazki/jezyki/DesignPatternsInJava/hires/chap1.htm:l95
+/tmp/baza_mgr_unarr/ksiazki.unzipped/ksiazki/jezyki/DesignPatternsInJava/lowres/chap1.htm:l95

@@ -21,6 +21,7 @@ import (
 var ErrNotEnoughArgs = errors.New("expected at least 2 arguments")
 var ErrDirWalkFailed = errors.New("walk dir failed")
 var TMP_DIR = "/tmp/baza_mgr_unarr"
+var START_ROOT = ""
 
 // const Usage = `example from gpt`
 
@@ -53,14 +54,9 @@ func run() error {
 		return ErrNotEnoughArgs
 	default:
 		substring := os.Args[1]
-		dir := os.Args[2]
-		var searchData = &SearchData{
-			root_path: dir,
-			curr_path: dir,
-			algo:      &regular.BoyerMoore{},
-			word:      []byte(substring),
-		}
-		err := filepath.Walk(dir, searchInFiles(searchData))
+		START_ROOT = os.Args[2]
+		bm := &regular.BoyerMoore{}
+		err := filepath.Walk(START_ROOT, searchInFiles(START_ROOT, bm, []byte(substring)))
 		if err != nil {
 			fmt.Printf("%v: %v\n", ErrDirWalkFailed.Error(), err)
 			return ErrDirWalkFailed
@@ -69,7 +65,7 @@ func run() error {
 	return nil
 }
 
-func searchInFiles(sd *SearchData) filepath.WalkFunc {
+func searchInFiles(path string, algo *regular.BoyerMoore, word []byte) filepath.WalkFunc {
 	f := func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
@@ -95,14 +91,17 @@ func searchInFiles(sd *SearchData) filepath.WalkFunc {
 				tarReader := tar.NewReader(gzReader)
 			}
 		*/
-		if IsArchiveFileExtension(path) && IsNotKnownCorruptedFile(path) {
-			new_sd := *sd
-			err = UnzipArchive(&new_sd)
+		if IsArchiveFileExtension(path) {
+			if IsKnownCorruptedFile(path) {
+				// fmt.Printf("skipping corrupted file: %v\n", path)
+				return nil
+			}
+			err = UnzipArchive(path, algo, word)
 			return err
 		}
 		fd, err := os.Open(path)
 		if err != nil {
-			fmt.Printf("fail to open file (%v): %v\n", path, err)
+			// fmt.Printf("fail to open file (%v): %v\n", path, err)
 			return err
 		}
 		defer fd.Close()
@@ -110,43 +109,44 @@ func searchInFiles(sd *SearchData) filepath.WalkFunc {
 		// we don't care about new lines here :)
 		line := 1
 		for scanner.Scan() {
-			if res := sd.algo.Find(scanner.Bytes(), sd.word); len(res) != 0 {
-				for _, char := range res {
-					fmt.Printf("%v:l%v:c%v\n", path, line, char)
-				}
+			if res := algo.Find(scanner.Bytes(), word); len(res) != 0 {
+				fmt.Printf("%v:l%v\n", path, line)
+				// for _, char := range res {
+				// 	fmt.Printf("%v:l%v:c%v\n", path, line, char)
+				// }
 			}
 			line++
 		}
 		if err := scanner.Err(); err != nil {
-			fmt.Printf("failed to scan (%v): %v\n", path, err)
+			// fmt.Printf("failed to scan (%v): %v\n", path, err)
 		}
 		return nil
 	}
 	return f
 }
-func UnzipArchive(sd *SearchData) error {
+func UnzipArchive(path string, algo *regular.BoyerMoore, word []byte) error {
 	// fmt.Printf("reading new archive: %v\n", sd.curr_path)
-	a, err := unarr.NewArchive(sd.curr_path)
+	a, err := unarr.NewArchive(path)
 	if err != nil {
-		fmt.Printf("failed to read inner archive (%v): %v\n", sd.curr_path, err)
+		// fmt.Printf("failed to read inner archive (%v): %v\n", path, err)
 		return nil
 	}
 	defer a.Close()
-	new_path, _ := strings.CutPrefix(sd.curr_path, sd.root_path)
-	new_path, _ = strings.CutSuffix(new_path, filepath.Ext(sd.curr_path))
+	new_path, _ := strings.CutPrefix(path, START_ROOT)
+	new_path, _ = strings.CutSuffix(new_path, filepath.Ext(path))
 	if !strings.HasPrefix(new_path, TMP_DIR) {
 		new_path = filepath.Join(TMP_DIR, new_path)
 	}
-	sd.curr_path = new_path + ".unzipped"
+	new_path = new_path + ".unzipped"
 
 	// fmt.Printf("extracting archive to: %v\n", sd.curr_path)
 	_, err = a.Extract(new_path)
 	if err != nil {
-		fmt.Printf("failed to extract inner archive (%v): %v\n", sd.curr_path, err)
+		// fmt.Printf("failed to extract inner archive (%v): %v\n", new_path, err)
 		return nil
 	}
 
-	err = filepath.Walk(new_path, searchInFiles(sd))
+	err = filepath.Walk(new_path, searchInFiles(new_path, algo, word))
 	if err != nil {
 		fmt.Printf("inner walk failed (%v): %v", new_path, err)
 		return err
@@ -164,7 +164,7 @@ func IsArchiveFileExtension(path string) bool {
 	}
 }
 
-func IsNotKnownCorruptedFile(path string) bool {
+func IsKnownCorruptedFile(path string) bool {
 	knownCorruptedFiles := []string{
 		"DataMining.zip",
 		"angielski.zip",
@@ -185,8 +185,8 @@ func IsNotKnownCorruptedFile(path string) bool {
 	}
 	for _, f := range knownCorruptedFiles {
 		if strings.Contains(path, f) {
-			return false
+			return true
 		}
 	}
-	return true
+	return false
 }

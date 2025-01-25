@@ -101,6 +101,14 @@
 Celem badani jest sprawdzenie wydajności algorytmów wyszukujących na zbiorze
 danych dostarczonego w celu wyszukania treści.
 
+\subsection{Zakres badania}
+
+Zakres badań obejmuje porównanie prędkości algorytmów w celu ustalenia, który
+z nich jest najszybszy pod względem czasu wykonania. Zostanie to ustalone na
+mniejszym zbiorze rozpakowanych archiwów. Następnie na pełnym zbiorze archiwów
+zostanie wykonane porównanie narzędzi pod względem liczby wyszukań oraz prędkości
+wyszukań.
+
 \subsection{Hipoteza badań}
 
 Hipotezą badań jest to, że kolejne algorytmy będą wykonywały się szybciej niż ich
@@ -109,7 +117,8 @@ na podstawie łańcucha szukanego tym większa prędkość algorytmu. Dodatkową
 to, iż wykorzystanie \english{Garbage Collectora} wpływa na stabilność 
 otrzymywanych wyników.
 
-\subsection{Sposób przeprowadzenia badań}
+% \section{Sposób przeprowadzenia badań}
+\section{Badanie benchmarku algorytmów}
 
 \begin{figure}[h]
   \centering
@@ -139,7 +148,7 @@ Wykonano testy na wyszukaniu 3 słów, które mogły występować w zbiorze dany
 ze względu na wcześniej przeanalizowaną zawartość. Tymi słowami były 
 \textit{"window"}, \textit{"function"}, \textit{"main"}.
 
-\subsection{Przebieg funkcji benchmarku}
+
 \textit{"founds"} jest zmienną przechowującą miejsce znalezionego 
 ciągu wyszukiwanego, a mp to struktura przechowująca implementacje algorytmu oraz
 bufor wcześniejszego procesowania dla ciągu wyszukiwanego. Pierwsza implementacja nie 
@@ -363,7 +372,7 @@ stabilny.
 %algorytmu KMP. Gdy usuniemy je pojawia się bardziej rzetelna informacja o 
 %różnicy pomiędzy wynikami.
 
-Algorytm Boyera-Moore'a wykorzystywany w takich narzędziach jak grep, posiada
+Algorytm Boyera-Moore'a wykorzystywany w takich narzędziach jak grep, ma 
 wolniejszy czas egzekucji, co wynika z rys. \ref{fig:GraphFirstAttempt}, ale 
 algorytm może zostać napisany w lepszy sposób. Z powodu implementacji, nie 
 wykorzystywaliśmy ponownie bufora wcześniejszego procesowania, co wpływało na znaczne
@@ -387,8 +396,8 @@ bufora wcześniejszego procesowania dla wszystkich algorytmów. Wyniki z drugieg
 potwierdziły wartość ponownego użycia bufora wcześniejszego procesowania w prędkości wykonania
 algorytmu.
 
-Ostatni wykres \ref{fig:GraphStaticPreallocAndFileBuffer} przedstawia implementację wykorzystującą ponownie bufor wcześniejszego
-procesowania, jak i bufor przechowujący plik.
+Ostatni wykres \ref{fig:GraphStaticPreallocAndFileBuffer} przedstawia implementację
+wykorzystującą ponownie bufor wcześniejszego procesowania, jak i bufor przechowujący plik.
 Bufor wcześniejszego procesowania był przydzielany przy każdym otwarciu nowego pliku,
 co powodowało, że ten bufor mógł być zbierane przez \english{Garbage Collector}.
 W przypadku użycia stałego bufora zapewniamy, że program nie będzie się pozbywał
@@ -407,3 +416,173 @@ znamy największego pliku, a podanie zbyt małej ilość na bufor pliku spowoduj
 pamięci.
 
 %\textbf{TODO porównanie wykorzystania pamięci (nie daje dużo info)}
+
+\section{Badanie programów}
+
+\subsection{Badanie ilość otrzymanych wyników z programów}
+
+Wybrano kilka narzędzi, które będą porównywane pod względem liczby wyszukiwań
+oraz ich prędkości. Narzędzia, które zachowują się podobnie do implementacji
+autora do ugrep (ug), zgrep oraz ripgrep (rg). 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{./images/ugrep-errors.png}
+\caption{Niepoprawne działanie programu ugrep dla archiwów pobranych z chmury}
+\label{fig:ugrepErrors}
+\end{figure}
+
+Wiele z tych narzędzi nie działało poprawnie, gdy próbowaliśmy odczytać zawartość
+archiwów. Przykładowo narzędzie ugrep (rys.\ref{fig:ugrepErrors}) nie rozpoznawało 
+metody kompresji plików zip, co spowodowało, że nie nie otrzymaliśmy ani 
+jednego rezultatu z programu. To powoduje, że narzędzie zostanie wykluczone z 
+dalszej analizy.
+
+Możliwym rozwiązaniem byłoby rozpakowanie wszystkich plików innym narzędziem, np.
+7z. Takie podejście jednak znacznie komplikuje testowanie takiego rozwiązania.
+Narzędzie powinno być w stanie samo rozpakować i wyszukać wszystkie frazy, które
+chcemy wyszukać. Dodatkowo narzędzie powinno znajdować frazy zaraz po 
+rozpakowaniu pliku, a nie po rozpakowaniu wszystkich archiwów zacząć przeszukiwać 
+ich zawartość.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{./images/zgrep-errors.png}
+\caption{Niepoprawne działanie programu zgrep z pomocą finda}
+\label{fig:zgrepErrors}
+\end{figure}
+
+Kolejne z wymienionych narzędzi również nie spełnia wymagań. Zgrep nie pozwala
+na rekurencyjne wyszukiwanie danych w folderach, w których znajdują się archiwa.
+Nawet zastosowanie pomocniczego narzędzia find w celu wykonania zadania,
+powoduje, że program nie jest w stanie przeskanować archiwów (rys. \ref{fig:zgrepErrors}).
+
+Otrzymany błąd sugeruje, że długość danych w archiwum nie jest zgodna. Dodatkowo
+mamy informacje o błędzie w wartości cyklicznej kontroli nadmiarowej CRC
+(ang. \english{Cyclic Redundancy Check}). Ta wartość to system sum kontrolnych
+pozwalający na wykrycie błędów zmagazynowanych danych.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{./images/przykład-otwarcia-archiwów.png}
+\caption{Przykład otwarcia archiwów przez program graficzny Engrampa}
+\label{fig:engrampaExample}
+\end{figure}
+
+Archiwa jednak są możliwe do otworzenia przez program graficzny Engrampa \cite{bib:internet:EngrampaArchives}.
+Choć wszystkie pliki zostały odczytane, oznacza to, że istnieje możliwość pozyskania
+części zawartości (rys. \ref{fig:engrampaExample}).
+
+Narzędzie graficzne nie będzie brane pod uwagę do badania, zostało jedynie podane
+jako przykład poprawności archiwów.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{./images/ripgrep-result-main.png}
+\caption{Przykładowy rezultat wykonania komendy ripgrep ze zmierzonym czasem}
+\label{fig:ripgrepResultMain}
+\end{figure}
+
+Narzędzie ripgrep pozwala na wyszukanie zawartości w archiwach i działa bardzo dobrze.
+Narzędzie było w stanie wyszukać ogromną liczbę fraz "main" we wszystkich plikach \ref{fig:ripgrepResultMain}.
+Narzędzie niestety nie posiada dokładnej lokalizacji, w której wystąpiło wyszukanie,
+tylko jest w stanie wskazać miejsce w pliku skompresowanym konkretny bajt.
+Taki rezultat nie mówi, w którym pliku znajdują się frazy, a jedynie może znaleźć 
+kontekst w pliku lub podać ilość wystąpień.
+
+Różnica ta jest znacząca w celu znalezienia frazy w konkretnym pliku. 
+Implementacja gsearch pozwala na wyszukanie linii pliku w którym fraza się znajduje. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{./images/rgSkippedmain.png}
+\caption{Liczba wystąpień "main" z pominięciem kilku archiwów}
+\label{fig:ripgrepRemoveSkipped}
+\end{figure}
+
+Gdy odrzucimy pominięte przez gsearch archiwa \ref{fig:ripgrepRemoveSkipped},
+widać liczba wystąpień w gsearch jest większy. Poniżej znajduje się zestawienie
+ilości znalezionych wystąpień dla wszystkich archiwów przeszukiwanych przez rg,
+pominiętych archiwów dla rg oraz pominiętych archiwów przeszukanych przez gsearch.
+
+Należy wspomnieć, iż jedno wystąpienie dla ripgrepa to pojawienie się frazy
+w danej linijce. W ten sam sposób liczone jest znalezienie wystąpienia w gsearch.
+Implementacja gsearch nie posiada wrażliwości na wielkość liter, dlatego nie 
+jest testowana
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|r|r|r|r|}
+        \hline
+        \textbf{Fraza (litery)} & \textbf{rg (wszystkie archiwa)} & \textbf{rg (pominięte)} &  \textbf{gsearch (pominięte)} \\
+        \hline
+        wan (3) & 34821 & 22951 & 20293 \\
+        \hline
+        main (4) & 107265 & 22521 & 23822 \\
+        \hline
+        window (6) & 16998 & 8251 & 9430 \\
+        \hline
+        analysis (8) & 3511 & 2168 & 1740 \\
+        \hline
+        book desc (9) & 6 & 3 & 3 \\
+        \hline
+        informatyka (11) & 1 & 1 & 5 \\
+        \hline
+        wInDoW (6) & 56760 & 20939 & 0 \\
+        \hline
+    \end{tabular}
+    \caption{Tabela zestawienia wyników wyszukiwania dla działających programów}
+    \label{tabela:iloscWyszukanDziekiProgramom}
+\end{table}
+
+Tabela \ref{tabela:iloscWyszukanDziekiProgramom} przedstawia wyniki ilości 
+wystąpień fraz w zbiorze archiwów. Ponieważ implementacja gsearch nie potrafi
+przeszukać określonych archiwów, zdecydowano się na zestawienie rezultatów
+ripgrepa ze wszystkich archiwów, oraz z tego samego zbioru archiwów pominiętych. 
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=1.50]
+        \begin{axis}[
+        xlabel=Długość słowa,
+        ylabel=Ilość znalezionych linii]
+        \addplot[color=orange,mark=x]coordinates{
+            (3,22951)
+            (4,22521)
+            (6,8251)
+            (8,2168)
+            (9,3)
+            (11,3)
+        };
+        \addplot[color=blue,mark=x]coordinates{
+            (3,20293)
+            (4,23822)
+            (6,9430)
+            (8,1740)
+            (9,3)
+            (11,5)
+        };
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Wykres wystąpień linii z frazami w zależności od długości liter w słowie }
+    \label{fig:wykresPorównaniaIlosciWystapień}
+\end{figure}
+
+Ostatni wiersz pokazuje jakie znaczenie ma wyszukiwanie po wielkości liter 
+(tab. \ref{tabela:iloscWyszukanDziekiProgramom}). Program ripgrep posiada 
+możliwość ignorowania wielkości liter czego nie robi program gsearch. Jeżeli
+nie znamy dokładnej wielkości liter frazy, to może to spowodować brak 
+znalezienia frazy (rys. \ref{fig:wykresPorównaniaIlosciWystapień}). 
+
+
+Program ripgrep nie jest w stanie znaleźć zawartości archiwów zagnieżdżonych w
+innych archiwach. Rozwiązuje ten problem gsearch i pozwala na wyszukanie 
+znalezienie konkretnego pliku w którym fraza się znajduje.
+
+\subsection{Porównanie prędkości wyszukiwania programów}
+
+Porównane zostaną programy, które pozwoliły uzyskać oczekiwany rezultat i są to
+ripgrep oraz implementowany gsearch. 
+Porównanie szybkości wyszukiwania zostanie wykonane na pomniejszonym zbiorze,
+aby porównanie czasów było sprawdzane na tym samym zbiorze, gdzie oba programy
+są w stanie odczytać z nich dane.

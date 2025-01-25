@@ -1,0 +1,5 @@
+/tmp/baza_mgr_unarr/michal.unzipped/michal/bookware/BOOKWARE.unzipped/2003-04/Uklady.Mikroprocesorowe.Przyklady.Rozwiazan.SPECIAL.Tech-PROPER-eBook-Uuk/uuk.nfo:l64
+/tmp/baza_mgr_unarr/michal.unzipped/michal/bookware/BOOKWARE.unzipped/2003-04/Uklady.Mikroprocesorowe.Przyklady.Rozwiazan.SPECIAL.Tech-PROPER-eBook-Uuk/uukum.unzipped/uuk.nfo:l64
+/tmp/baza_mgr_unarr/polskie.unzipped/polskie/_inne/Bill_Gates_i_jego_imperium_Microsoft.unzipped/James Wallance - Bill Gates i jego imperium Microsoft.rtf:l1080
+/tmp/baza_mgr_unarr/polskie.unzipped/polskie/_inne/Zagadnienia maturalne z informatyki.unzipped/Zagadnienia maturalne z informatyki/doc/R-00.doc:l81
+/tmp/baza_mgr_unarr/polskie.unzipped/polskie/hardware/Mikroprocesory.unzipped/Mikroprocesory/doc/r0-1.doc:l150
