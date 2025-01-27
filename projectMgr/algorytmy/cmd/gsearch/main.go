@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"runtime/pprof"
 	"strings"
 
 	"github.com/gadzbi123/pracaMagisterska/algorytmy/regular"
@@ -46,6 +47,9 @@ type SearchData struct {
 }
 
 func run() error {
+	f, _ := os.Create("profile.pprof")
+	pprof.StartCPUProfile(f)
+	defer pprof.StopCPUProfile()
 	os.RemoveAll(TMP_DIR)
 
 	switch {

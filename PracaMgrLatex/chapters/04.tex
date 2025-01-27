@@ -330,20 +330,20 @@ otworzyć te archiwa, choć nie wszystkie z tych narzędzi działały poprawnie.
 
 \begin{figure}
 \centering
-\begin{subfigure}{0.8\textwidth}
+\begin{subfigure}{0.7\textwidth}
     \includegraphics[width=\textwidth]{./images/GraphFirstAttempt.png}
     \caption{Wykres czasów bez statycznego bufora pliku oraz z ponowną 
     rekalkujacją bufora pre-procesora.}
     \label{fig:GraphFirstAttempt}
 \end{subfigure}
 %\hfill
-\begin{subfigure}{0.8\textwidth}
+\begin{subfigure}{0.7\textwidth}
     \includegraphics[width=\textwidth]{./images/GraphPreAllocBM.png}
     \caption{Wykres czasów bez statycznego bufora pliku z jednokrotną kalkulacją
      bufora pre-procesora dla algorytmu Boyer Moore'a. }
     \label{fig:GraphPreAllocBM}
 \end{subfigure}
-\begin{subfigure}{0.8\textwidth}
+\begin{subfigure}{0.7\textwidth}
     \includegraphics[width=\textwidth]{./images/GraphStaticPreallocAndFileBuffer.png}
     \caption{Wykres czasów z statycznym buforem pliku oraz statycznym buforem
     pre-procesora dla każdego algorytmu.}
@@ -416,10 +416,7 @@ znamy największego pliku, a podanie zbyt małej ilość na bufor pliku spowoduj
 pamięci.
 
 %\textbf{TODO porównanie wykorzystania pamięci (nie daje dużo info)}
-
-\section{Badanie programów}
-
-\subsection{Badanie ilość otrzymanych wyników z programów}
+\section{Badanie ilość otrzymanych wyników z programów}
 
 Wybrano kilka narzędzi, które będą porównywane pod względem liczby wyszukiwań
 oraz ich prędkości. Narzędzia, które zachowują się podobnie do implementacji
@@ -579,10 +576,105 @@ Program ripgrep nie jest w stanie znaleźć zawartości archiwów zagnieżdżony
 innych archiwach. Rozwiązuje ten problem gsearch i pozwala na wyszukanie 
 znalezienie konkretnego pliku w którym fraza się znajduje.
 
-\subsection{Porównanie prędkości wyszukiwania programów}
+\section{Porównanie prędkości wyszukiwania programów}
 
 Porównane zostaną programy, które pozwoliły uzyskać oczekiwany rezultat i są to
 ripgrep oraz implementowany gsearch. 
 Porównanie szybkości wyszukiwania zostanie wykonane na pomniejszonym zbiorze,
 aby porównanie czasów było sprawdzane na tym samym zbiorze, gdzie oba programy
 są w stanie odczytać z nich dane.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=1.50]
+        \begin{axis}[
+        xlabel=Długość słowa,
+        ylabel=Czas znalezienia słów (s)]
+        \addplot[color=orange,mark=*,error bars/.cd, y dir=both, y explicit]coordinates{
+(3,0.6393700976599999)+=(0,0.007651709374308371)-=(0,0.007651709374308371)
+(4,0.69975840454)+-(0,0.02174176683244841)
+(6,0.6708412953200001)+-(0,0.04320545697230668)
+(8,0.76563712796)+-(0,0.041486089097604)
+(9,0.62396489284)+-(0,0.007851351947769116)
+(11,0.6782059222)+-(0,0.04570502275958309)
+        };
+        \addplot[color=blue,mark=*,error bars/.cd, y dir=both, y explicit]coordinates{
+(3,20.081044353359996)+-(0,0.4395975771554202)
+(4,19.78817344134)+-(0,0.20913605765611032)
+(6,19.25416691472)+-(0,0.21635912584660782)
+(8,18.88328445046)+-(0,0.19096399774593745)
+(9,18.916769088339997)+-(0,0.5162741966007814)
+(11,18.5046544439)+-(0,0.17920383136563042)
+        };
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Wykres czasów znalezienia fraz w zależności od długości liter dwóch programach}
+    \label{fig:wykresPorównaniaCzasówWyszukań}
+\end{figure}
+
+Prędkości wyszukiwania danych za pomocą ripgrepa są znacznie większe, niż te
+za pomocą gsearch (rys. \ref{fig:wykresPorównaniaCzasówWyszukań}). Wynika to z
+tego, że ripgrep wykonuje wyszukiwania z wykorzystaniem kilku wątków. Dodatkowo 
+program rg ładuje pliki prosto do pamięci, natomiast program gsearch rozpakowuje
+zawartość pliku archiwum do folderu, a następnie czyta zawartość każdego pliku.
+
+Takie podejście było konieczne, gdyż Golang ma wbudowane większe ograniczenia w 
+proces alokowania danych i tego ile danych może przechowywać w pamięci w danym momencie.
+
+Wykorzystanie innego języka dającego większą swobodę w manipulowaniu pamięcią 
+dałoby lepsze czasy wykonania, jednak wykorzystanie języka niskopoziomowego,
+wiąże się z większym czasem implementacji algorytmów oraz trudniejszym procesem
+analizowania błędów.
+
+Dodatkowo ripgrep wykorzystuje operacje SIMD (ang. \english{Single Instruction, Multiple Data}),
+czyli wykonanie wielu porównania w ciągu jednego cyklu. Te operacje znacznie
+przyspieszają wykonanie wyszukiwania.
+
+Ripgrep dla fraz o długości 3 lub mniejszych używa algorytmu Teddy. Ten algorytm
+pozwala na załadowanie całej frazy do rejestru XMM i wykonania bitowego 
+porównania małej frazy z zawartością danych przeszukiwanych.
+
+\subsection{Wykorzystanie profilowania do oczytania charakterystki programu}
+
+\begin{figure}[h]
+  \centering
+  \begin{lstlisting}
+f, _ := os.Create("profile.pprof")
+pprof.StartCPUProfile(f)
+defer pprof.StopCPUProfile()
+  \end{lstlisting}
+  \caption{Dodanie profilowania do programu gsearch}
+  \label{fig:code:profilerGsearch}
+\end{figure}
+
+Można również sprawdzić charakterystkę programu gsearch dodając kod na początek 
+wykonania programu (rys. \ref{fig:code:profilerGsearch}). Wykonanie programu na
+słowie "informatyka" utworzy plik profile.pprof. Ten plik można przejrzeć w 
+przeglądarce wcześniej wykorzystując komendę \textbf{go tool pprof -http=localhost:8090 profile.pprof}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{./images/profiler1.png}
+\caption{Przykład grafu wykonań funkcji w gsearch}
+\label{fig:profilerGsearch1}
+\end{figure}
+
+Po wykonaniu komendy przeglądarce otworzy się widok na graf programu (rys. \ref{fig:profilerGsearch1}).
+Graf jest bardzo skomplikowany do analizy w przypadku, gdy wykorzystujemy rekursje w programie do
+przeszukiwania folderów i rozpakowywania zawartości.
+
+Można zauważyć, że większość czasu programu wykorzystywana jest na operacje 
+ekstrakcji archiwów i czytania archiwów. Sam algorytm przeszukujący (dolny lewy 
+róg rys. \ref{fig:profilerGsearch1}) wykonuje się jedynie 0.72 sekundy.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{./images/profiler2.png}
+\caption{Zdjęcie grafu funkcji "runtime cgocall" oraz "syscall6"}
+\label{fig:profilerGsearch2}
+\end{figure}
+
+Głównym ograniczeniem prędkości działania jest czas odczytywania zawartości z plików.
+Funkcje "runtime cgocall" oraz "syscall6" stanowią znaczną część czasu
+wykonywania programu (rys. \ref{fig:profilerGsearch2}), które wykonują operacje
+odczytu zawartości treści z dysku.
