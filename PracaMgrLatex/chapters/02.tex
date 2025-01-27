@@ -43,38 +43,34 @@
 %Przykładem generalizacji jest para: zwierzę i pies. Pies jest zwierzęciem. Pies jest uszczegółowieniem pojęcia zwierzę. Zwierzę jest uogólnieniem pojęcia pies.
 %\end{Example}
 \section{Sformułowanie problemu}
-Wyszukiwanie tekstu w systemach towarzyszy ludziom od początków istnienia maszyn,
-choć pierwsze komputery nie posiadały ogromnych ilość pamięci, co nie powodowało
-potrzeby istnienia algorytmów wyszukujących tekst. Procesor Intel 8008 
-zaprezentowany w 1972 posiadał jedynie 14-bitową magistralę adresową, co 
-pozwalało na 16 KB pamięci \cite{bib:internet:Intel8008}. Obecna ilość pamięci,
-którą otrzymujemy w sieci za pośrednictwem chmury Google - 15 GB \cite{bib:internet:GoogleCloud},
-nieporównywalnie przewyższa ilość pamięci wykorzystywaną w projektach z tamtych
-czasów.
+Wyszukiwanie tekstu w systemach towarzyszy ludziom od początków istnienia maszyn.
+Jednak pierwsze komputery nie posiadały ogromnych ilość pamięci. Z biegiem lat
+zaistniała potrzeba odkrycia algorytmów wyszukujących zawartość pamięci. 
+Procesor Intel 8008 zaprezentowany w 1972 posiadał jedynie 14-bitową magistralę
+adresową, co pozwalało na 16 KB pamięci \cite{bib:internet:Intel8008}. 
+Obecna ilość pamięci, którą otrzymujemy z chmury Google'a to 15 GB
+\cite{bib:internet:GoogleCloud} co stanowi milion maksymalnych bloków pamięci w 
+urządzeniu ze wspomnianym procesorem Intela.
 
 Zasadniczym problem naszej pracy jest wyszukiwanie zawartości tekstowej
 ogromnej ilość plików w różnych formatach. Takie podejście może okazać się 
 problematyczne \newline w przypadku plików dźwiękowych, filmowych czy zdjęć
-wszelkiego rodzaju.
+wszelkiego rodzaju. Dodatkowym problemem może okazać się rozwiązanie problemu
+przeszukiwania zagnieżdżonych w sobie archiwów.
 
 \section{Dostępne rozwiązania} %state of art
 
 Podjęcie problemu wyszukiwania plików po nazwach oraz zawartości jest bardzo
-złożonym i trudnym problemem w sferze programistycznej. Istnieje wiele rozwiązań
-tego problemu, które istnieją od początku pracy z komputerem. Narzędzia takie
-jak \textbf{find}, \textbf{grep} czy \textbf{fzf} \cite{bib:internet:Fzf} pozwalają na wyszukiwanie
-zawartości, która nas interesuje, ale kompleksowość tych narzędzi nie jest 
-przystosowana do tak trudnego problemu, jakim jest wyszukiwanie treści w plikach,
-które są zarchiwizowane. Z taką samą niedogodnością spotykamy się w przypadku
-plików pochodzących z pakietu Microsoft Office 365, jednak jeśli rozwiążemy 
-zadanie otrzymywania zawartości z archiwów, będziemy w stanie otrzymać również 
-zawartość z plików z rozszerzeniami .doc, .docx czy .pptx.
+złożonym i trudnym problemem w sferze programistycznej. Istnieje kilka rozwiązań
+tego problemu. Narzędzia takie jak \textbf{find}, \textbf{grep} czy \textbf{ripgrep} 
+\cite{bib:internet:ripgrep} pozwalają na wyszukiwanie tekstu. Narzędzia te nie 
+są przystosowane do znalezienia pełnej ścieżki pliku dla archiwów.
 
 \subsection{Przykładowe narzędzia dostępne do wykorzystania}
 
-Narzędzie \textbf{find} to znane i popularne narzędzie wśród osób zaznajomionych z
-technologiami Linuxa. Już bardzo często wykorzystywany do znajdowania plików
-w systemie, jednak nie nadaje się do znajdowania zawartości plików.
+Narzędzie \textbf{find} to znane i popularne narzędzie w systemie z jądrem Linux.
+Już bardzo często wykorzystywany do znajdowania plików w systemie po nazwie, 
+jednak nie nadaje się do znajdowania zawartości plików.
 
 \begin{figure}[h]
   \centering
@@ -88,7 +84,7 @@ w systemie, jednak nie nadaje się do znajdowania zawartości plików.
 find /biblioteka -name '*.pdf'
 find /biblioteka -path 'książki/*.docx' 
 find /biblioteka -name '*.py' -not -path '*/site-packages/*'  
-find /biblioteka -maxdepth 1 -size +500k -size -10M           
+find /biblioteka -maxdepth 2 -size +500k -size -10M           
 find /biblioteka -type f -empty -delete 
   \end{minted}
 \end{tcolorbox}
@@ -98,25 +94,33 @@ find /biblioteka -type f -empty -delete
 
 Jak pokazano na rysunku \ref{fig:cmd:findExamples} te przykładowe komendy find
 pozwalają na wyszukanie zawartości folderu biblioteka, a kolejne argumenty 
-pozwalają na doprecyzowanie określonych właściwości pliku. Argument \textbf{-name}
+pozwalają na doprecyzowanie określonych parametrów pliku. Argument \textbf{-name}
 pozwala na wyszukanie wszystkich słów odpowiadających nazwie pliku, jednak nie
 uwzględniają ścieżki. Argument \textbf{-path} pozwala na wyszukanie plików, 
 które odpowiadają podanej ścieżce, a nie jedynie nazwie pliku.
 
 Połączenie argumentów \textbf{-name} oraz argumentu \textbf{-not} z \textbf{-path}
-umożliwi wyszukanie tych plików, z rozszerzeniem .py, które nie znajdują się w
-folderze paczek dodatkowych (ang. \english{site-packages}). Kolejna komenda 
-wyszuka wszystkie pliki znajdujące się tylko w folderze /biblioteka (\textbf{-maxdepth 1})
-oraz weźmie pod uwagę wszystkie pliki większe niż 500 KB i mniejsze niż 10 MB.
+umożliwi wyszukanie plików z rozszerzeniem .py. Dodatkowo odrzucone zostaną 
+pliki z paczek pobocznych (ang. \english{site-packages}).
+
+Kolejna komenda wyszuka wszystkie pliki znajdujące się tylko w folderze 
+/biblioteka (\textbf{-maxdepth 2}) oraz jednym zagnieżdżonym folderze poniżej.
+Dodatkowo pokazane zostaną pliki większe niż 500 KB i mniejsze niż 10 MB.
 
 Ostatnia komenda z rysunku \ref{fig:cmd:findExamples} daje możliwość usunięcia 
-\textbf{-delete} plików (nie folderów) \textbf{-type f}, które są puste \textbf{-empty}.
+(\textbf{-delete}) plików (nie folderów) \textbf{-type f}, które są puste (\textbf{-empty}).
+
+Narzędzie to niestety nie ma możliwości przeszukania folderów z pliku
+archiwum. Aby dokonać takiego przeszukania, należy wykonać dekompresję danych
+przy użyciu tar lub innego podobnego narzędzia. Taki proces nie jest jednak 
+prosty w przypadku wielu typów archiwów.
 
 Do przeszukiwania zawartości plików dobrze nadaje się narzędzie grep, które jest
-dostępny w każdej dystrybucji Linuxa. Jego działanie jest dość podobne do find'a,
-gdyż posiada on możliwość wyszukiwania treść w plikach tekstowych. Grep nie 
-posiada też możliwość szukania zawartości archiwów, plików .pdf oraz nie wspiera
-formatów książkowych takich jak .djvu.
+dostępny ogólnodostępnym narzędziem GNU. Jego działanie jest dość podobne do find'a,
+gdyż posiada on możliwość wyszukiwania treść w plikach tekstowych. Grep również nie 
+posiada też możliwość szukania zawartości archiwów oraz nie wspiera wielu 
+formatów. Jest możliwość binarnego przeszukania plików, lecz archiwa nie będą 
+odczytane w przypadku użycia kompresji.
 
 \begin{figure}[h]
   \centering
@@ -140,27 +144,56 @@ cat /biblioteka/plik1.txt | grep -v "szukany-tekst"
 \end{figure}
 
 Na rysunku powyżej możemy zobaczyć przykładowe komendy programu grep 
-\ref{fig:cmd:grepExamples}. Pierwsza komenda wyszukuje tekst podany jako 
-pierwszy argument w plik1.txt. Kolejna komenda pozwala nam przeszukać wszystkie 
-foldery znajdujące się w folderze /biblioteka rekursywnie \textbf{-r}, gdzie 
-zawartość plików posiada "szukany-tekst". Trzecia komenda wyszuka wszystkie 
-instancje "szukany-tekst" ignorując przy tym wielkość liter. W tym przypadku 
-można wyszukać tekst posiadający treść "szUKaNY-tEKst". Dodając argument \textbf{-w}
-wyświetla się wiersza, w którym znajdowało się dopasowanie. 
+\ref{fig:cmd:grepExamples}. Pierwsza komenda wyszukuje tekst "szukany-tekst" w pliku /biblioteka/plik1.txt.
+Kolejna komenda pozwala nam przeszukać rekurencyjnie wszystkie pliki w folderach znajdujące się w 
+/biblioteka (\textbf{-r}). Trzecia komenda wyszuka wszystkie wystąpienia 
+"szukany-tekst" ignorując przy tym wielkość liter. To pozwoli wyszukać tekst
+posiadający treść "szUKaNY-tEKst" w pliku. Dodając argument \textbf{-w}
+wyświetla się liczba wiersza, w którym znajdowało się dopasowanie w pliku. 
 
-Przedostatnia komenda w \ref{fig:cmd:grepExamples} pozwala na sprawdzenie 
-kontekstu, w którym znajduje się znalezione ciąg znaków. Jeżeli "szukany-tekst" 
-znajduje się w linii 25, to program przedstawi nam linie 23-27 z wyszczególnioną
-treścią, którą wyszukiwano. Ostatnia komenda przedstawia, że program można 
-wykorzystać, przyjmując zawartość innego programu przy pomocy standardowego 
-wejścia strumieniowego. Ta komenda zwróci nam wszystkie linie, w których 
-"szukany-tekst" nie występuje.
+Przedostatnia komenda pozwala na pokazanie kontekstu znalezionego dopasowania 
+\ref{fig:cmd:grepExamples}. Jeżeli "szukany-tekst" znajduje się w linii 25, to
+program przedstawi nam linie od 23 do 27 z wyszczególnioną treścią, którą 
+wyszukiwano. Ostatnia komenda przyjmuje treść innego programu przy pomocy
+standardowego wejścia strumieniowego. Ta komenda zwróci nam wszystkie linie,
+w których "szukany-tekst" nie występuje.
 
-Istnieje również ripgrep, który jest następcą wcześniej wymienionego
-narzędzia. Jego wydajność przewyższa grepa nawet trzydziestokrotnie w niektórych
-testach wydajnościowych w wymiarze czasu. Nie jest on niestety domyślnie 
-instalowany na większości systemów linuxowych. 
+Kolejnym narzędziem jest ripgrep. Nie jest on domyślnie instalowany na 
+większości systemów Linux, ale pozwala na szybsze wyszukiwanie z powodu
+wykorzystania równoległości wątków.
 
+\begin{figure}[h]
+  \centering
+\begin{tcolorbox}[
+    colback=white,
+    colframe=black,
+    boxrule=0.5pt,
+    arc=0pt
+]
+  \begin{minted}{bash}
+rg "szukany-tekst" /biblioteka
+rg -i "szukany-tekst" /biblioteka
+rg -l "szukany-tekst" /biblioteka
+rg -c "szukany-tekst" /biblioteka
+rg -U "szukany\ntekst" /biblioteka
+rg -z "szukany-tekst" /biblioteka/archiwum.zip
+  \end{minted}
+\end{tcolorbox}
+\caption{Przykład użycia programu ripgrep}
+\label{fig:cmd:ripgrepExamples}
+\end{figure}
+
+Przykładowa komenda pozwalające na wyszukanie frazy "szukany-tekst" we wszystkich
+folderach i podfolderach /biblioteka (rys. \ref{fig:cmd:ripgrepExamples}). Kolejna
+komenda pozwala na wyszukanie wszystkich fraz z pominięciem wielkości znaków. 
+Podając parametr \textbf{-l} otrzymamy nazwy plików bez linii, w których 
+wystąpiła fraza. Parametr \textbf{-c} zwróci nam ilość wystąpień tego wyrazu w 
+pliku. Parametr \textbf{-U} pozwala na znalezienie wzorca występującego przez 
+kilka linii. Parametr \textbf{-z} pozwala na przejrzenie nierozpakowanego 
+archiwum. Ostatnia opcja jest bardzo dobra dla plików, które znajdują się w 
+zbiorze danych.
+
+START HERE XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
 \section{Odniesienia do literatury}
 
 Istnieje wiele odniesień do wyszukiwania danych w literaturze. Praca Google 

@@ -7,62 +7,80 @@ inżynierii oprogramowania i zarządzania danymi.
 
 Jednym ze sposobów zachowywania danych i zmniejszenia ich objętości jest 
 archiwizacja plików. Takie rozwiązanie jest bardzo przydatne w przypadku chęci
-zmniejszenia ilości danych przechowywanych, a także w przypadku chęci 
-dystrybucji danych dla innych użytkowników jak zostało to zrobione, gdy 
-repozytorium danych zostało przekazane do analizy w celu wykonania tejże pracy.
+zmniejszenia ilości danych przechowywanych, a także w dystrybucji danych dla
+innych użytkowników. Otrzymana biblioteka danych była przekazana do analizy w 
+celu wykonania tejże pracy.
 
 W kwestii technicznej należało rozważyć sposób efektywnego zarządzania pamięcią
 w przypadku czytania dużej ilości danych z dysku, opóźnienia związane z 
-wydajnością operacji I/O, które należało ograniczyć do minimum.
+wydajnością operacji I/O.
 
 Problem wyszukiwania danych nastąpił w momencie wyszukiwania dużej ilość 
-zawartości. Posiadane archiwum wynosi 14,7 GB danych, niektóre z plików są 
+zawartości. Oryginalne archiwum wynosi 25 GB danych, gdzie pliki są 
 zarchiwizowane, co utrudnia odczytanie z nich danych. 
+
+Wykonanie operacji odczytu archiwów będzie miało kluczowe znaczenie w 
+otrzymaniu informacje o miejscu znajdowania się treści, choć może znacznie 
+wpłynąć na wydajność programu.
 
 Implementacja poznanych algorytmów pozwoliła na określenie, który algorytm 
 optymalnie wyszukuje zawartość w wykorzystywanym zbiorze danych. A niewielkie
 różnice sposobu odczytu danych wpływały na prędkość wydajność wyszukania.
 
-Praca będzie obejmowała analizę algorytmów oraz różnice implementacji wpływające
-na prędkość. 
+Dodatkowe odczytywanie archiwów w archiwach wymaga kilkukrotnej dekompresji
+danych. Aby otrzymać odpowiednią ilość wyników, należy wykonać dekompresję 
+wszystkich zagnieżdżonych archiwów. Odczytanie zawartości odbędzie się poprzez 
+przejście po drzewie plików.
 
 \section{Cel Pracy}
-Głównym celem pracy jest dogłębna analiza i porównanie algorytmów wyszukujących zawartość tekstową w formacie ASCII.
-Badanie ma na celu określenie, który z algorytmów charakteryzuje się najwyższą szybkością działania,
-optymalnym zużyciem zasobów oraz największą wydajnością. Poprzez systematyczne testowanie i pomiary,
-praca dąży do identyfikacji najbardziej efektywnego rozwiązania w kontekście wyszukiwania tekstowego.
 
-Istotnym aspektem celu pracy jest również zbadanie możliwości języka programowania Golang
-w kontekście implementacji i testowania algorytmów wyszukiwania.
-Golang, znany ze swojej wydajności i bogatego zestawu narzędzi testujących,
-stanowi idealną platformę do przeprowadzenia kompleksowej analizy porównawczej.
-Wykorzystanie tego języka pozwoli na rzetelną ocenę wydajności poszczególnych 
-algorytmów oraz zidentyfikowanie optymalnego rozwiązania.
+Celem niniejszej pracy jest analiza algorytmów wyszukujących zawartość tekstową 
+w standardzie ASCII oraz ocena ich efektywności w systemie operacyjnym Linux. 
+Kluczowym zagadnieniem badawczym jest porównanie różnych metod przeszukiwania 
+tekstu pod względem szybkości działania oraz dokładności. Skupiono się na 
+implementacjach tych algorytmów w języku programowania Golang, który oferuje
+rozbudowane narzędzia testujące i profilujące kod.
 
-Ponadto, celem pracy jest dostarczenie rekomendacji dotyczących wyboru najlepszego algorytmu wyszukiwania
-tekstowego w ASCII dla danego zbioru danych. Wyniki analizy mają służyć jako źródło informacji dla 
-programistów i badaczy, umożliwiając im podejmowanie świadomych decyzji przy 
-implementacji systemów wyszukiwania tekstowego. Praca ma na celu wniesienie 
-wkładu w rozwój wiedzy na temat efektywności algorytmów i optymalizacji procesów wyszukiwania, 
-jak również procesów optymalizacyjnych wykorzystywanych w nowoczesnych językach programowania. 
+Praca ma na celu nie tylko teoretyczne zestawienie wybranych algorytmów, ale 
+także ich praktyczną implementację i porównanie w rzeczywistym środowisku 
+obliczeniowym. W tym kontekście istotnym aspektem jest zbadanie wydajności 
+różnych podejść do przeszukiwania tekstu w dużych zbiorach danych, w tym w 
+archiwach z zagnieżdżonymi folderami.
+
+Kolejnym celem jest ocena poprawności działania zaimplementowanych algorytmów, 
+co oznacza sprawdzenie, czy znajdują one wszystkie wystąpienia szukanych fraz w 
+sposób zgodny z oczekiwaniami. W szczególności badane będą przypadki graniczne, 
+takie jak wyszukiwanie w dużych plikach, przeszukiwanie czy analiza wpływu 
+długości wzorca na czas wyszukiwania.
+
+Ostatecznym celem pracy jest dostarczenie rekomendacji dotyczących wyboru 
+odpowiedniego algorytmu wyszukiwania tekstowego w zależności od specyfiki 
+zadania. Analiza porównawcza umożliwi wskazanie rozwiązań optymalnych pod 
+względem wydajności oraz zastosowania w różnych warunkach systemowych.
 
 \section{Zakres Pracy}
-Zakres pracy obejmuje szczegółową analizę i porównanie wybranych algorytmów wyszukiwania zawartości tekstowej w formacie ASCII.
-Badaniu zostaną poddane różne podejścia i techniki wyszukiwania, takie jak algorytmy oparte na dopasowywaniu wzorców,
-indeksowaniu czy strukturach danych. Praca skupi się na dogłębnym zrozumieniu
-działania poszczególnych algorytmów oraz ich implementacji w języku Golang.
+Zakres pracy obejmuje szczegółową analizę algorytmów wyszukiwania tekstu w Golang.
+W pierwszej części pracy przedstawione zostaną teoretyczne podstawy algorytmów wyszukiwania,
+w tym klasyczne podejścia, takie jak algorytm Knutha-Morrisa-Pratta, Boyera-
+Moore'a oraz inne techniki wyszukiwania w tekście ASCII.
 
-W ramach zakresu pracy przeprowadzone zostaną kompleksowe testy wydajnościowe, mierzące szybkość działania,
-zużycie zasobów oraz efektywność poszczególnych algorytmów. Wyniki pomiarów zostaną poddane analizie statystycznej
-w celu identyfikacji istotnych różnic w wydajności między algorytmami.
+Kolejnym etapem będzie implementacja wybranych algorytmów w języku Golang oraz 
+ich optymalizacja pod kątem wydajności. Przeprowadzone zostaną testy porównawcze, 
+w których oceniana będzie szybkość wyszukiwania oraz skuteczność w znajdowaniu
+wzorców tekstowych. Dodatkowo uwzględniona zostanie analiza wpływu wielkości
+pliku oraz długości wzorca na efektywność działania poszczególnych metod.
 
-Ważnym elementem zakresu pracy będzie również analiza złożoności obliczeniowej 
-oraz wpływu różnych czynników, takich jak długość wyszukiwanego wzorca czy rozmiar
-przeszukiwanego tekstu, na wydajność algorytmów. Pozwoli to na zrozumienie ograniczeń
-i mocnych stron poszczególnych podejść oraz identyfikację optymalnych warunków ich stosowania.
+Praca obejmuje również testowanie wydajności algorytmów w rzeczywistym 
+środowisku systemu Linux. Badania będą prowadzone w konsolowym interfejsie 
+użytkownika, gdzie zaimplementowane algorytmy zostaną przetestowane na 
+rzeczywistych zbiorach archiwalnych. Zostaną również porównane czasy wykonania
+wyszukiwania w zależności od długości frazy.
 
-Dodatkowo praca zawiera propozycje dalszych badań i kierunków rozwoju w dziedzinie algorytmów wyszukiwania
-tekstowego, wskazując potencjalne obszary usprawnień i innowacji.
+Na zakończenie pracy zostaną zaprezentowane wyniki przeprowadzonych badań wraz 
+z wnioskami dotyczącymi efektywności analizowanych algorytmów. Na podstawie 
+uzyskanych wyników zostaną sformułowane rekomendacje dotyczące stosowania 
+poszczególnych metod wyszukiwania tekstowego w zależności od rodzaju danych 
+oraz wymagań wydajnościowych.
 
 % \textbf{TODO opis ogólny rozdziałów} 
 % \begin{itemize}
