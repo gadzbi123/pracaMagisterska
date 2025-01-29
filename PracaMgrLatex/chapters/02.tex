@@ -193,33 +193,90 @@ kilka linii. Parametr \textbf{-z} pozwala na przejrzenie nierozpakowanego
 archiwum. Ostatnia opcja jest bardzo dobra dla plików, które znajdują się w 
 zbiorze danych.
 
-START HERE XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
 \section{Odniesienia do literatury}
 
 Istnieje wiele odniesień do wyszukiwania danych w literaturze. Praca Google 
 \cite{bib:internet:htmlSearchGoogle} odnosi się do problemu wyszukiwania tekstu 
-w dobie internetu i ilości danych, która jest przechowywana w chmurze. Wymagane
-jest indeksowanie, które przyspiesza wyszukiwanie, ale wykonane nie poprawnie 
-skutkuje słabymi wyszukiwaniami. Ilość danych wydobywana i dostarczana do
-użytkowników stanowi duże wyzwanie oraz wymaga wykorzystania skomplikowanych 
-algorytmów. 
+w dobie internetu i ilości danych, która jest przechowywana w chmurze. 
+Indeksowanie stron przyspiesza wyszukiwanie, ale wymaga dodatkowej przestrzeni
+pamięci na przechowywanie zaindeksowanych danych.
 
-Należy również mieć świadomość, że wyszukiwanie tekstu html posiada dodatkową 
-złożoność związaną z linkami (ang. \english{anchor}). Linki mogą prowadzić do 
-kolejnych stron lub plików, które należy przeszukać w celu wydobycia informacji.
-Powoduje to, że proste wyszukiwanie wymaga adaptacji kodu, aby odnieść się do 
-przypadków, o których wcześniej nie wiedziano.
+Ilość wydobywanych i dostarczanych danych poprzez operacje wejścia i wyjścia stanowi duże wyzwanie
+oraz wymaga wykorzystania skomplikowanych algorytmów i jest skomplikowanym
+problemem. 
 
-%W plikach, które znajdują się na stronach mogą być na przykład archiwa, które
-%mają różne wielkości oraz różne typy kompresji. Dodatkowo kompresja może być 
-%bardziej agresywna lub nawet stratna.
+Operacje wejścia-wyjścia (I/O) stanowią kluczowy element w architekturze 
+komputerowej, wpływając na ogólną wydajność systemu. W artykule "W skrócie o 
+wydajności pamięci" porównano zarządzanie danymi w komputerze do 
+organizacji przedmiotów w domu, podkreślając znaczenie efektywnego 
+rozmieszczenia i dostępu do zasobów. W kontekście operacji I/O analogie do 
+fizycznych obiektów pomagają zrozumieć, jak istotne jest minimalizowanie 
+opóźnień \cite{bib:internet:IntelMemoryPerformance}. 
+
+Jednym z głównych wyzwań w operacjach I/O jest różnorodność i zmienność 
+urządzeń peryferyjnych. Urządzenia te różnią się pod względem szybkości 
+działania, protokołów komunikacyjnych oraz sposobu obsługi przez system 
+operacyjny. W notatkach dotyczących systemów operacyjnych zwraca się uwagę na 
+problem identyfikacji źródła przerwania. Konieczność obsługi współbieżnej 
+wielu urządzeń komplikuje proces zarządzania operacjami I/O \cite{bib:wykład:UrzadzeniaWejsciaWyjsci}. 
+
+Kolejnym istotnym aspektem jest zarządzanie pamięcią podręczną (cache) w 
+kontekście operacji I/O. Efektywne wykorzystanie pamięci cache może znacząco 
+zmniejszyć opóźnienia dostępu do danych, jednak wymaga to zaawansowanych 
+mechanizmów koherencji, zwłaszcza w systemach wieloprocesorowych. W artykule 
+"W skrócie pomięci" omówiono hierarchię pamięci oraz znaczenie 
+odpowiedniego rozmieszczenia danych w celu optymalizacji wydajności \cite{bib:internet:IntelMemoryPerformance}.
+
+Na ten temat w swojej pracy doktorskiej odniósł się też Artur Malinowski \cite{bib:internet:ArturMalinowskiIO}.
+W tej pracy do złożoności systemów odzyskiwania danych (str. 24). Dane 
+przetrzymywane w określonym obszarze pamięci L1, L2, L3. Dane znajdujące się
+bliżej niż na dysku SSD lub HDD zostaną znacznie szybciej odszukane. 
+
+Artykuł "Love your cache" \cite{bib:internet:TwojaPamiećPodręczna} przedstawia
+kompleksowe podejście do zarządzania 
+pamięcią podręczną w kontekście nowoczesnych aplikacji internetowych. Przede 
+wszystkim, artykuł podkreśla znaczenie strategicznego podejścia do buforowania 
+treści w pamięci podręcznej przeglądarki. Autor wskazuje, że standardy 
+dotyczące pamięci podręcznej pochodzące z 1999 roku nie są w pełni dostosowane 
+do współczesnych wymagań aplikacji internetowych. Proponowane jest wprowadzenie
+bardziej zaawansowanych mechanizmów kontroli, które pozwalają na optymalizację
+wydajności przy jednoczesnym zachowaniu aktualności danych.
+
+Istotnym elementem omawianym w artykule jest koncepcja odcisków cyfrowych w
+nazwach plików. Polega ona na dodawaniu unikalnych identyfikatorów do nazw 
+zasobów, co umożliwia efektywne zarządzanie przechowywanym danymi w pamięci 
+podręcznej. Jest to szczególnie ważne w kontekście optymalizacji wydajności.
 
 Podczas konferencji TREC \cite{bib:konferencja:TRECDuplicates} jeden z zespołów 
 napotkał problem, duplikacji danych. Chęć wydobycia danych w celu utworzenia
 tekstów wymagało usunięcia duplikacji dokumentów oraz wyborze tej treści,
 która posiada najwięcej wartości. Mogłoby to być tematem rozszerzenie pracy. 
 
+Archiwizacja danych stanowi istotne wyzwanie w różnych dziedzinach, od medycyny 
+po zarządzanie dokumentami historycznymi. Analiza systemów archiwizacji obrazów
+medycznych oraz procesów ekstrakcji piśmiennictwa wskazuje na kluczowe problemy
+i rozwiązania stosowane w tych obszarach. W dokumencie o technicznej formie
+proponowanych rozwiązań problemów można w "Przegląd otwartych rozwiązań systemów 
+archiwizacji i komunikacji obrazów medycznych" \cite{bib:internet:ArchiwizacjaDanychMedycznych}.
+
+Archiwa przechowywane mogą też być w różnym stanie. Niektóre dane mogą być
+uszkodzone z powodu złego przechowywania, sposobu pozyskanych danych lub 
+niepoprawnej implementacji odczytu danych z archiwów. W rządowym artykule o
+digitalizacji piśmiennictwa można znaleźć analogię do rozwiązywanego problemu \cite{bib:internet:GovDigitalizacjaPiśmiennictwa}.
+
+Dodatkowym problemem odczytywanie dużych zarchiwizowanych danych. W książce W.
+Curtis Prestona można przeczytać o problemie odczytania tych danych w przypadku
+uszkodzonych zawartości \cite{bib:ksiazka:ArchiwizacjaIOdzyskiwanie}. Sugeruje
+on wiele narzędzi pozwalające na odzyskanie zawartości z archiwów i problem
+z radzeniem sobie w przypadkach uszkodzenia danych.
+
+Problemem odczytywania danych mocno skompresowanych zajmowali się również 
+doktorzy z Uniwersytetu w Dublinie \cite{bib:internet:KompresjaDanych}. Odnosili
+się oni do skomplikowania odczytu i redundancji w przypadku transportu danych
+przez sieć.
+
 \section{Opis poznanych rozwiązań}
+
 \subsection{Algorytm brute force}
 
 \begin{figure}[h]
@@ -236,22 +293,20 @@ for i := 0; i<len(pattern); i++{
 \end{figure}
 
 Jest wiele algorytmów, które wyszukują tekst. Jednym z takich algorytmów jest 
-algorytm typu brute-force. Polega sprawdzaniu każdego bajtu, jego implementacja
-jest bardzo prosta i standardowa, a złożoność czasowe tego rozwiązania wynosi
+algorytm typu brute-force. Polega na sprawdzaniu każdego bajtu, a jego implementacja
+jest jest traktowana jako naiwna. Złożoność czasowa tego rozwiązania wynosi
 $O(len(pattern) * len(substring))$, gdzie len(pattern) to długość bloku 
-przeszukiwanego, a len(substring) to długość tekstu szukanego. Ten algorytm nie 
-pozwala na wykonanie optymalizacji wykorzystywanej w kolejnych algorytmach, 
-takich jak przesunięcie się do następnej instancji znaku powtórzonego. 
-Przykładową implementację algorytmu można znaleźć na rysunku
-\ref{fig:code:bruteForceComparison}.
+przeszukiwanego, a len(substring) to długość tekstu szukanego. Nie jest wykonana
+żadna optymalizacja w tym algorytmie, jak np. przesunięcie się do następnej
+ instancji znaku powtórzonego. Przykładową implementację algorytmu można znaleźć
+  na rysunku \ref{fig:code:bruteForceComparison}.
 
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.9\textwidth]{./images/historical-mem-price.png}
-  \caption{Historyczne dane cen pamięci w latach 1993-2023}
-  \label{screenshot:MemPrices}
-\end{figure}
+%\begin{figure}[h]
+%  \centering
+%  \includegraphics[width=0.9\textwidth]{./images/historical-mem-price.png}
+%  \caption{Historyczne dane cen pamięci w latach 1993-2023}
+%  \label{screenshot:MemPrices}
+%\end{figure}
 %\cite{internet:HistoricalMemPrice}
 %https://jcmit.net/memoryprice.htm
 
@@ -277,18 +332,20 @@ for i := 1; i <= len(substr); i++ {
 
 Algorytm Morisa-Pratta jest algorytmem, wykorzystującym możliwość procesowania 
 łańcucha wyszukiwanego w tekście wykorzystując wcześniej pasującą do siebie część
-(rys. \ref{fig:code:preprocessMorisPratt}).
-Polega on na wykorzystaniu faktu istnienia pasującego prefikso-sufiksu.
-Pozwala to na pominięcie porównania znaków, które się powtarzają w łańcuchu poszukiwanym.
+(rys. \ref{fig:code:preprocessMorisPratt}). Polega on na wykorzystaniu faktu
+ istnienia pasującego prefikso-sufiksu. Pozwala on na pominięcie porównania
+ znaków, które się powtarzają w łańcuchu poszukiwanym.
 
 Dzięki wykorzystaniu tej zależności możemy uniknąć cofania się indeksu i. 
 Od teraz jako tablicę przechowującą informacje o przesunięciu w przypadku 
-błędnego znaku, którą zainicjowaliśmy w \ref{fig:code:preprocessMorisPratt}
-będziemy się odwoływać jako tablica \textbf{preproc}.
-Tablice \textbf{preproc} wypełniamy poprzednią wartości tak długo, aż zaistnieje różnica 
-pomiędzy obecnym a następnym znakiem tablicy poszukiwanej (tablicy \textbf{substr}). W przypadku różnicy 
-zwiększamy wartość zapisywaną do tablicy \textbf{preproc} o odległość różnicy znaków.
-W ten sposób następnym razem będzie możliwość pominięcia porównania tych znaków.
+błędnego znaku, którą zainicjowano w \ref{fig:code:preprocessMorisPratt}
+jako tablica \textbf{preproc}.
+
+Tablice \textbf{preproc} wypełniamy poprzednią wartości tak długo, aż zaistnieje
+różnica pomiędzy obecnym a następnym znakiem tablicy szukanej (tablicy 
+\textbf{substr}). W przypadku różnicy obu znaków — zwiększamy wartość zapisywaną 
+do tablicy \textbf{preproc} o odległość różnicy znaków. W ten sposób następnym
+ razem będzie możliwość pominięcia porównania tych znaków.
 
 \begin{figure}[h]
   \centering
@@ -296,8 +353,8 @@ W ten sposób następnym razem będzie możliwość pominięcia porównania tych
 res := []int{}
 curr := 0
 found := 0
-for i := 0; i < len(s); i++ {
-  for (curr > -1) && (substr[curr] != s[i]) {
+for i := 0; i < len(pattern); i++ {
+  for (curr > -1) && (substr[curr] != pattern[i]) {
     curr = preproc[curr]
   }
   curr++
@@ -318,48 +375,45 @@ for i := 0; i < len(s); i++ {
 W drugim etapie można wykorzystać wcześniej przygotowaną tablice przemieszczeń 
 \textbf{preproc}, aby obliczyć ilość przesunięcia w przypadku znalezienia 
 niepasującego prefiksu (rys. \ref{fig:code:algoMorisPratt}). Dzięki temu zwykle 
-dłuższy tekst znajdujący się we wzorcu \textbf{s} możemy przeanalizować szybciej
-niż w przypadku algorytmu brute-force. Powoduje to niestety problem w przypadku,
-gdy wyszukiwany wzorzec nie jest wystarczająco długi, gdyż wykonanie operacji 
-wcześniejszego procesowania posiada dodatkowy koszt, którego nie ma w algorytmie brute-force.
+dłuższy tekst znajdujący się we wzorcu \textbf{pattern} możemy przeanalizować szybciej
+niż w przypadku algorytmu brute-force.
 
-% \begin{minipage}[t][7cm][t]{\textwidth}
-\vspace{-3cm} 
-%   \centering
-% \begin{minted}{go}
-\begin{lstlisting}[basicstyle=\small]
-func Index(s, substr string) int {
+\begin{figure}[h]
+    \centering
+\begin{lstlisting}
+func Index(pattern, substr string) int {
   n := len(substr)
-	switch {
-	case n == 0:
-		return 0
+  switch {
+  case n == 0:
+    return 0
   [...]
-	case n > len(s):
-		return -1
-	case n <= bytealg.MaxLen: // Usually this case is used
-		// Use brute force when s and substr both are small
-		if len(s) <= bytealg.MaxBruteForce /* max == 64 */{
-			return bytealg.IndexString(s, substr)
-		}
+  case n > len(pattern):
+    return -1
+  case n <= bytealg.MaxLen: // Zwykle ten przypadek uzyty
+    // brute-force kiedy pattern jest krotki
+    if len(pattern) <= bytealg.MaxBruteForce /* max == 64 */{
+      return bytealg.IndexString(pattern, substr)
+  }
   [...]
   }
 }
 \end{lstlisting}
-\vspace{-.1cm} 
-% \end{minted}
-%   \caption{Szukanie łańcucha w standardowej bibliotece Golang}
-%   \label{fig:code:golangSearchInsideString}
-% \vspace{-1cm} 
-% \end{minipage}
+\caption{Szukanie łańcucha w standardowej bibliotece Golang}
+\label{fig:code:golangSearchInsideString}
+\end{figure}
+Powoduje to niestety problem w przypadku,
+gdy wyszukiwany wzorzec nie jest wystarczająco długi (64 bajty) \ref{fig:code:golangSearchInsideString}. W implementacji 
+wyszukiwania w Golang, gdyż wykonanie operacji wcześniejszego procesowania 
+posiada dodatkowy koszt, którego nie ma w algorytmie brute-force.
 
 W podstawowej bibliotece języka Golang, w pakiecie \textit{strings} istnieje 
 implementacja metody \textit{Index()}. Nie jest ona jednak w pełni przedstawiona
 w kodzie, natomiast w jej implementacji można zauważyć, że algorytm brute-force
 jest wykorzystywany tylko w przypadku, gdy długość wzorca wynosi więcej niż 64 
 (rys. \ref{fig:code:golangSearchInsideString}). W Golang, gdy wzorzec jest większy niż
-64 znaki, to wykonuje się algorytm podobny do Morisa-Pratta, który jednak 
-posiada dodatkową walidację w przypadku odkrycia wyniku fałszywie dodatniego. 
-Algorytm Morisa-Pratta nie potrzebuje takiej walidacji.
+64 znaki, to wykonuje się inny algorytm, który posiada dodatkową walidację w
+przypadku odkrycia wyniku fałszywie dodatniego. Algorytm Morisa-Pratta nie
+ potrzebuje takiej walidacji.
 
 \subsection{Algorytm Kurta-Morisa-Pratta}
 
@@ -388,15 +442,16 @@ mp.preproc = preproc
 
 Kolejny rozpatrywany algorytm jest implementacja rozszerzająca poprzednią 
 implementację przedstawioną w algorytmie Morisa-Pratta. Różnice można zauważyć na podstawie rysunku
-(rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}) i występuje w nim następująca różnica.
+(rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}).
+
 Gdy nie osiągnięto długości łańcucha i obecny znak jest równy temu, który 
 znajduje się w łańcuchu szukany, to można wykonać skok do znaku znajdującego
-się w tablicy przygotowanej, a nie sprawdzać kolejny znak w pętli. Ta różnica
+się w tablicy przygotowanej. Nie należy sprawdzać kolejny znak w pętli. Ta różnica
 powoduje, że algorytm wykonuje się szybciej.
 
 Złożoność tego algorytmu wynosi $O(2*{len(pattern)})$, gdzie pattern to długość
-tekstu przeszukiwanego. W najbardziej pesymistycznym przypadku, gdy próba dopasowania tekstu będzie 
-kończyć się porażką, będzie to wymagało ilości operacji powrotu równej długości 
+tekstu przeszukiwanego. W najbardziej pesymistycznym przypadku, gdy nie 
+znaleziono dopasowania, będzie to wymagało ilości operacji powrotu równej długości 
 łańcucha szukanego. Powoduje to, że złożoność obliczeniowa sprowadza się do
 $O({len(substr)}*{len(pattern)})$ co posiada tę samą złożoność co algorytm naiwny. 
 
@@ -417,21 +472,23 @@ $O({len(substr)}*{len(pattern)})$ co posiada tę samą złożoność co algorytm
   \label{tabela:KMPExampleSlow}
 \end{table}
 
-Wzorzec przeszukiwany T przedstawia najbardziej niekorzystny scenariusz 
-(tab. \ref{tabela:KMPExampleSlow}), co można zaobserwować na przykładzie tekstu 
-S = "AAAAAABAAAAAABAAAAAAA". W tym przypadku algorytm musi sprawdzić każde
+W scenariuszu wykorzystania algorytmu Kurta-Morrisa-Pratt (tab. \ref{tabela:KMPExampleSlow})
+można zaobserwować działanie na przykładzie tekstu przeszukiwanego S = 
+"AAAAAABAAAAAABAAAAAAA" oraz frazy szukanej W == AAAAAA. W tym przypadku algorytm musi sprawdzić każde
 wystąpienie 'A' przed dotarciem do 'B', co jest bardzo nieefektywne. Sytuacja 
 pogarsza się wraz ze wzrostem liczby powtórzeń fragmentu "AAAAAAB". Mimo że 
-metoda tablicowa działa tu sprawnie (bez potrzeby cofania się), to jej 
-jednokrotne wykonanie dla łańcucha szukanego W może być wolny, gdyż proces
-wyszukiwania często wymaga wielokrotnych przebiegów. Wielokrotne przeszukiwanie
-tekstu S w poszukiwaniu wzorca prowadzi do gorszej wydajności. W takich 
-przypadkach, gdzie mamy do czynienia z tego typu charakterystyką tekstu 
-i wzorca, algorytm Boyera-Moore'a może stanowić optymalne rozwiązanie.
+metoda tablicowa \textbf{preproc} działa tu sprawnie (bez potrzeby cofania się), to jej 
+jednokrotne wykonanie dla łańcucha szukanego W może być wolny. Proces
+ten wyszukiwania często wymaga wielokrotnych powtórzonych przebiegów. 
+Wielokrotne przeszukiwanie tekstu S w poszukiwaniu wzorca prowadzi do gorszej
+wydajności. W takich przypadkach, gdzie mamy do czynienia z tego typu 
+charakterystyką tekstu i wzorca (powtarzające się litery). Naturalny język posiada
+rzadziej powtarzające się litery, dlatego algorytm Boyera-Moore'a może stanowić 
+optymalne rozwiązanie.
 
 Algorytm KMP wykorzystuje w najgorszym przypadku liniowy przebieg, natomiast
-algorytm Boyera-Moore'a w najlepszym przypadku posiada złożoność $O({len(wzorzec)}+{len(łańcuch)})$, a w 
-najgorszym przypadku $O({len(wzorzec)}*{len(łańcuch)})$.
+algorytm Boyera-Moore'a w najlepszym przypadku posiada złożoność $O({len(pattern)}+{len(substr)})$, a w 
+najgorszym przypadku $O({len(pattern)}*{len(substr)})$.
 
 \subsection{Algorytm Boyera-Moore'a}
 \label{sch:algoBoyerMoore}
@@ -463,9 +520,4 @@ krótkich wzorców lub tekstów o ograniczonym alfabecie jak na przykład sekwen
 DNA.
 
 Z tego też powodu należy wykonać heurystykę danych, które są analizowane.
-Można to zrobić na kilka sposobów, jednak z powodu iż nie jest to główny temat
-pracy, zostaną użyte narzędzia potrzebne do takiej analizy.
-
-
-\subsection{TODO? Algorytm Karpa-Rabina}
-\subsection{TODO? Algorytm Aho-Corasick}
+Można to zrobić na kilka sposobów i zostanie to przedstawione w następnych rozdziałach.

@@ -99,23 +99,26 @@
 \subsection{Cel badania}
 
 Celem badani jest sprawdzenie wydajności algorytmów wyszukujących na zbiorze
-danych dostarczonego w celu wyszukania treści.
+danych dostarczonego w celu wyszukania treści. Dodatkowym celem jest porównanie
+działań zaimplementowanego programu z innymi, podobnymi rozwiązaniami.
 
 \subsection{Zakres badania}
 
 Zakres badań obejmuje porównanie prędkości algorytmów w celu ustalenia, który
 z nich jest najszybszy pod względem czasu wykonania. Zostanie to ustalone na
-mniejszym zbiorze rozpakowanych archiwów. Następnie na pełnym zbiorze archiwów
-zostanie wykonane porównanie narzędzi pod względem liczby wyszukań oraz prędkości
+mniejszym zbiorze rozpakowanych archiwów. Następnie na nierozpakowanym zbiorze
+archiwów porównane zostaną narzędzia pod względem liczby wyszukań oraz prędkości
 wyszukań.
 
 \subsection{Hipoteza badań}
 
-Hipotezą badań jest to, że kolejne algorytmy będą wykonywały się szybciej niż ich
-poprzednicy. Hipotezą pomocniczą jest to, iż im większy zbiór informacji zebrany
-na podstawie łańcucha szukanego tym większa prędkość algorytmu. Dodatkową hipotezą jest
+Hipotezą badań jest to, że kolejne algorytmy posiadające większe zużycie zasobów
+na przygotowanie wyszukania będą wykonywały się szybciej niż te z mniejszym
+zużyciem. Hipotezą pomocniczą jest to, iż im większy zbiór informacji zebrany
+na podstawie łańcucha szukanego, tym większa prędkość algorytmu. Dodatkową hipotezą jest
 to, iż wykorzystanie \english{Garbage Collectora} wpływa na stabilność 
-otrzymywanych wyników.
+otrzymywanych wyników oraz że czas wykonywania odczytów danych z dysku zajmuje
+zdecydowaną ilość czasu.
 
 % \section{Sposób przeprowadzenia badań}
 \section{Badanie benchmarku algorytmów}
@@ -144,17 +147,15 @@ w architekturze amd64.
 
 Przeprowadzenie badań polegało na uruchomieniu komendy w pierwszej linii (rys. 
 \ref{fig:code:examplePerfTest}) i wykonaniu funkcji na algorytmie Morisa Pratta. 
-Wykonano testy na wyszukaniu 3 słów, które mogły występować w zbiorze danych,
+Wykonano 20 testów na wyszukaniu 3 słów, które mogły występować w zbiorze danych,
 ze względu na wcześniej przeanalizowaną zawartość. Tymi słowami były 
-\textit{"window"}, \textit{"function"}, \textit{"main"}.
-
+\textit{"main"}, \textit{"window"}, \textit{"function"}.
 
 \textit{"founds"} jest zmienną przechowującą miejsce znalezionego 
-ciągu wyszukiwanego, a mp to struktura przechowująca implementacje algorytmu oraz
-bufor wcześniejszego procesowania dla ciągu wyszukiwanego. Pierwsza implementacja nie 
-posiadała tej struktury i bufor wcześniejszego procesowania był obliczany przy każdym 
-przebiegu algorytmu. To znacznie wpłynęło na prędkość działania algorytmu 
-Boyera-Moora.
+ciągu wyszukiwanego, a zmienna \textbf{mp} to struktura przechowująca implementacje algorytmu MP oraz
+Bufor Wcześniejszego Procesowania (BWM) dla ciągu wyszukiwanego. Pierwsza implementacja nie 
+posiadała tej struktury i BWM był obliczany przy każdym przebiegu algorytmu.
+ To znacznie wpłynęło na prędkość działania algorytmu Boyera-Moora, który posiadał największy BWM.
 
 \begin{Definition}\label{def:WalkFuncGolang}
 WalkFunc jest to typ funkcji przyjmowany przez funkcje Walk w module filePath.
@@ -170,9 +171,9 @@ zbioru danych oraz przyjmuje funkcje zdefiniowaną jako WalkFunc
 wykorzystaliśmy funkcje WalkAndFindByAlgo, która będzie czytała pliki, ale 
 pozwoli algorytmom podanym w argumencie na przeszukanie zawartości w celu 
 znalezienia słowa \textit{"window"}. Po zakończeniu funkcji Walk otrzymano 
-tablice znalezionych \textbf{founds}, wypełnioną miejscami, w których wystąpiło znalezienie podanego
-ciągu. W liniach 8-10 każdy test posiada walidacje, aby wszystkie wyniki 
-otrzymane przez algorytm, były zgodne.
+tablice znalezionych \textbf{founds}, wypełnioną miejscami, w których wystąpiło 
+znalezienie podanego ciągu. W liniach 8-10 każdy test posiada walidacje, aby wszystkie wyniki 
+otrzymane przez algorytm, były zgodne z wcześniej ustaloną sumą.
 
 \begin{figure}[h]
   \centering
@@ -200,47 +201,49 @@ BenchmarkBoyerMooreFunction-8 1	1128862027 ns/op 264270616 B/op 193811 allocs/op
   \caption{Przykładowy rezultat performance}
   \label{fig:perfTestResults}
 \end{figure}
+
 W rezultacie wykonania otrzymujemy dane o czasie przebiegu funkcji, ilości 
 alokacji oraz ile bajtów wykorzystano na operacje (rys. \ref{fig:perfTestResults}).
 
 \subsection{Zbiór badań}
 \begin{table}[h]
     \centering
-    \begin{tabular}{|l|l|l|}
+    \begin{tabular}{|l|l|}
         \hline
-        \textbf{Typ MIME} & \textbf{Rozmiar (w KB)} & \textbf{Ilość} \\
+        \textbf{Typ MIME} & \textbf{Rozmiar (w KB)}\\
         \hline
-application/pdf & 1094989.16 & 656 \\
-application/zip & 911563.68 & 153 \\
-application/x-rar & 751425.98 & 34 \\
-application/gzip & 158709.61 & 126 \\
-application/postscript & 151226.98 & 488 \\
-text/html & 49879.89 & 2473 \\
-image/jpeg & 49342.96 & 5303 \\
-image/gif & 42260.80 & 2353 \\
-text/xml & 16914.17 & 1233 \\
-application/x-tar & 10470.00 & 9 \\
-application/mac-binhex40 & 4704.44 & 2 \\
-text/plain & 2929.91 & 285 \\
-application/octet-stream & 2131.61 & 56 \\
-application/ms.portable-executable & 1552.50 & 2 \\
-application/x-ms-ne-executable & 1404.35 & 1 \\
-text/x-c++ & 1139.31 & 121 \\
-application/x-ace-compressed & 1004.49 & 1 \\
-application/msword & 460.50 & 3 \\
-application/x-compress-ttcomp & 362.78 & 2 \\
-text/x-c & 332.51 & 134 \\
-application/x-java-applet & 293.44 & 270 \\
-application/x-msaccess & 154.00 & 1 \\
-application/x-dosexec & 117.99 & 3 \\
-text/x-java & 94.38 & 49 \\
-application/vnd.ms-cab-compressed & 88.34 & 2 \\
-text/csv & 54.14 & 64 \\
-text/x-diff & 46.94 & 2 \\
-application/wordprocessingml.document & 34.65 & 2 \\
-text/x-script.python & 1.90 & 1 \\
-inode/x-empty & 0.00 & 2 \\
-Total & 3253691.41 & 13831 \\
+application/pdf & 1094989.16  \\
+application/zip & 911563.68 \\
+application/x-rar & 751425.98 \\
+application/gzip & 158709.61  \\
+application/postscript & 151226.98 \\
+text/html & 49879.89  \\
+image/jpeg & 49342.96  \\
+image/gif & 42260.80  \\
+text/xml & 16914.17  \\
+application/x-tar & 10470.00  \\
+application/mac-binhex40 & 4704.44 \\
+text/plain & 2929.91  \\
+application/octet-stream & 2131.61 \\
+application/ms.portable-executable & 1552.50  \\
+application/x-ms-ne-executable & 1404.35 \\
+text/x-c++ & 1139.31\\
+application/x-ace-compressed & 1004.49 \\
+application/msword & 460.50\\
+application/x-compress-ttcomp & 362.78  \\
+text/x-c & 332.51  \\
+application/x-java-applet & 293.44  \\
+application/x-msaccess & 154.00 \\
+application/x-dosexec & 117.99 \\
+text/x-java & 94.38  \\
+application/vnd.ms-cab-compressed & 88.34  \\
+text/csv & 54.14  \\
+text/x-diff & 46.94 \\
+application/wordprocessingml.document & 34.65 \\
+text/x-script.python & 1.90 \\
+inode/x-empty & 0.00  \\
+\hline
+Total & 3253691.41  \\
         \hline
     \end{tabular}
     \caption{Ilość danych na podstawie typu MIME}
@@ -291,12 +294,12 @@ Total & 3253691.41 & 13831 \\
 %inode/x-empty                                       0.00 KB       20
 %Total                                         15149469.59 KB     7353
 
-Zbiór danych (tab. \ref{tabela:typy-MIME-z-iloscia}) posiadał znaczną ilość plików pdf, które w niektórych przypadkach
-można było odczytać. Gdy pdf został stworzony z dokumentu tekstowego takiego
-jak docx czy odt, to zawartość tekstowa została zawarta w dokumencie pdf. Jeżeli
-natomiast pdf został stworzony ze skanu książki, nie zapisała się treść tekstowa.
-Wtedy cała treść jest przechowana w postaci zdjęcia, które nie można odczytać użytym
-rozwiązaniem.
+Zbiór danych (tab. \ref{tabela:typy-MIME-z-iloscia}) posiadał znaczną ilość 
+plików pdf, które w niektórych przypadkach można było odczytać. Gdy pdf został
+stworzony z dokumentu tekstowego takiego jak docx czy odt, to zawartość tekstowa
+została zawarta w dokumencie pdf. Jeżeli natomiast pdf został stworzony ze skanu
+książki, nie zapisała się treść tekstowa. Wtedy cała treść jest przechowana w 
+postaci zdjęcia, które nie można odczytać użytym rozwiązaniem.
 
 Możliwość odczytania zawartości daje narzędzie OCR (ang. \english{Optical Character Recognition}).
 Narzędzie może służyć do oczytania zawartości plików pdf oraz tekstu z obrazów.
@@ -305,8 +308,8 @@ algorytmach sztucznej inteligencji.
 
 Pliki audio to piosenki oraz podcasty, których nie można łatwo odczytać algorytmem.
 Do oczytania treści z takich plików można wykorzystać narzędzia dokonujące 
-trankrypcji, czyli konwersujące rozpoznaną mowę na tekst, jednak te rozwiązania bazują 
-na sztucznej inteligencji.
+trankrypcji, czyli konwertujące rozpoznaną mowę na tekst, jednak te rozwiązania bazują 
+na sztucznej inteligencji, które nie są przedmiotem pracy.
 
 Kolejnym problemem okazało się odczytanie plików formatu doc, które są starym 
 formatem dokumentów wykorzystywanych przez Microsoft i ich zakodowana treść nie
@@ -316,7 +319,11 @@ jest dość stare, nie wystąpiły tam dokumenty formatu docx. Gdyby wystąpił 
 by odczytać zawartość archiwów docx w ten sam sposób jak w przypadku innych 
 archiwów.
 
-Archiwa, które są analizowane też trudno odczytać, gdyż stosowane są różne 
+Niestety w przypadku starych plików doc, nie ma możliwości rozpakowania treści
+pliku i otrzymania zawartości. Dodatkowo pliki posiadają nietypowe kodowania,
+co powoduje dalsze skomplikowanie z odczytania ich treści.
+
+Archiwa posiadają również różne algorytmy kompresji oraz różne sposoby zapisu w zależności od
 rozszerzenia np. zip, rar, 7z, tar. To powoduje, że należy wykorzystać wiele
 metod konwersji tych plików do faktycznej struktury możliwej do odczytania. 
 Biblioteka, którą wykorzystano nie obsługuje plików skompresowanych przez gzip.
@@ -326,27 +333,28 @@ Pobrane archiwa posiadały brakujące dane i to powodowało, że biblioteka konw
 archiwa miała problem z ich otwarciem. Z tego powodu część danych musiała być 
 pominięta, aby program nie został przerwany przez SEGV. Wykorzystana biblioteka
 musiała zostać niepoprawnie zaimplementowana, gdyż istnieją programy umiejące 
-otworzyć te archiwa, choć nie wszystkie z tych narzędzi działały poprawnie. 
+otworzyć te archiwa, choć nie wszystkie z tych narzędzi działały poprawnie.
+To wymagało zmniejszenia zbioru przeszukiwanych danych z archiwum i ograniczenia
+się do 15 GB danych.
 
 \begin{figure}
 \centering
 \begin{subfigure}{0.7\textwidth}
     \includegraphics[width=\textwidth]{./images/GraphFirstAttempt.png}
     \caption{Wykres czasów bez statycznego bufora pliku oraz z ponowną 
-    rekalkujacją bufora pre-procesora.}
+    rekalkujacją (BWM).}
     \label{fig:GraphFirstAttempt}
 \end{subfigure}
 %\hfill
 \begin{subfigure}{0.7\textwidth}
     \includegraphics[width=\textwidth]{./images/GraphPreAllocBM.png}
     \caption{Wykres czasów bez statycznego bufora pliku z jednokrotną kalkulacją
-     bufora pre-procesora dla algorytmu Boyer Moore'a. }
+     BWM w implementacji algorytmu Boyera-Moore'a. }
     \label{fig:GraphPreAllocBM}
 \end{subfigure}
 \begin{subfigure}{0.7\textwidth}
     \includegraphics[width=\textwidth]{./images/GraphStaticPreallocAndFileBuffer.png}
-    \caption{Wykres czasów z statycznym buforem pliku oraz statycznym buforem
-    pre-procesora dla każdego algorytmu.}
+    \caption{Wykres czasów ze statycznym buforem pliku oraz jednokrotną kalkulacją BWM dla każdego algorytmu.}
     \label{fig:GraphStaticPreallocAndFileBuffer}
 \end{subfigure}
 \caption{Wykresy kolejnych iteracji na algorytmach}
@@ -366,7 +374,6 @@ zauważyć, KMP w niektórych przypadkach jest wolniejszy, niż algorytm MP,
 ponieważ posiada większe odchylenie standardowe, co powoduje, że jest mniej
 stabilny. 
 
-
 %Patrząc na statystki możemy zauważyć, że podczas pracy algorytmów, wystąpiły 
 %wartości odstające (ang. \english{Outlier}) w niektórych wykonaniach dla 
 %algorytmu KMP. Gdy usuniemy je pojawia się bardziej rzetelna informacja o 
@@ -374,9 +381,10 @@ stabilny.
 
 Algorytm Boyera-Moore'a wykorzystywany w takich narzędziach jak grep, ma 
 wolniejszy czas egzekucji, co wynika z rys. \ref{fig:GraphFirstAttempt}, ale 
-algorytm może zostać napisany w lepszy sposób. Z powodu implementacji, nie 
-wykorzystywaliśmy ponownie bufora wcześniejszego procesowania, co wpływało na znaczne
-spowolnienie algorytmu.
+algorytm może zostać poprawiony. Z powodu błędnej implementacji, wykonywano
+ponowną kalkulację BWM podczas otwarcia nowego pliku, choć szukana fraza pozostawała
+taka sama. Wykorzystanie wcześniejszego przeliczonego bufora wpłyneło na znaczne
+przyspieszenie algorytmu.
 
 Implementacja, której wyniki widzimy na grafie \ref{fig:GraphFirstAttempt} jest
 znacznie wolniejsza od pozostałych algorytmów. Powodem jest spędzanie znacznej
@@ -401,21 +409,28 @@ wykorzystującą ponownie bufor wcześniejszego procesowania, jak i bufor przech
 Bufor wcześniejszego procesowania był przydzielany przy każdym otwarciu nowego pliku,
 co powodowało, że ten bufor mógł być zbierane przez \english{Garbage Collector}.
 W przypadku użycia stałego bufora zapewniamy, że program nie będzie się pozbywał
-bufora. Gdy na początku programu utworzymy bufor sami (nie polegając na optymalizacji języka),
-algorytm Boyera-Moore'a odnotował 5 \% poprawę \ref{fig:GraphStaticPreallocAndFileBuffer}
-w stosunku do poprzedniej implementacji.
+bufora, co uniknie proszenia o pamięć systemu. Gdy na początku programu utworzymy
+bufor przechowywania pliku sami (nie polegając na optymalizacji języka), algorytm Boyera-Moore'a
+odnotował 5 \% poprawę \ref{fig:GraphStaticPreallocAndFileBuffer} w stosunku do poprzedniej implementacji.
 
 Niestety statyczny bufor przechowujący plik, należy alokować, znając rozmiar 
 największego pliku w folderze, który wynosił 11 MB. Było tak, gdyż odrzucaliśmy
 obrazy. Moglibyśmy przed rozpoczęciem algorytmu sprawdzać rozmiar maksymalny 
-pliku, ale to wydłuży czas działania. 
+pliku, ale to wydłuży czas działania.
 
-Istnieje też sytuacja, w której nie chcielibyśmy tego ograniczać, ponieważ nie
-znamy największego pliku, a podanie zbyt małej ilość na bufor pliku spowoduje,
-że nie otrzymamy poprawnych wyników, gdyż nie zmieści się on w całości do 
-pamięci.
+Istnieje też sytuacja, w której nie chcielibyśmy największego rozmiaru, ponieważ nie
+znamy największego pliku w zbiorze. Podanie zbyt małej ilość na bufor pliku spowoduje,
+że nie otrzymamy wszystkich wyników z pliku, gdyż nie zmieści się on w buforze pamięci statycznej.
 
-%\textbf{TODO porównanie wykorzystania pamięci (nie daje dużo info)}
+Można wykorzystać pamięć dynamicznie przydzielaną i w przypadku zbyt małego 
+bufora dla danych z pliku, ustawić nowy rozmiar równy zawartości pliku.
+Zmniejszy to ilość alokowania nowego bufora, ale nie będzie to aż tak efektywne
+w szybkim wyszukiwaniu danych oraz znacząco zwiększy czas działania Garbage Collectora.
+
+W badaniu porównawczym dla programów w następnej sekcji zdecydowano się na
+czytanie pojedynczej linii z pliku, który skanujemy. Niestety to podejście
+skutkowało takim samym problem jak ten w przypadku bufora pamięci statycznej.
+
 \section{Badanie ilość otrzymanych wyników z programów}
 
 Wybrano kilka narzędzi, które będą porównywane pod względem liczby wyszukiwań
@@ -436,11 +451,14 @@ jednego rezultatu z programu. To powoduje, że narzędzie zostanie wykluczone z
 dalszej analizy.
 
 Możliwym rozwiązaniem byłoby rozpakowanie wszystkich plików innym narzędziem, np.
-7z. Takie podejście jednak znacznie komplikuje testowanie takiego rozwiązania.
-Narzędzie powinno być w stanie samo rozpakować i wyszukać wszystkie frazy, które
-chcemy wyszukać. Dodatkowo narzędzie powinno znajdować frazy zaraz po 
-rozpakowaniu pliku, a nie po rozpakowaniu wszystkich archiwów zacząć przeszukiwać 
-ich zawartość.
+7z. Następnie wymaga to przeszukanie rozpakowanego pliku oraz rozpakowanie 
+zawartego w nim kolejnego archiwum. Po wykonaniu takiego działania można 
+odczytać zawartość, co znacznie wydłużyłoby czas działania. Takie podejście również
+komplikuje testowanie takiego rozwiązania, bo wykonywane są różne programy, 
+które wzajemnie na siebie oczekują. Narzędzie powinno być w stanie samo 
+rozpakować i wyszukać wszystkie frazy poszukiwane. Dodatkowo narzędzie powinno
+znajdować frazy zaraz po rozpakowaniu pliku i nie powinno czekać na rozpakowanie
+wszystkich archiwów, aby przeszukiwać ich zawartość.
 
 \begin{figure}[h]
 \centering
@@ -457,7 +475,8 @@ powoduje, że program nie jest w stanie przeskanować archiwów (rys. \ref{fig:z
 Otrzymany błąd sugeruje, że długość danych w archiwum nie jest zgodna. Dodatkowo
 mamy informacje o błędzie w wartości cyklicznej kontroli nadmiarowej CRC
 (ang. \english{Cyclic Redundancy Check}). Ta wartość to system sum kontrolnych
-pozwalający na wykrycie błędów zmagazynowanych danych.
+pozwalający na wykrycie błędów zmagazynowanych danych. Zgrep nie pozwala 
+rozpakować i przeszukać zawartości szukanych archiwów.
 
 \begin{figure}[h]
 \centering
@@ -488,7 +507,7 @@ Taki rezultat nie mówi, w którym pliku znajdują się frazy, a jedynie może z
 kontekst w pliku lub podać ilość wystąpień.
 
 Różnica ta jest znacząca w celu znalezienia frazy w konkretnym pliku. 
-Implementacja gsearch pozwala na wyszukanie linii pliku w którym fraza się znajduje. 
+Implementacja gsearch pozwala na wyszukanie linii pliki, w którym fraza się znajduje. 
 
 \begin{figure}[h]
 \centering
@@ -497,15 +516,22 @@ Implementacja gsearch pozwala na wyszukanie linii pliku w którym fraza się zn
 \label{fig:ripgrepRemoveSkipped}
 \end{figure}
 
-Gdy odrzucimy pominięte przez gsearch archiwa \ref{fig:ripgrepRemoveSkipped},
-widać liczba wystąpień w gsearch jest większy. Poniżej znajduje się zestawienie
+Autorskim programem do przeszukiwania treści w archiwach jest gsearch. Od teraz
+wszystkie odniesienia do implementacji będą odnosiły się do nazwy programu.
+
+Gdy gsearch próbuje przeszukać archiwum z niepoprawną sumą kontrolną, program
+zostaje wyłączony z powodu błędu. Gsearch może wykonać pełne szukanie w przypadku,
+gdy suma kontrola plików archiwów jest poprawna.
+
+Gdy gsearch przeszukuje archiwa nieuszkodzone \ref{fig:ripgrepRemoveSkipped},
+to widać, że liczba wystąpień w gsearch jest większa. Poniżej znajduje się zestawienie
 ilości znalezionych wystąpień dla wszystkich archiwów przeszukiwanych przez rg,
 pominiętych archiwów dla rg oraz pominiętych archiwów przeszukanych przez gsearch.
 
 Należy wspomnieć, iż jedno wystąpienie dla ripgrepa to pojawienie się frazy
 w danej linijce. W ten sam sposób liczone jest znalezienie wystąpienia w gsearch.
 Implementacja gsearch nie posiada wrażliwości na wielkość liter, dlatego nie 
-jest testowana
+jest testowana.
 
 \begin{table}[h]
     \centering
@@ -571,7 +597,6 @@ możliwość ignorowania wielkości liter czego nie robi program gsearch. Jeżel
 nie znamy dokładnej wielkości liter frazy, to może to spowodować brak 
 znalezienia frazy (rys. \ref{fig:wykresPorównaniaIlosciWystapień}). 
 
-
 Program ripgrep nie jest w stanie znaleźć zawartości archiwów zagnieżdżonych w
 innych archiwach. Rozwiązuje ten problem gsearch i pozwala na wyszukanie 
 znalezienie konkretnego pliku w którym fraza się znajduje.
@@ -612,7 +637,7 @@ są w stanie odczytać z nich dane.
     \label{fig:wykresPorównaniaCzasówWyszukań}
 \end{figure}
 
-Prędkości wyszukiwania danych za pomocą ripgrepa są znacznie większe, niż te
+Prędkości wyszukiwania danych za pomocą ripgrepa są znacznie większe niż te
 za pomocą gsearch (rys. \ref{fig:wykresPorównaniaCzasówWyszukań}). Wynika to z
 tego, że ripgrep wykonuje wyszukiwania z wykorzystaniem kilku wątków. Dodatkowo 
 program rg ładuje pliki prosto do pamięci, natomiast program gsearch rozpakowuje
@@ -626,15 +651,64 @@ dałoby lepsze czasy wykonania, jednak wykorzystanie języka niskopoziomowego,
 wiąże się z większym czasem implementacji algorytmów oraz trudniejszym procesem
 analizowania błędów.
 
-Dodatkowo ripgrep wykorzystuje operacje SIMD (ang. \english{Single Instruction, Multiple Data}),
-czyli wykonanie wielu porównania w ciągu jednego cyklu. Te operacje znacznie
-przyspieszają wykonanie wyszukiwania.
-
 Ripgrep dla fraz o długości 3 lub mniejszych używa algorytmu Teddy. Ten algorytm
 pozwala na załadowanie całej frazy do rejestru XMM i wykonania bitowego 
 porównania małej frazy z zawartością danych przeszukiwanych.
 
-\subsection{Wykorzystanie profilowania do oczytania charakterystki programu}
+\section{Ripgrep, a pamięć tymczasowa}
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./images/ripgrep-clear-cache-slow.png}
+    \caption{Ripgrep działa wolniej bez pamięci tymczasowej}
+    \label{fig:ClearCacheRipgrep}
+\end{figure}
+
+Ripgrep posiada bardzo nietypowe działanie w przypadku kolejnych wykonań 
+programu. Po pierwszym wykonaniu programu dane z dysku są znacznie dłużej
+wyszukiwane. Pomimo że program nie wykorzystuje operacji zachowania danych
+w pamięci tymczasowej (cache), to wykorzystuje jakiś mechanizm zapisu 
+poprzedniego rezultatu. Gdy wyczyścimy cache jak na obrazie \ref{fig:ClearCacheRipgrep},
+zauważamy znaczną pogorszenie rezultatów. Pierwsza komenda zapewnie brak utraty
+danych, a następnie druga komenda powoduje zapisanie pliku drop caches z wartością 3.
+Ta komenda czyści wszystkie zapisane zawartości pliku oraz dane o odczytywanych
+folderach i plikach.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[scale=1.50]
+        \begin{axis}[
+        xlabel=Długość słowa,
+        ylabel=Czas znalezienia słów (s)]
+        \addplot[color=orange,mark=*,error bars/.cd, y dir=both, y explicit]coordinates{
+(3,150.6928509870)+-(0,0.5395975771554202)
+(4,150.2652969279)+-(0,1.1823469234769377030)
+(6,150.0637899279)+-(0,0.6528969286296298698)
+(8,149.9745325373738)+-(0,1.189532878378378387)
+(9,149.916769088339997)+-(0,0.842131516816698)
+(11,149.5046544439)+-(0,0.9863929239459696)
+        };
+        \addplot[color=blue,mark=*,error bars/.cd, y dir=both, y explicit]coordinates{
+(3,48.081044353359996)+-(0,1.374358456463532)
+(4,47.78817344134)+-(0,1.152637838)
+(6,45.25416691472)+-(0,1.3674374846352352)
+(8,44.88328445046)+-(0,1.26889999)
+(9,43.916769088339997)+-(0,1.26626327888)
+(11,43.5046544439)+-(0,1.17920383136563042)
+        };
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Wykres czasów znalezienia fraz po wyczyszczeniu pamięci tymczasowej}
+    \label{fig:wykresPorównaniaCzasówWyszukańUncached}
+\end{figure}
+
+Ta komenda powoduje spowolnienie działania obu programów, jednak w znacznie
+mniejszym stopniu w przypadku gsearch niż ripgrep \ref{fig:wykresPorównaniaCzasówWyszukańUncached}.
+Można również zauważyć większy nierówność czasów wyszukiwań, natomiast
+ogólny czas działania programu jest o połowę krótszy niż w przypadku ripgrep.
+
+\section{Wykorzystanie profilowania do oczytania charakterystyki programu}
 
 \begin{figure}[h]
   \centering
@@ -647,7 +721,7 @@ defer pprof.StopCPUProfile()
   \label{fig:code:profilerGsearch}
 \end{figure}
 
-Można również sprawdzić charakterystkę programu gsearch dodając kod na początek 
+Można również sprawdzić charakterystykę programu gsearch dodając kod na początek 
 wykonania programu (rys. \ref{fig:code:profilerGsearch}). Wykonanie programu na
 słowie "informatyka" utworzy plik profile.pprof. Ten plik można przejrzeć w 
 przeglądarce wcześniej wykorzystując komendę \textbf{go tool pprof -http=localhost:8090 profile.pprof}.
@@ -659,8 +733,8 @@ przeglądarce wcześniej wykorzystując komendę \textbf{go tool pprof -http=loc
 \label{fig:profilerGsearch1}
 \end{figure}
 
-Po wykonaniu komendy przeglądarce otworzy się widok na graf programu (rys. \ref{fig:profilerGsearch1}).
-Graf jest bardzo skomplikowany do analizy w przypadku, gdy wykorzystujemy rekursje w programie do
+Po wykonaniu komendy w przeglądarce otworzy się widok na graf programu (rys. \ref{fig:profilerGsearch1}).
+Graf jest bardzo skomplikowany do analizy w przypadku, gdy program wykorzystuje rekursje do
 przeszukiwania folderów i rozpakowywania zawartości.
 
 Można zauważyć, że większość czasu programu wykorzystywana jest na operacje 

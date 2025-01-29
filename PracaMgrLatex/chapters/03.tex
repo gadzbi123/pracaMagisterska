@@ -1,4 +1,4 @@
-\chapter{Przedmiot pracy - Wybór najszybszego rozwiązania wyszukiwania tekstu}
+\chapter{Przedmiot pracy}
 
 %\begin{itemize}
 %  \item  Jak ja rozwiązuję problem?
@@ -9,9 +9,9 @@
 %  \end{itemize}
 %\end{itemize}
 
-\section{Rozwiązanie zaproponowane przez dyplomanta}
+% \section{Rozwiązanie zaproponowane przez dyplomanta}
 
-\subsection{Rozwiązanie problemu wyszukiwania tekstu w pliku tekstowym}
+\section{Rozwiązanie problemu wyszukiwania tekstu w pliku tekstowym}
 
 Przed wyborem metody sprawdzającej należy wykonać heurystykę danych. Jest to 
 wymagane, ponieważ wydajność algorytmu jest ściśle powiązana z danymi, które
@@ -92,6 +92,9 @@ i dokładności wyszukiwania. Porównano ilość plików (tab. \ref{tabela:typyM
 które występują w zbiorze danych i odrzucono część z nich z powodu sposobu, w jaki
 analizowano dane.
 
+Porównano typ plików na podstawie identyfikatora formatu danych MIME. Pozwala
+on na określenie, z jakim typem danych pracujemy, aby przeszukać dane.
+
 Program nie ma na celu modyfikować informacji zawartych w plikach w żaden sposób.
 Algorytmy użyte skupiają się głównie na tekście, dlatego w procesie tworzenia 
 odrzucone zostają pliki z takimi rozszerzeniami jak
@@ -122,13 +125,18 @@ odrzucone zostają pliki z takimi rozszerzeniami jak
 \end{enumerate}
 
 Innym sposobem na rozwiązanie problemu jest wykorzystanie dostępnych narzędzi i
-dostosowanie ich do problemu, który rozwiązujemy. Wykorzystane narzędzia
-znacznie różnią się od siebie implementacją oraz funkcjonalnością.
-Aby porównać analizowane programy z implementacją gsearch, potrzeba znacznie 
-zawęzić podobieństwo oczekiwanych rezultatów.
+dostosowanie ich do problemu, który rozwiązujemy. Wykorzystanie wielu narzędzi
+zaimplementowanych w jednym celu (tar, gzip, grep) i połączenie ich do 
+skomplikowanej operacji przeszukiwania archiwów dałoby znacznie gorszy rezultat
+i wymagałoby obsłużenia błędów każdego z narzędzi. Dodatkowo nie każda treść
+jest odpowiednia do użycia narzędzia rozpakowującego tar, np. w przypadku 
+skompresowanej treści, gdzie należy wykorzystać gzip.
 
+Aby porównać analizowane programy z implementacją gsearch, potrzeba porównać
+ilość oczekiwanych rezultatów dla długości słów oraz czas wykonania całego 
+przeszukania.
 
-\subsection{Rozwiązanie problemu zarchiwizowanych plików w zbiorze danych}
+\section{Rozwiązanie problemu zarchiwizowanych plików w zbiorze danych}
 
 Zbiór danych składa się danych zawierających archiwa oraz pliki skompresowane,
 które zawierają drzewo innych plików skompresowanych i archiwów.
@@ -181,12 +189,11 @@ użycia, po zakończeniu operacji sprawdzania.
 GC wykorzystuje dwa warianty oznaczania danych. Pierwszy to tradycyjny sposób
 skalarny, w którym każde wykorzystanie elementu w kodzie jest liczone i
 zapisywane. W przypadku, gdy żaden fragment kodu nie wykorzystuje pamięci,
-\english{Garbage Collector}
-uwalnia przydzieloną pamięć. Problem może skutkować wolniejszą egzekucją oraz
-pauzami w celu oczyszczenia pamięci.
+\english{Garbage Collector} uwalnia przydzieloną pamięć. Problem może skutkować
+ wolniejszą egzekucją oraz pauzami w celu oczyszczenia pamięci.
 
 Drugą metodą, która jest preferowana to warianty wektorowy, który wykorzystuje 
-operacje SIMD, i dzięki temu może uwalniać większe ilości pamięci w  mniejszej
+operacje SIMD, i dzięki temu może uwalniać większe ilości pamięci w mniejszej
 ilości cykli. 
 
 Kolejną zaletą jest to, że wewnętrznie Golang wykorzystuje większe obszary
@@ -200,6 +207,18 @@ Program utworzony w ramach pracy porównuje różnicę pomiędzy sytuacją, w kt
 programista sam przydzielił pamięć i wykorzystywał ją ponownie do czytania 
 zawartości plików oraz sytuacje, w której pozwolił kompilatorowi na własną
 optymalizację alokowania bufora do odczytu plików.
+
+\subsection{Użycie osobnej biblioteki do dearchiwizacji}
+
+Do rozpakowania archiwów danych zastosowano bibliotekę unarr, które posiadała
+dobrą dokumentację odpowiadającą zadaniu, które należało wykonać. Okazała się
+problematyczna w stosunku niektórych archiwów.
+
+\subsection{Rozpakowywanie plików na dysk zamiast w pamięci}
+
+Zdecydowano się na rozpakowane danych w folderze tymczasowym. Próba 
+rozpakowywania zawartości w pamięci powodowała uszkodzenie stosu z powodu zbyt
+dużej ilości danych przechowywanych w pamięci przez Garbage Collector w języku Golang.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

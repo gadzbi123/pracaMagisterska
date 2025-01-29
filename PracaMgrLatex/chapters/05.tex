@@ -15,6 +15,37 @@
 \item Czy cel pracy zrealizowany? 
 \end{itemize}
 
+\section{Opis wykonanych prac}
+
+Przeprowadzone badania koncentrowały się na analizie wydajności algorytmów 
+wyszukujących w kontekście przeszukiwania zawartości tekstowej w różnych formatach 
+plików, ze szczególnym uwzględnieniem archiwów. Metodyka badawcza obejmowała porównanie
+prędkości wykonania algorytmów na mniejszym zbiorze rozpakowanych archiwów oraz 
+analizę porównawczą narzędzi pod względem liczby i prędkości wyszukiwań na 
+nierozpakowanym zbiorze. Testy przeprowadzono na środowisku Linux.
+ 
+Zbiór danych testowych składał się z różnorodnych formatów plików o łącznym 
+rozmiarze około 32 GB, z dominującymi formatami PDF, ZIP i RAR. W trakcie badań
+uwzględniono problematykę różnych formatów plików, co pozwoliło na kompleksową
+ocenę wydajności algorytmów w rzeczywistych warunkach. W ramach analizy
+algorytmów porównano implementacje Morris-Pratt, Knuth-Morris-Pratt i Boyer-Moore.
+Szczególną uwagę poświęcono wpływowi optymalizacji bufora wstępnego przetwarzania
+na wydajność oraz znaczeniu ponownego wykorzystania buforów w kolejnych wyszukiwaniach.
+Badania wykazały istotny wpływ tych optymalizacji na ogólną wydajność wyszukiwania.
+
+Istotnym elementem badań było porównanie autorskiego narzędzia (gsearch) z 
+popularnymi rozwiązaniami takimi jak ugrep, zgrep i ripgrep. Analiza objęła 
+różnice w funkcjonalności, szczególnie w kontekście obsługi archiwów, oraz wpływ
+pamięci podręcznej na wydajność wyszukiwania. Wykazano, że każde z narzędzi ma
+swoje specyficzne zalety i ograniczenia, zwłaszcza w kontekście obsługi
+zagnieżdżonych archiwów i różnych formatów plików. Profilowanie wydajności 
+pozwoliło zidentyfikować główne wąskie gardła w procesie wyszukiwania. Wykazano,
+że operacje I/O, w tym odczyt z dysku i ekstrakcja archiwów, stanowią największe
+obciążenie, podczas gdy sam algorytm wyszukiwania zajmuje relatywnie małą część
+całkowitego czasu wykonania. Autorskie rozwiązanie (gsearch), choć ustępuje
+wydajnością ripgrep w przypadku prostych wyszukiwań, oferuje unikalne 
+funkcjonalności, szczególnie w kontekście obsługi złożonych struktur archiwów.
+
 \section{Możliwości rozwoju}
 
 Program można usprawnić w celu wyszukiwania większej ilości zawartości przy
@@ -40,3 +71,11 @@ Pliki skompresowane zwykle nie mogą być zapisane, wiec po pierwszej dekompresj
 można zachować tylko znalezione wystąpienia. Należy jednak przechować 
 informacje o tym, czy suma kontrolna (ang. \english{hash}) archiwum się nie 
 zmieniła.
+
+Dodatkowo warto by pozwolić programowi działać na większej ilości wątków. To 
+wymaga dodatkowej synchronizacji pomiędzy odczytem archiwów, natomiast
+Golang jest bardzo łatwym językiem do wprowadzania takich zmian.
+
+Kolejnym kierunkiem do rozwoju jest wykorzystanie wyrażeń regularnych podczas
+wyszukiwania zawartości. Taka implementacja na pewno spowolni algorytm 
+wyszukujący, natomiast da więcej rezultatów.
