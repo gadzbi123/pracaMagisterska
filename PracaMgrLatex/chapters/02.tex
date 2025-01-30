@@ -48,9 +48,10 @@ Jednak pierwsze komputery nie posiadały ogromnych ilość pamięci. Z biegiem l
 zaistniała potrzeba odkrycia algorytmów wyszukujących zawartość pamięci. 
 Procesor Intel 8008 zaprezentowany w 1972 posiadał jedynie 14-bitową magistralę
 adresową, co pozwalało na 16 KB pamięci \cite{bib:internet:Intel8008}. 
-Obecna ilość pamięci, którą otrzymujemy z chmury Google'a to 15 GB
+Obecna ilość pamięci, którą można otrzymać po założeniu konta z chmury Google'a to 15 GB
 \cite{bib:internet:GoogleCloud} co stanowi milion maksymalnych bloków pamięci w 
-urządzeniu ze wspomnianym procesorem Intela.
+urządzeniu ze wspomnianym procesorem Intela. Należy zauważyć, że lokalne zasoby
+ pamięci znacznie przewyższają te, które możemy otrzymać za darmo w chmurze.
 
 Zasadniczym problem naszej pracy jest wyszukiwanie zawartości tekstowej
 ogromnej ilość plików w różnych formatach. Takie podejście może okazać się 
@@ -92,7 +93,7 @@ find /biblioteka -type f -empty -delete
 \label{fig:cmd:findExamples}
 \end{figure}
 
-Jak pokazano na rysunku \ref{fig:cmd:findExamples} te przykładowe komendy find
+Jak pokazano na rysunku (rys. \ref{fig:cmd:findExamples}) te przykładowe komendy find
 pozwalają na wyszukanie zawartości folderu biblioteka, a kolejne argumenty 
 pozwalają na doprecyzowanie określonych parametrów pliku. Argument \textbf{-name}
 pozwala na wyszukanie wszystkich słów odpowiadających nazwie pliku, jednak nie
@@ -107,7 +108,7 @@ Kolejna komenda wyszuka wszystkie pliki znajdujące się tylko w folderze
 /biblioteka (\textbf{-maxdepth 2}) oraz jednym zagnieżdżonym folderze poniżej.
 Dodatkowo pokazane zostaną pliki większe niż 500 KB i mniejsze niż 10 MB.
 
-Ostatnia komenda z rysunku \ref{fig:cmd:findExamples} daje możliwość usunięcia 
+Ostatnia komenda z rysunku (rys. \ref{fig:cmd:findExamples}) daje możliwość usunięcia 
 (\textbf{-delete}) plików (nie folderów) \textbf{-type f}, które są puste (\textbf{-empty}).
 
 Narzędzie to niestety nie ma możliwości przeszukania folderów z pliku
@@ -116,7 +117,7 @@ przy użyciu tar lub innego podobnego narzędzia. Taki proces nie jest jednak
 prosty w przypadku wielu typów archiwów.
 
 Do przeszukiwania zawartości plików dobrze nadaje się narzędzie grep, które jest
-dostępny ogólnodostępnym narzędziem GNU. Jego działanie jest dość podobne do find'a,
+dostępny ogólnodostępnym narzędziem GNU (def. \ref{skrót:GNU}). Jego działanie jest dość podobne do \textbf{find'a},
 gdyż posiada on możliwość wyszukiwania treść w plikach tekstowych. Grep również nie 
 posiada też możliwość szukania zawartości archiwów oraz nie wspiera wielu 
 formatów. Jest możliwość binarnego przeszukania plików, lecz archiwa nie będą 
@@ -143,22 +144,22 @@ cat /biblioteka/plik1.txt | grep -v "szukany-tekst"
 \label{fig:cmd:grepExamples}
 \end{figure}
 
-Na rysunku powyżej możemy zobaczyć przykładowe komendy programu grep 
-\ref{fig:cmd:grepExamples}. Pierwsza komenda wyszukuje tekst "szukany-tekst" w pliku /biblioteka/plik1.txt.
+Na rysunku powyżej przedstawione są przykładowe komendy programu grep 
+(rys. \ref{fig:cmd:grepExamples}). Pierwsza komenda wyszukuje tekst 'szukany-tekst' w pliku /biblioteka/plik1.txt.
 Kolejna komenda pozwala nam przeszukać rekurencyjnie wszystkie pliki w folderach znajdujące się w 
 /biblioteka (\textbf{-r}). Trzecia komenda wyszuka wszystkie wystąpienia 
-"szukany-tekst" ignorując przy tym wielkość liter. To pozwoli wyszukać tekst
-posiadający treść "szUKaNY-tEKst" w pliku. Dodając argument \textbf{-w}
+'szukany-tekst' ignorując przy tym wielkość liter. To pozwoli wyszukać tekst
+posiadający treść 'szukany-tekst' w pliku. Dodając argument \textbf{-w}
 wyświetla się liczba wiersza, w którym znajdowało się dopasowanie w pliku. 
 
 Przedostatnia komenda pozwala na pokazanie kontekstu znalezionego dopasowania 
-\ref{fig:cmd:grepExamples}. Jeżeli "szukany-tekst" znajduje się w linii 25, to
+(rys. \ref{fig:cmd:grepExamples}). Jeżeli 'szukany-tekst' znajduje się w linii 25, to
 program przedstawi nam linie od 23 do 27 z wyszczególnioną treścią, którą 
 wyszukiwano. Ostatnia komenda przyjmuje treść innego programu przy pomocy
 standardowego wejścia strumieniowego. Ta komenda zwróci nam wszystkie linie,
-w których "szukany-tekst" nie występuje.
+w których 'szukany-tekst' nie występuje.
 
-Kolejnym narzędziem jest ripgrep. Nie jest on domyślnie instalowany na 
+Kolejnym narzędziem jest \textbf{ripgrep}. Nie jest on domyślnie instalowany na 
 większości systemów Linux, ale pozwala na szybsze wyszukiwanie z powodu
 wykorzystania równoległości wątków.
 
@@ -183,10 +184,10 @@ rg -z "szukany-tekst" /biblioteka/archiwum.zip
 \label{fig:cmd:ripgrepExamples}
 \end{figure}
 
-Przykładowa komenda pozwalające na wyszukanie frazy "szukany-tekst" we wszystkich
+Przykładowa komenda pozwalające na wyszukanie frazy 'szukany-tekst' we wszystkich
 folderach i podfolderach /biblioteka (rys. \ref{fig:cmd:ripgrepExamples}). Kolejna
 komenda pozwala na wyszukanie wszystkich fraz z pominięciem wielkości znaków. 
-Podając parametr \textbf{-l} otrzymamy nazwy plików bez linii, w których 
+Podając parametr \textbf{-l} otrzymano nazwy plików bez linii, w których 
 wystąpiła fraza. Parametr \textbf{-c} zwróci nam ilość wystąpień tego wyrazu w 
 pliku. Parametr \textbf{-U} pozwala na znalezienie wzorca występującego przez 
 kilka linii. Parametr \textbf{-z} pozwala na przejrzenie nierozpakowanego 
@@ -206,8 +207,8 @@ oraz wymaga wykorzystania skomplikowanych algorytmów i jest skomplikowanym
 problemem. 
 
 Operacje wejścia-wyjścia (I/O) stanowią kluczowy element w architekturze 
-komputerowej, wpływając na ogólną wydajność systemu. W artykule "W skrócie o 
-wydajności pamięci" porównano zarządzanie danymi w komputerze do 
+komputerowej, wpływając na ogólną wydajność systemu. W artykule 'W skrócie o 
+wydajności pamięci' porównano zarządzanie danymi w komputerze do 
 organizacji przedmiotów w domu, podkreślając znaczenie efektywnego 
 rozmieszczenia i dostępu do zasobów. W kontekście operacji I/O analogie do 
 fizycznych obiektów pomagają zrozumieć, jak istotne jest minimalizowanie 
@@ -218,21 +219,22 @@ urządzeń peryferyjnych. Urządzenia te różnią się pod względem szybkości
 działania, protokołów komunikacyjnych oraz sposobu obsługi przez system 
 operacyjny. W notatkach dotyczących systemów operacyjnych zwraca się uwagę na 
 problem identyfikacji źródła przerwania. Konieczność obsługi współbieżnej 
-wielu urządzeń komplikuje proces zarządzania operacjami I/O \cite{bib:wykład:UrzadzeniaWejsciaWyjsci}. 
+wielu urządzeń komplikuje proces zarządzania operacjami I/O co opisane
+zostało na wykładzie \cite{bib:internet:UrzadzeniaWejsciaWyjscia}. 
 
 Kolejnym istotnym aspektem jest zarządzanie pamięcią podręczną (cache) w 
 kontekście operacji I/O. Efektywne wykorzystanie pamięci cache może znacząco 
 zmniejszyć opóźnienia dostępu do danych, jednak wymaga to zaawansowanych 
 mechanizmów koherencji, zwłaszcza w systemach wieloprocesorowych. W artykule 
-"W skrócie pomięci" omówiono hierarchię pamięci oraz znaczenie 
+'W skrócie o wydajności pamięci' omówiono hierarchię pamięci oraz znaczenie 
 odpowiedniego rozmieszczenia danych w celu optymalizacji wydajności \cite{bib:internet:IntelMemoryPerformance}.
 
-Na ten temat w swojej pracy doktorskiej odniósł się też Artur Malinowski \cite{bib:internet:ArturMalinowskiIO}.
+Na ten temat w swojej pracy doktorskiej odniósł się też dr Artur Malinowski \cite{bib:internet:ArturMalinowskiIO}.
 W tej pracy do złożoności systemów odzyskiwania danych (str. 24). Dane 
-przetrzymywane w określonym obszarze pamięci L1, L2, L3. Dane znajdujące się
-bliżej niż na dysku SSD lub HDD zostaną znacznie szybciej odszukane. 
+przetrzymywane w określonym obszarze pamięci L1, L2, L3 znajdują się
+bliżej niż na dysku SSD lub HDD i przez to zostaną znacznie szybciej odszukane. 
 
-Artykuł "Love your cache" \cite{bib:internet:TwojaPamiećPodręczna} przedstawia
+Artykuł 'Love your cache' \cite{bib:internet:TwojaPamiećPodręczna} przedstawia
 kompleksowe podejście do zarządzania 
 pamięcią podręczną w kontekście nowoczesnych aplikacji internetowych. Przede 
 wszystkim, artykuł podkreśla znaczenie strategicznego podejścia do buforowania 
@@ -248,7 +250,7 @@ zasobów, co umożliwia efektywne zarządzanie przechowywanym danymi w pamięci
 podręcznej. Jest to szczególnie ważne w kontekście optymalizacji wydajności.
 
 Podczas konferencji TREC \cite{bib:konferencja:TRECDuplicates} jeden z zespołów 
-napotkał problem, duplikacji danych. Chęć wydobycia danych w celu utworzenia
+napotkał problem zduplikowanych danych. Chęć wydobycia danych w celu utworzenia
 tekstów wymagało usunięcia duplikacji dokumentów oraz wyborze tej treści,
 która posiada najwięcej wartości. Mogłoby to być tematem rozszerzenie pracy. 
 
@@ -256,8 +258,8 @@ Archiwizacja danych stanowi istotne wyzwanie w różnych dziedzinach, od medycyn
 po zarządzanie dokumentami historycznymi. Analiza systemów archiwizacji obrazów
 medycznych oraz procesów ekstrakcji piśmiennictwa wskazuje na kluczowe problemy
 i rozwiązania stosowane w tych obszarach. W dokumencie o technicznej formie
-proponowanych rozwiązań problemów można w "Przegląd otwartych rozwiązań systemów 
-archiwizacji i komunikacji obrazów medycznych" \cite{bib:internet:ArchiwizacjaDanychMedycznych}.
+proponowanych rozwiązań problemów można w 'Przegląd otwartych rozwiązań systemów 
+archiwizacji i komunikacji obrazów medycznych' \cite{bib:internet:ArchiwizacjaDanychMedycznych}.
 
 Archiwa przechowywane mogą też być w różnym stanie. Niektóre dane mogą być
 uszkodzone z powodu złego przechowywania, sposobu pozyskanych danych lub 
@@ -299,7 +301,7 @@ $O(len(pattern) * len(substring))$, gdzie len(pattern) to długość bloku
 przeszukiwanego, a len(substring) to długość tekstu szukanego. Nie jest wykonana
 żadna optymalizacja w tym algorytmie, jak np. przesunięcie się do następnej
  instancji znaku powtórzonego. Przykładową implementację algorytmu można znaleźć
-  na rysunku \ref{fig:code:bruteForceComparison}.
+  na rysunku (rys. \ref{fig:code:bruteForceComparison}).
 
 %\begin{figure}[h]
 %  \centering
@@ -336,14 +338,14 @@ Algorytm Morisa-Pratta jest algorytmem, wykorzystującym możliwość procesowan
  istnienia pasującego prefikso-sufiksu. Pozwala on na pominięcie porównania
  znaków, które się powtarzają w łańcuchu poszukiwanym.
 
-Dzięki wykorzystaniu tej zależności możemy uniknąć cofania się indeksu i. 
+Dzięki wykorzystaniu tej zależności można uniknąć cofania się indeksu i. 
 Od teraz jako tablicę przechowującą informacje o przesunięciu w przypadku 
-błędnego znaku, którą zainicjowano w \ref{fig:code:preprocessMorisPratt}
+błędnego znaku, którą zainicjowano na rysunku (rys. \ref{fig:code:preprocessMorisPratt})
 jako tablica \textbf{preproc}.
 
-Tablice \textbf{preproc} wypełniamy poprzednią wartości tak długo, aż zaistnieje
+Tablice \textbf{preproc} należy wypełnić poprzednią wartości tak długo, aż zaistnieje
 różnica pomiędzy obecnym a następnym znakiem tablicy szukanej (tablicy 
-\textbf{substr}). W przypadku różnicy obu znaków — zwiększamy wartość zapisywaną 
+\textbf{substr}). W przypadku różnicy obu znaków — zwiększa się wartość zapisywaną 
 do tablicy \textbf{preproc} o odległość różnicy znaków. W ten sposób następnym
  razem będzie możliwość pominięcia porównania tych znaków.
 
@@ -375,7 +377,7 @@ for i := 0; i < len(pattern); i++ {
 W drugim etapie można wykorzystać wcześniej przygotowaną tablice przemieszczeń 
 \textbf{preproc}, aby obliczyć ilość przesunięcia w przypadku znalezienia 
 niepasującego prefiksu (rys. \ref{fig:code:algoMorisPratt}). Dzięki temu zwykle 
-dłuższy tekst znajdujący się we wzorcu \textbf{pattern} możemy przeanalizować szybciej
+dłuższy tekst znajdujący się we wzorcu \textbf{pattern} można przeanalizować szybciej
 niż w przypadku algorytmu brute-force.
 
 \begin{figure}[h]
@@ -401,16 +403,18 @@ func Index(pattern, substr string) int {
 \caption{Szukanie łańcucha w standardowej bibliotece Golang}
 \label{fig:code:golangSearchInsideString}
 \end{figure}
-Powoduje to niestety problem w przypadku,
-gdy wyszukiwany wzorzec nie jest wystarczająco długi (64 bajty) \ref{fig:code:golangSearchInsideString}. W implementacji 
-wyszukiwania w Golang, gdyż wykonanie operacji wcześniejszego procesowania 
-posiada dodatkowy koszt, którego nie ma w algorytmie brute-force.
-
 W podstawowej bibliotece języka Golang, w pakiecie \textit{strings} istnieje 
 implementacja metody \textit{Index()}. Nie jest ona jednak w pełni przedstawiona
 w kodzie, natomiast w jej implementacji można zauważyć, że algorytm brute-force
 jest wykorzystywany tylko w przypadku, gdy długość wzorca wynosi więcej niż 64 
-(rys. \ref{fig:code:golangSearchInsideString}). W Golang, gdy wzorzec jest większy niż
+(rys. \ref{fig:code:golangSearchInsideString}).
+
+W implementacji wyszukiwania w Golang, gdy bufor szukany jest mniejszy niż 64 bajty,
+obliczenie bufora wcześniejszego procesowania \textbf{BWP} nie jest wykonywane, 
+wiec stosuje się algorytm brute-force. Jeżeli wzorzec jest większy niż 64 
+bajty to wykonuje się wyszukanie z pomocą \textbf{BWP}.
+
+W Golang, gdy wzorzec jest większy niż
 64 znaki, to wykonuje się inny algorytm, który posiada dodatkową walidację w
 przypadku odkrycia wyniku fałszywie dodatniego. Algorytm Morisa-Pratta nie
  potrzebuje takiej walidacji.
@@ -445,9 +449,11 @@ implementację przedstawioną w algorytmie Morisa-Pratta. Różnice można zauwa
 (rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}).
 
 Gdy nie osiągnięto długości łańcucha i obecny znak jest równy temu, który 
-znajduje się w łańcuchu szukany, to można wykonać skok do znaku znajdującego
-się w tablicy przygotowanej. Nie należy sprawdzać kolejny znak w pętli. Ta różnica
-powoduje, że algorytm wykonuje się szybciej.
+znajduje się w łańcuchu szukany (rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}
+linijka 10), to można wykonać skok do znaku znajdującego się w tablicy
+przygotowanej (rys. \ref{fig:code:KurtMorisPrattVsMorisPratt} linijka 13).
+Nie należy sprawdzać kolejny znak w pętli. Ta różnica powoduje, że algorytm 
+wykonuje się szybciej.
 
 Złożoność tego algorytmu wynosi $O(2*{len(pattern)})$, gdzie pattern to długość
 tekstu przeszukiwanego. W najbardziej pesymistycznym przypadku, gdy nie 
@@ -474,15 +480,17 @@ $O({len(substr)}*{len(pattern)})$ co posiada tę samą złożoność co algorytm
 
 W scenariuszu wykorzystania algorytmu Kurta-Morrisa-Pratt (tab. \ref{tabela:KMPExampleSlow})
 można zaobserwować działanie na przykładzie tekstu przeszukiwanego S = 
-"AAAAAABAAAAAABAAAAAAA" oraz frazy szukanej W == AAAAAA. W tym przypadku algorytm musi sprawdzić każde
-wystąpienie 'A' przed dotarciem do 'B', co jest bardzo nieefektywne. Sytuacja 
+'AAAAAABAAAAAABAAAAAAA' oraz frazy szukanej W = 'AAAAAA'. W tym przypadku algorytm musi sprawdzić każde
+wystąpienie 'A' przed dotarciem do 'B', co jest bardzo nieefektywne, ponieważ
+pisany tekst miałby większą różnorodność liter i to proces przeszukiwania mógłby 
+zacząć się od symbolu B. Sytuacja 
 pogarsza się wraz ze wzrostem liczby powtórzeń fragmentu "AAAAAAB". Mimo że 
 metoda tablicowa \textbf{preproc} działa tu sprawnie (bez potrzeby cofania się), to jej 
-jednokrotne wykonanie dla łańcucha szukanego W może być wolny. Proces
-ten wyszukiwania często wymaga wielokrotnych powtórzonych przebiegów. 
+jednokrotne wykonanie dla łańcucha szukanego W wykona się podobnie jak w algorytmie
+brute-force. Proces ten wyszukiwania często wymaga wielokrotnych powtórzonych przebiegów. 
 Wielokrotne przeszukiwanie tekstu S w poszukiwaniu wzorca prowadzi do gorszej
-wydajności. W takich przypadkach, gdzie mamy do czynienia z tego typu 
-charakterystyką tekstu i wzorca (powtarzające się litery). Naturalny język posiada
+wydajności, gdy zbiór danych zawiera tego typu 
+charakterystykę tekstu i wzorca (powtarzające się litery). Naturalny język posiada
 rzadziej powtarzające się litery, dlatego algorytm Boyera-Moore'a może stanowić 
 optymalne rozwiązanie.
 
@@ -493,19 +501,80 @@ najgorszym przypadku $O({len(pattern)}*{len(substr)})$.
 \subsection{Algorytm Boyera-Moore'a}
 \label{sch:algoBoyerMoore}
 
-Zaletą algorytmu jest to, że ilość skoków pomiędzy porównaniami jest zwykle 
-większa od 1, a gdy istnieje sytuacja, w której litery w łańcuchu szukanym nie
-powtarzają się, to możemy przeskoczyć o długość całego łańcucha szukanego.
+\begin{figure}[ht]
+    \centering
+    \begin{lstlisting}
+i := 0
+len_str := len(str)
+len_substr := len(substr)
+for i+len_substr <= len_str {
+  for j := len_substr - 1; j >= 0; j-- {
+   if str[i+j] != substr[j] {
+     if loc := bm.preproc[str[i+j]]; loc == 0 {
+       if j == len_substr-1 {
+         i += len_substr
+       } else {
+         i += len_substr - j - 1
+       }
+     } else {
+       n := loc - len_substr + j + 1
+       if n <= 0 {
+         i++
+       } else {
+         i += n
+       }
+     }
+     goto loop
+   }
+  }
+  res = append(res, i)
+  if v := bm.preproc[str[i+len_substr-1]]; v != 0 {
+   i += v
+  } else {
+   i += len_substr
+  }
+}
+    \end{lstlisting}
+    \caption{Główna część wyszukiwania w algorytmie Boyera-Moore'a}
+    \label{fig:code:BMmain}
+\end{figure}
+  
+
+  
+
 
 Algorytm Boyera-Moore'a wprowadza rewolucyjne podejście poprzez skanowanie 
 wzorca od prawej do lewej strony, w przeciwieństwie do MP i KMP, które 
 analizują tekst od lewej do prawej. Ta fundamentalna różnica pozwala algorytmowi BM na 
-znacznie efektywniejsze przeskakiwanie fragmentów tekstu, które na pewno nie 
+znacznie efektywniejsze przeskakiwanie fragmentów tekstu \ref{fig:code:BMmain}, które na pewno nie 
 zawierają wzorca. BM wykorzystuje dwie heurystyki: "złego znaku" oraz "dobrego
 sufiksu", podczas gdy KMP i MP opierają się na pojedynczej tablicy prefiksowej.
 
-W kontekście implementacji algorytm Boyera-Moore'a wymaga utworzenia dwóch tablic pomocniczych dla
-swoich heurystyk, co zwiększa złożoność pamięciową w porównaniu do pojedynczej 
+Zaletą algorytmu jest to, że ilość skoków pomiędzy porównaniami jest zwykle 
+większa od 1, a gdy istnieje sytuacja, w której litery w łańcuchu szukanym nie
+powtarzają się, to można przeskoczyć o długość całego łańcucha szukanego.
+
+\begin{figure}[ht]
+    \centering
+    \begin{lstlisting}
+if bm.preproc == nil {
+  l := len(substr)
+  table := make([]int, 256)
+
+  for i := 0; i < l-1; i++ {
+    j := substr[i]
+    table[j] = l - i - 1
+  }
+  bm.preproc = table
+}
+    \end{lstlisting}
+    \caption{Kalkulacja BWP w algorytmie Boyera-Moore'a}
+    \label{fig:code:BMpreproc}
+\end{figure}
+
+W kontekście implementacji algorytm Boyera-Moore'a wymaga utworzenia tokenów dla
+każdego znaku w ASCII \ref{fig:code:BMpreproc} w buforze wcześniejszego 
+procesowania \ref{skrót:BWP}, co zwiększa złożoność pamięciową w porównaniu do pojedynczej 
 tablicy prefiksowej w KMP i MP. Jednak ta dodatkowa pamięć przekłada się na 
 możliwość wykonywania większych skoków w tekście. KMP i MP różnią się między 
 sobą głównie w sposobie konstrukcji tablicy prefiksowej. KMP wykorzystuje 

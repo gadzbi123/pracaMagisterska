@@ -15,37 +15,72 @@
 
 Przed wyborem metody sprawdzającej należy wykonać heurystykę danych. Jest to 
 wymagane, ponieważ wydajność algorytmu jest ściśle powiązana z danymi, które
-będziemy przeszukiwać. Jeżeli większość analizowanych danych mają charakter
-tekstowy, to lepszym rozwiązaniem będzie skorzystanie z ostatniego algorytmu
-\ref{sch:algoBoyerMoore}, jednak w innym przypadku warto wykorzystać jeden z 
+będą przeszukiwane. Jeżeli większość analizowanych danych mają charakter
+tekstowy, to lepszym rozwiązaniem będzie skorzystanie z ostatniego algorytmu BM
+(rys. \ref{sch:algoBoyerMoore}), jednak w innym przypadku warto wykorzystać jeden z 
 pozostałych.
 
-Do tego zadania należałoby przeznaczyć narzędzia, które dobrze sobie radzą z 
-taką analizą. 
+\begin{figure}[ht]
+    \centering
+    \begin{lstlisting}
+#!/usr/bin/env python3
+import os
+import subprocess
+from collections import defaultdict
+def get_mime_type(file_path):
+    result = subprocess.run(['file', '--mime-type', file_path], 
+    capture_output=True, text=True)
+    return result.stdout.split(': ')[1].strip()
+def get_file_size(file_path):
+    try:
+        return os.path.getsize(file_path)
+    except Exception:
+        return 0
+def collect_mime_stats(start_path='.'):
+    mime_stats = defaultdict(lambda: {'size': 0, 'count': 0})
+    total_size = 0
+    total_count = 0
+    for root, _, files in os.walk(start_path):
+        for file in files:
+        file_path = os.path.join(root, file)
+        mime_type = get_mime_type(file_path)
+        size = get_file_size(file_path)
+        
+        mime_stats[mime_type]['size'] += size
+        mime_stats[mime_type]['count'] += 1
+        total_size += size
+        total_count += 1
+    return mime_stats, total_size, total_count
+def format_size_kb(size_bytes):
+    return f"{size_bytes / 1024:.2f}"
+def main():
+    mime_stats, total_size, total_count = collect_mime_stats()
+    sorted_stats = sorted(mime_stats.items(), key=lambda x: x[1]['size'], reverse=True)
+    format_str = "{:<45} {:>10} KB {:>8}"
+    for mime_type, stats in sorted_stats:
+        print(format_str.format(
+            mime_type,
+            format_size_kb(stats['size']),
+            stats['count']
+        ))
+    print(format_str.format(
+        "Total",
+        format_size_kb(total_size),
+        total_count
+    ))
+    \end{lstlisting}
+    \caption{Program pozwalający na wyświetlenie ilości danych w formacie MIME}
+    \label{fig:code:pythonMimeProgram}
+\end{figure}
 
-\begin{itemize}
-  \item duc
-  \item rclone
-  \begin{enumerate}
-    \item ls 
-    \item ncdu
-  \end{enumerate}
-  \item tree
-  \begin{enumerate}
-    \item tree -h --du | wc -l -> 14307
-    \item tree -h --du -> 13827 files, 481 dirs
-  \end{enumerate}
-  \item skomplikowane połączenie komend
-  \begin{verbatim}
-find . -type f -exec file --mime-type {} \; |
-awk -F': ' '{print $2}' |
-sort |
-uniq -c |
-sort -nr
-  \end{verbatim}
-\end{itemize}
+Przedstawiony program został stworzony do ustalenia typów plików w zbiorze 
+rozpakowanych archiwów \ref{fig:code:pythonMimeProgram}. Na tym zbiorze testowano działanie poszczególnych algorytmów.
+Ten zbiór jest mniejszy, aby ograniczyć wpływ czytania z dysku na wyniki badań. 
+Porównano typ plików na podstawie identyfikatora formatu danych MIME. Pozwala
+on na określenie, z jakim typem danych pracujemy, aby przeszukać dane.
 
-\begin{table}[h]
+
+\begin{table}[hb]
     \centering
     \begin{tabular}{lr}
         \hline
@@ -92,49 +127,35 @@ i dokładności wyszukiwania. Porównano ilość plików (tab. \ref{tabela:typyM
 które występują w zbiorze danych i odrzucono część z nich z powodu sposobu, w jaki
 analizowano dane.
 
-Porównano typ plików na podstawie identyfikatora formatu danych MIME. Pozwala
-on na określenie, z jakim typem danych pracujemy, aby przeszukać dane.
-
 Program nie ma na celu modyfikować informacji zawartych w plikach w żaden sposób.
 Algorytmy użyte skupiają się głównie na tekście, dlatego w procesie tworzenia 
-odrzucone zostają pliki z takimi rozszerzeniami jak
+odrzucone zostają pliki z takimi rozszerzeniami jak:
+
 \begin{enumerate}
   \item pliki zdjęć:
   \begin{itemize}
     \item ".jpg",  
     \item ".gif",
   \end{itemize}
-  \item pliki pdf:
-  \begin{itemize}
-    \item ".pdf",
-  \end{itemize}
-  \item pliki archiwów:
+  \item pliki skompresowane:
   \begin{itemize}
     \item ".tar.gz",
-    \item ".rar", 
-    \item ".zip",
     \item ".tgz",
-    \item ".tar",
     \item ".gz",
   \end{itemize}
   \item pliki pochodzące od Microsoftu:
   \begin{itemize}
     \item ".doc", 
-    \item ".docx".
   \end{itemize}
 \end{enumerate}
 
 Innym sposobem na rozwiązanie problemu jest wykorzystanie dostępnych narzędzi i
-dostosowanie ich do problemu, który rozwiązujemy. Wykorzystanie wielu narzędzi
-zaimplementowanych w jednym celu (tar, gzip, grep) i połączenie ich do 
-skomplikowanej operacji przeszukiwania archiwów dałoby znacznie gorszy rezultat
+dostosowanie ich do problemu, który jest rozwiązywany. Wykorzystanie wielu narzędzi
+zaimplementowanych w jednym celu (\textbf{tar},\textbf{gzip}, \textbf{grep}) i połączenie ich do 
+skomplikowanej operacji przeszukiwania archiwów zajełoby więcej czasu
 i wymagałoby obsłużenia błędów każdego z narzędzi. Dodatkowo nie każda treść
 jest odpowiednia do użycia narzędzia rozpakowującego tar, np. w przypadku 
-skompresowanej treści, gdzie należy wykorzystać gzip.
-
-Aby porównać analizowane programy z implementacją gsearch, potrzeba porównać
-ilość oczekiwanych rezultatów dla długości słów oraz czas wykonania całego 
-przeszukania.
+skompresowanej treści, gdzie należy wykorzystać narzędzie \textbf{gzip}.
 
 \section{Rozwiązanie problemu zarchiwizowanych plików w zbiorze danych}
 
@@ -150,6 +171,10 @@ Pliki zawierające archiwum zostaną rozpakowane do osobnego folderu, a następn
 wykonane zostanie rekurencyjne wyszukanie zawartość w każdym folderze i pliku.
 Ta metoda zostanie powtórzona tak długo, aż wszystkie pliki zostaną odczytane 
 i nie będzie już więcej archiwów do rozpakowania.
+
+Aby porównać analizowane programy z implementacją gsearch, potrzeba porównać
+ilość oczekiwanych rezultatów dla długości słów oraz czas wykonania całego 
+przeszukania.
 
 \section{Uzasadnienie wyboru zastosowanych metod, algorytmów, narzędzi}
 
@@ -178,9 +203,9 @@ wirtualnej czytającej bytecode jak w przypadku Javy i JVM.
 
 Wadą tego języka może być fakt, iż język nie daje programiście możliwości pełnej
 kontroli pamięci. Język wykorzystuje ang. \english{Garbage Collector} (zbieracz 
-śmieci) przedstawiony na rysunku \ref{fig:GarbageCollectorImage}, który jest 
-alternatywą do sposobu manualnej alokacji pamięci. Można zauważyć, że obiekty
-wykorzystywane w zbiorze korzenia (ang. \english{Root Set}) oznaczone na 
+śmieci), który jest alternatywą do sposobu manualnej alokacji pamięci. Można 
+zaobserwować działanie Garbage Collectora (GC) (rys. \ref{fig:GarbageCollectorImage}),
+jak obiekty wykorzystywane w zbiorze korzenia (ang. \english{Root Set}) oznaczone na 
 niebiesko, zostaną utrzymane w pamięci z powodu powiązania z innymi elementami
 łączącymi się do zbioru korzenia. Kolorem czerwonym oznaczone są elementy, które
 przestały być powiązane z jakimkolwiek elementem, więc zostaną zwolnienie z 

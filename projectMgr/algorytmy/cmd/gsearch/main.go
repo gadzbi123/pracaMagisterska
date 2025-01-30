@@ -170,22 +170,22 @@ func IsArchiveFileExtension(path string) bool {
 
 func IsKnownCorruptedFile(path string) bool {
 	knownCorruptedFiles := []string{
-		"DataMining.zip",
-		"angielski.zip",
-		"konferencja.zip",
-		"literatura_old.zip",
-		"matematyka.zip",
-		"en_curriculum6_v1.zip",
-		"_vti_cnf/allbmp.zip",
-		"/_vti_cnf/allswf.zip",
-		"Analysis of Incomplete Multivariate Data.zip",
-		"[ Neural Networks and Learning - Ebook ] Introduction to Machine Learning - Michael Burl.zip",
-		"Practical Handbook of Genetic Algorithms Complex Coding Systems  Volume III.zip",
-		"STL_doc.tar.gz",
-		"/stl/",
-		"Fizyka Wyklady All.rar",
-		"Wirusy_Adam_Blaszczyk.rar",
-		"2124C Allfiles.zip",
+		// "DataMining.zip",
+		// "angielski.zip",
+		// "konferencja.zip",
+		// "literatura_old.zip",
+		// "matematyka.zip",
+		// "en_curriculum6_v1.zip",
+		// "_vti_cnf/allbmp.zip",
+		// "/_vti_cnf/allswf.zip",
+		// "Analysis of Incomplete Multivariate Data.zip",
+		// "[ Neural Networks and Learning - Ebook ] Introduction to Machine Learning - Michael Burl.zip",
+		// "Practical Handbook of Genetic Algorithms Complex Coding Systems  Volume III.zip",
+		// "STL_doc.tar.gz",
+		// "/stl/",
+		// "Fizyka Wyklady All.rar",
+		// "Wirusy_Adam_Blaszczyk.rar",
+		// "2124C Allfiles.zip",
 	}
 	for _, f := range knownCorruptedFiles {
 		if strings.Contains(path, f) {

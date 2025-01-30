@@ -8,12 +8,12 @@
 %\item Czy mogę sformułować jakieś rekomendacje?
 %\end{itemize}
 
-\begin{itemize}
-\item syntetyczny opis wykonanych prac
-\item wnioski
-\item możliwość rozwoju, kontynuacji prac, potencjalne nowe kierunki
-\item Czy cel pracy zrealizowany? 
-\end{itemize}
+% \begin{itemize}
+% \item syntetyczny opis wykonanych prac
+% \item wnioski
+% \item możliwość rozwoju, kontynuacji prac, potencjalne nowe kierunki
+% \item Czy cel pracy zrealizowany? 
+% \end{itemize}
 
 \section{Opis wykonanych prac}
 
@@ -25,7 +25,7 @@ analizę porównawczą narzędzi pod względem liczby i prędkości wyszukiwań 
 nierozpakowanym zbiorze. Testy przeprowadzono na środowisku Linux.
  
 Zbiór danych testowych składał się z różnorodnych formatów plików o łącznym 
-rozmiarze około 32 GB, z dominującymi formatami PDF, ZIP i RAR. W trakcie badań
+rozmiarze około 15 GB, z dominującymi formatami PDF, ZIP i RAR. W trakcie badań
 uwzględniono problematykę różnych formatów plików, co pozwoliło na kompleksową
 ocenę wydajności algorytmów w rzeczywistych warunkach. W ramach analizy
 algorytmów porównano implementacje Morris-Pratt, Knuth-Morris-Pratt i Boyer-Moore.
@@ -33,8 +33,8 @@ Szczególną uwagę poświęcono wpływowi optymalizacji bufora wstępnego przet
 na wydajność oraz znaczeniu ponownego wykorzystania buforów w kolejnych wyszukiwaniach.
 Badania wykazały istotny wpływ tych optymalizacji na ogólną wydajność wyszukiwania.
 
-Istotnym elementem badań było porównanie autorskiego narzędzia (gsearch) z 
-popularnymi rozwiązaniami takimi jak ugrep, zgrep i ripgrep. Analiza objęła 
+Istotnym elementem badań było porównanie autorskiego narzędzia \textbf{gsearch} z 
+popularnymi rozwiązaniami takimi jak \textbf{ugrep}, \textbf{zgrep} i \textbf{ripgrep}. Analiza objęła 
 różnice w funkcjonalności, szczególnie w kontekście obsługi archiwów, oraz wpływ
 pamięci podręcznej na wydajność wyszukiwania. Wykazano, że każde z narzędzi ma
 swoje specyficzne zalety i ograniczenia, zwłaszcza w kontekście obsługi
@@ -42,9 +42,25 @@ zagnieżdżonych archiwów i różnych formatów plików. Profilowanie wydajnoś
 pozwoliło zidentyfikować główne wąskie gardła w procesie wyszukiwania. Wykazano,
 że operacje I/O, w tym odczyt z dysku i ekstrakcja archiwów, stanowią największe
 obciążenie, podczas gdy sam algorytm wyszukiwania zajmuje relatywnie małą część
-całkowitego czasu wykonania. Autorskie rozwiązanie (gsearch), choć ustępuje
-wydajnością ripgrep w przypadku prostych wyszukiwań, oferuje unikalne 
+całkowitego czasu wykonania. Autorskie rozwiązanie \textbf{gsearch}, choć ustępuje
+wydajnością \textbf{ripgrep} w przypadku prostych wyszukiwań, oferuje unikalne 
 funkcjonalności, szczególnie w kontekście obsługi złożonych struktur archiwów.
+
+\section{Dowiedzenie celów i wnioski}
+
+Algorytm Boyera-Moore'a wykonał się szybciej, dlatego że zachowywał więcej 
+informacji o łańcuchu szukanym, co pokrywa się z hipotezą badań.
+
+Potwierdza się również hipoteza, iż im większy ciąg znaków wyszukujemy, tym
+rozwiązania mogą szybciej przeszukać zawartość.
+
+Wynik rozwiązania (\textbf{gsearch}) posiada większe odchylenie standardowe od
+wyników z narzędzia \textbf{ripgrep}, co może świadczyć o tym, że Garbage
+Collector wpływa na regularność otrzymanych wyników w wymiarze czasu.
+
+Wnioskiem jest to, że czas odczytywania danych z dysku w przypadku braku
+istnienia ich w pamięci podręcznej (cache), znacznie wpływa na szybkość 
+uzyskanych wyników. 
 
 \section{Możliwości rozwoju}
 
@@ -59,11 +75,11 @@ takiego rozwiązania pozwoli pozyskać treść ze zdjęć oraz pdfów, które sk
 się ze zdjęć i tekstowych skanów treści.
 
 W celu uzyskania lepszych rezultatów można, zamiast wykorzystywać gotową 
-bibliotekę — stworzyć bibliotekę dekompresującą, wszystkich brakujących i nie
+bibliotekę to stworzyć bibliotekę dekompresującą, wszystkich brakujących i nie
 poprawnie działających formatów archiwów. Jest to jednak dość wymagające zadanie
-oraz możliwość testowania tego rozwiązania jest ograniczona. Jak bardzo 
-plik może być uszkodzony, żeby można było odczytać z niego dane, które nie są
-niepoprawne.
+oraz możliwość testowania tego rozwiązania jest ograniczona do tego zbioru archiwów. 
+Należy postawić pytanie, jak bardzo plik może być uszkodzony, żeby można było
+odczytać z niego dane.
 
 Kolejnym usprawnieniem dla programu byłoby wprowadzenie pamięci podręcznej (ang. \english{caching}).
 Takie rozwiązanie pozwoliłoby na zapamiętanie plików, które już kiedyś dekompresowano.
