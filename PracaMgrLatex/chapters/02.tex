@@ -73,7 +73,7 @@ Narzędzie \textbf{find} to znane i popularne narzędzie w systemie z jądrem Li
 Już bardzo często wykorzystywany do znajdowania plików w systemie po nazwie, 
 jednak nie nadaje się do znajdowania zawartości plików.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
 \begin{tcolorbox}[
     colback=white,
@@ -123,7 +123,7 @@ posiada też możliwość szukania zawartości archiwów oraz nie wspiera wielu
 formatów. Jest możliwość binarnego przeszukania plików, lecz archiwa nie będą 
 odczytane w przypadku użycia kompresji.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
 \begin{tcolorbox}[
     colback=white,
@@ -163,7 +163,7 @@ Kolejnym narzędziem jest \textbf{ripgrep}. Nie jest on domyślnie instalowany n
 większości systemów Linux, ale pozwala na szybsze wyszukiwanie z powodu
 wykorzystania równoległości wątków.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
 \begin{tcolorbox}[
     colback=white,
@@ -281,7 +281,7 @@ przez sieć.
 
 \subsection{Algorytm brute force}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
   \begin{lstlisting}
 for i := 0; i<len(pattern); i++{
@@ -303,7 +303,7 @@ przeszukiwanego, a len(substring) to długość tekstu szukanego. Nie jest wykon
  instancji znaku powtórzonego. Przykładową implementację algorytmu można znaleźć
   na rysunku (rys. \ref{fig:code:bruteForceComparison}).
 
-%\begin{figure}[h]
+%\begin{figure}[htbp]
 %  \centering
 %  \includegraphics[width=0.9\textwidth]{./images/historical-mem-price.png}
 %  \caption{Historyczne dane cen pamięci w latach 1993-2023}
@@ -314,7 +314,7 @@ przeszukiwanego, a len(substring) to długość tekstu szukanego. Nie jest wykon
 
 \subsection{Algorytm Morisa-Pratta}
 
-\begin{figure}[h]
+\begin{figure}[htbp]
   \centering
   \begin{lstlisting}
 preproc := make([]byte, len(substr)+1)
@@ -343,36 +343,36 @@ Od teraz jako tablicę przechowującą informacje o przesunięciu w przypadku
 błędnego znaku, którą zainicjowano na rysunku (rys. \ref{fig:code:preprocessMorisPratt})
 jako tablica \textbf{preproc}.
 
+\begin{figure}[htbp]
+    \centering
+    \begin{lstlisting}
+  res := []int{}
+  curr := 0
+  found := 0
+  for i := 0; i < len(pattern); i++ {
+    for (curr > -1) && (substr[curr] != pattern[i]) {
+      curr = preproc[curr]
+    }
+    curr++
+    if curr == len(substr) {
+      for found < i-curr+1 {
+        found++
+      }
+      res = append(res, found)
+      found++
+      curr = preproc[curr]
+    }
+  }
+    \end{lstlisting}
+    \caption{Przykład procesowania łańcucha poszukiwanego w algorytmie Morisa Pratta}
+    \label{fig:code:algoMorisPratt}
+  \end{figure}
+
 Tablice \textbf{preproc} należy wypełnić poprzednią wartości tak długo, aż zaistnieje
 różnica pomiędzy obecnym a następnym znakiem tablicy szukanej (tablicy 
 \textbf{substr}). W przypadku różnicy obu znaków — zwiększa się wartość zapisywaną 
 do tablicy \textbf{preproc} o odległość różnicy znaków. W ten sposób następnym
  razem będzie możliwość pominięcia porównania tych znaków.
-
-\begin{figure}[h]
-  \centering
-  \begin{lstlisting}
-res := []int{}
-curr := 0
-found := 0
-for i := 0; i < len(pattern); i++ {
-  for (curr > -1) && (substr[curr] != pattern[i]) {
-    curr = preproc[curr]
-  }
-  curr++
-  if curr == len(substr) {
-    for found < i-curr+1 {
-      found++
-    }
-    res = append(res, found)
-    found++
-    curr = preproc[curr]
-  }
-}
-  \end{lstlisting}
-  \caption{Przykład procesowania łańcucha poszukiwanego w algorytmie Morisa Pratta}
-  \label{fig:code:algoMorisPratt}
-\end{figure}
 
 W drugim etapie można wykorzystać wcześniej przygotowaną tablice przemieszczeń 
 \textbf{preproc}, aby obliczyć ilość przesunięcia w przypadku znalezienia 
@@ -380,7 +380,7 @@ niepasującego prefiksu (rys. \ref{fig:code:algoMorisPratt}). Dzięki temu zwykl
 dłuższy tekst znajdujący się we wzorcu \textbf{pattern} można przeanalizować szybciej
 niż w przypadku algorytmu brute-force.
 
-\begin{figure}[h]
+\begin{figure}[htbp]
     \centering
 \begin{lstlisting}
 func Index(pattern, substr string) int {
@@ -461,7 +461,7 @@ znaleziono dopasowania, będzie to wymagało ilości operacji powrotu równej d�
 łańcucha szukanego. Powoduje to, że złożoność obliczeniowa sprowadza się do
 $O({len(substr)}*{len(pattern)})$ co posiada tę samą złożoność co algorytm naiwny. 
 
-\begin{table}
+\begin{table}[hbtp]
   \centering
   \begin{tabular}{ |c|c|  } 
     % \hline
@@ -501,7 +501,7 @@ najgorszym przypadku $O({len(pattern)}*{len(substr)})$.
 \subsection{Algorytm Boyera-Moore'a}
 \label{sch:algoBoyerMoore}
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
     \centering
     \begin{lstlisting}
 i := 0
@@ -538,15 +538,11 @@ for i+len_substr <= len_str {
     \caption{Główna część wyszukiwania w algorytmie Boyera-Moore'a}
     \label{fig:code:BMmain}
 \end{figure}
-  
-
-  
-
 
 Algorytm Boyera-Moore'a wprowadza rewolucyjne podejście poprzez skanowanie 
 wzorca od prawej do lewej strony, w przeciwieństwie do MP i KMP, które 
 analizują tekst od lewej do prawej. Ta fundamentalna różnica pozwala algorytmowi BM na 
-znacznie efektywniejsze przeskakiwanie fragmentów tekstu \ref{fig:code:BMmain}, które na pewno nie 
+znacznie efektywniejsze przeskakiwanie fragmentów tekstu (rys. \ref{fig:code:BMmain}), które na pewno nie 
 zawierają wzorca. BM wykorzystuje dwie heurystyki: "złego znaku" oraz "dobrego
 sufiksu", podczas gdy KMP i MP opierają się na pojedynczej tablicy prefiksowej.
 
@@ -554,7 +550,7 @@ Zaletą algorytmu jest to, że ilość skoków pomiędzy porównaniami jest zwyk
 większa od 1, a gdy istnieje sytuacja, w której litery w łańcuchu szukanym nie
 powtarzają się, to można przeskoczyć o długość całego łańcucha szukanego.
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
     \centering
     \begin{lstlisting}
 if bm.preproc == nil {
@@ -573,8 +569,8 @@ if bm.preproc == nil {
 \end{figure}
 
 W kontekście implementacji algorytm Boyera-Moore'a wymaga utworzenia tokenów dla
-każdego znaku w ASCII \ref{fig:code:BMpreproc} w buforze wcześniejszego 
-procesowania \ref{skrót:BWP}, co zwiększa złożoność pamięciową w porównaniu do pojedynczej 
+każdego znaku w ASCII (rys. \ref{fig:code:BMpreproc}) w buforze wcześniejszego 
+procesowania (def. \ref{skrót:BWP}), co zwiększa złożoność pamięciową w porównaniu do pojedynczej 
 tablicy prefiksowej w KMP i MP. Jednak ta dodatkowa pamięć przekłada się na 
 możliwość wykonywania większych skoków w tekście. KMP i MP różnią się między 
 sobą głównie w sposobie konstrukcji tablicy prefiksowej. KMP wykorzystuje 
