@@ -117,7 +117,7 @@ na przygotowanie wyszukania będą wykonywały się szybciej niż te z mniejszym
 zużyciem. Hipotezą pomocniczą jest to, iż im większy zbiór informacji zebrany
 na podstawie łańcucha szukanego, tym większa prędkość algorytmu. Dodatkową hipotezą jest
 to, iż wykorzystanie \english{Garbage Collectora} wpływa na stabilny czas
-działania programu pomiędzy wykonaniami (ad. \ref{text:stabilnośćGC}) oraz że czas wykonywania odczytów danych z dysku zajmuje
+działania programu pomiędzy wykonaniami oraz że czas wykonywania odczytów danych z dysku zajmuje
 zdecydowaną ilość czasu.
 
 % \section{Sposób przeprowadzenia badań}
@@ -138,7 +138,7 @@ func BenchmarkMorisPrattWindowWord(b *testing.B) {
 	}
 }
   \end{lstlisting}
-  \caption{Przykład wykonania testu benchmarkowego}
+  \caption{Przykład testu dla algorytmu MP}
   \label{fig:code:examplePerfTest}
 \end{figure}
 Badanie zostało przeprowadzone na maszynie autora, podczas działania środowiska
@@ -149,13 +149,14 @@ Przeprowadzenie badań polegało na uruchomieniu komendy w pierwszej linii (rys.
 \ref{fig:code:examplePerfTest}) i wykonaniu funkcji na algorytmie Morisa Pratta. 
 Wykonano 20 testów na wyszukaniu 3 słów, które mogły występować w zbiorze danych,
 ze względu na wcześniej przeanalizowaną zawartość. Tymi słowami były 
-'main','window', 'function'.
+'main', 'window', 'function'.
 
-\textbf{founds} jest zmienną przechowującą miejsce znalezionego 
+Zmienna \textbf{founds} przechowuje miejsce znalezionego 
 ciągu wyszukiwanego, a zmienna \textbf{mp} to struktura przechowująca implementacje algorytmu MP oraz
-Bufor Wcześniejszego Procesowania (\textbf{BWP}) dla ciągu wyszukiwanego. Pierwsza implementacja nie 
+bufor wcześniejszego procesowania (\textbf{BWP}) dla ciągu wyszukiwanego. Pierwsza implementacja nie 
 posiadała tej struktury i \textbf{BWP} był obliczany przy każdym przebiegu algorytmu.
- To znacznie wpłynęło na prędkość działania algorytmu Boyera-Moora, który posiadał największy \textbf{BWP}.
+To znacznie wpłynęło na prędkość działania algorytmu Boyera-Moora, który 
+posiadał największy rozmiar \textbf{BWP}.
 
 \begin{Definition}\label{def:WalkFuncGolang}
 \textbf{WalkFunc} jest to typ funkcji przyjmowany przez funkcje Walk w module filePath.
@@ -165,12 +166,12 @@ argument przyjmujący błąd i zwraca błąd. \newline \newline
 \end{Definition}
 
 W linijce 6 (rys. \ref{fig:code:examplePerfTest}) wykona się przejście (ang. 
-\english{Walk}) po drzewie plików w \textit{DIR}, który posiada ścieżkę do 
+\english{Walk}) po drzewie plików w \textbf{DIR}, który posiada ścieżkę do 
 zbioru danych oraz przyjmuje funkcje zdefiniowaną jako \textbf{WalkFunc} jak w definicji
 (def. \ref{def:WalkFuncGolang}). Z powodu potrzeby czytania tylko zawartości plików,
 wykorzystano funkcje \textbf{WalkAndFindByAlgo}, która będzie czytała pliki, ale 
 pozwoli algorytmom podanym w argumencie na przeszukanie zawartości w celu 
-znalezienia słowa \textit{"window"}. Po zakończeniu funkcji Walk otrzymano 
+znalezienia słowa 'window'. Po zakończeniu funkcji Walk otrzymano 
 tablice znalezionych \textbf{founds}, wypełnioną miejscami, w których wystąpiło 
 znalezienie podanego ciągu. W liniach 8-10 każdy test posiada walidacje, aby wszystkie wyniki 
 otrzymane przez algorytm, były zgodne z wcześniej ustaloną sumą.
@@ -272,9 +273,7 @@ i łącznie 240 MB danych. Oto rezultaty określonych algorytmów.
 Algorytm Morisa-Pratta jest nieznacznie wolniejszy od algorytmu 
 Kurta-Morisa-Pratta. Jest to spowodowane niewielką optymalizacją pomiędzy tymi 
 dwoma algorytmami. Według danych na rysunku (rys. \ref{fig:GraphFirstAttempt}) można 
-zauważyć, KMP w niektórych przypadkach jest wolniejszy, niż algorytm MP, 
-ponieważ posiada większe odchylenie standardowe, co powoduje, że jest mniej
-stabilny \label{text:stabilnośćGC}. 
+zauważyć, KMP w niektórych przypadkach jest wolniejszy, niż algorytm MP.
 
 Algorytm Boyera-Moore'a wykorzystywany w takich narzędziach jak grep, ma 
 wolniejszy czas egzekucji, co wynika z rysunku (rys. \ref{fig:GraphFirstAttempt}), ale 
@@ -283,7 +282,7 @@ ponowną kalkulację BWP podczas otwarcia nowego pliku, choć szukana fraza pozo
 taka sama. Wykorzystanie wcześniejszego przeliczonego bufora ponownie wpłyneło na znaczne
 przyspieszenie algorytmu.
 
-Implementacja, której wyniki można zobaczyć na grafie (rys. \ref{fig:GraphFirstAttempt}) jest
+Implementacja BM, której wyniki można zobaczyć na wykresie (rys. \ref{fig:GraphFirstAttempt}) jest
 znacznie wolniejsza od pozostałych algorytmów. Powodem jest spędzanie znacznej
 cześć czasu na stworzeniu tablicy wcześniejszego procesowania. Wiadome jest, że zawsze 
 sprawdzany jest ten sam ciąg we wszystkich plikach w folderze. Istnieje możliwość 
@@ -304,9 +303,9 @@ takiej implementacji było uzyskanie informacji o wpływie ponownego wykorzystan
 bufora wcześniejszego procesowania na czas wykonania. 
 
 Aby sprawdzić faktyczne wyniki, należało zaimplementować ponowne wykorzystanie
-bufora wcześniejszego procesowania dla wszystkich algorytmów. Wyniki z drugiego wykresu 
-potwierdziły wartość ponownego użycia bufora wcześniejszego procesowania w prędkości wykonania
-algorytmu.
+bufora wcześniejszego procesowania dla wszystkich algorytmów, a nie tylko dla BM.
+Wyniki z drugiego wykresu potwierdziły wartość ponownego użycia bufora
+wcześniejszego procesowania w prędkości wykonania algorytmu.
 
 \begin{figure}[htbp]
     \includegraphics[width=\textwidth]{./images/GraphStaticPreallocAndFileBuffer.png}
@@ -317,7 +316,7 @@ algorytmu.
 Ostatni wykres (rys. \ref{fig:GraphStaticPreallocAndFileBuffer}) przedstawia implementację
 wykorzystującą ponownie bufor wcześniejszego procesowania, jak i bufor przechowujący plik.
 Bufor wcześniejszego procesowania był przydzielany przy każdym otwarciu nowego pliku,
-co powodowało, że ten bufor mógł być zbierane przez \english{Garbage Collector}.
+co powodowało, że ten bufor mógł być zbierany przez \english{Garbage Collector}.
 W przypadku użycia stałego bufora zapewniamy, że program nie będzie się pozbywał
 bufora, co uniknie proszenia o pamięć systemu. Gdy na początku programu utworzymy
 bufor przechowywania pliku sami (nie polegając na optymalizacji języka), algorytm Boyera-Moore'a
@@ -416,27 +415,29 @@ autora do \textbf{ugrep} (ug), \textbf{zgrep} oraz \textbf{ripgrep} (rg).
 \end{figure}
 
 Wiele z tych narzędzi nie działało poprawnie, gdy próbowano odczytać zawartość
-archiwów. Przykładowo narzędzie ugrep (rys.\ref{fig:ugrepErrors}) nie rozpoznawało 
+archiwów. Przykładowo narzędzie ugrep (rys. \ref{fig:ugrepErrors}) nie rozpoznawało 
 metody kompresji plików zip, co spowodowało, że nie nie otrzymano ani 
 jednego rezultatu z programu. To powoduje, że narzędzie zostanie wykluczone z 
 dalszej analizy.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{./images/zgrep-errors.png}
+    \caption{Niepoprawne działanie programu zgrep z pomocą finda}
+    \label{fig:zgrepErrors}
+    \end{figure}
 
 Możliwym rozwiązaniem byłoby rozpakowanie wszystkich plików innym narzędziem, np.
 7z. Następnie wymaga to przeszukanie rozpakowanego pliku oraz rozpakowanie 
 zawartego w nim kolejnego archiwum. Po wykonaniu takiego działania można 
 odczytać zawartość, co znacznie wydłużyłoby czas działania. Takie podejście również
 komplikuje testowanie takiego rozwiązania, bo wykonywane są różne programy, 
-które wzajemnie na siebie oczekują. Narzędzie powinno być w stanie samo 
+które wzajemnie na siebie oczekują. 
+
+\textit{Narzędzie powinno być w stanie samo 
 rozpakować i wyszukać wszystkie frazy poszukiwane. Dodatkowo narzędzie powinno
 znajdować frazy zaraz po rozpakowaniu pliku i nie powinno czekać na rozpakowanie
-wszystkich archiwów, aby przeszukiwać ich zawartość.
-
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=1.0\textwidth]{./images/zgrep-errors.png}
-\caption{Niepoprawne działanie programu zgrep z pomocą finda}
-\label{fig:zgrepErrors}
-\end{figure}
+wszystkich archiwów, aby przeszukiwać ich zawartość.}
 
 Kolejne z wymienionych narzędzi również nie spełnia wymagań. Narzędzie \textbf{zgrep} nie pozwala
 na rekurencyjne wyszukiwanie danych w folderach, w których znajdują się archiwa.
@@ -479,7 +480,7 @@ Taki rezultat nie mówi, w którym pliku znajdują się frazy, a jedynie może z
 kontekst w pliku lub podać ilość wystąpień.
 
 Różnica ta jest znacząca w celu znalezienia frazy w konkretnym pliku. 
-Implementacja gsearch pozwala na wyszukanie linii pliku, w którym fraza się znajduje. 
+Implementacja \textbf{gsearch} pozwala na wyszukanie linii pliku, w którym fraza się znajduje. 
 
 \begin{figure}[htbp]
 \centering
@@ -488,17 +489,17 @@ Implementacja gsearch pozwala na wyszukanie linii pliku, w którym fraza się z
 \label{fig:ripgrepRemoveSkipped}
 \end{figure}
 
-Autorskim programem do przeszukiwania treści w archiwach jest gsearch. Od teraz
+Autorskim programem do przeszukiwania treści w archiwach jest \textbf{gsearch}. Od teraz
 wszystkie odniesienia do implementacji będą odnosiły się do nazwy programu.
 
-Gdy gsearch próbuje przeszukać archiwum z niepoprawną sumą kontrolną, program
-zostaje wyłączony z powodu błędu. Gsearch może wykonać pełne szukanie w przypadku,
+Gdy \textbf{gsearch} próbuje przeszukać archiwum z niepoprawną sumą kontrolną, program
+zostaje wyłączony z powodu błędu. Program \textbf{gsearch} może wykonać pełne szukanie w przypadku,
 gdy suma kontrola plików archiwów jest poprawna.
 
-Gdy gsearch przeszukuje archiwa nieuszkodzone, przedstawione na rysunku (rys. \ref{fig:ripgrepRemoveSkipped}),
-to widać, że liczba wystąpień w gsearch jest większa. Poniżej znajduje się zestawienie
-ilości znalezionych wystąpień dla wszystkich archiwów przeszukiwanych przez rg,
-pominiętych archiwów dla rg oraz pominiętych archiwów przeszukanych przez gsearch.
+Gdy \textbf{gsearch} przeszukuje archiwa nieuszkodzone, przedstawione na rysunku (rys. \ref{fig:ripgrepRemoveSkipped}),
+to widać, że liczba wystąpień w \textbf{gsearch} jest większa. Poniżej znajduje się zestawienie
+ilości znalezionych wystąpień dla wszystkich archiwów przeszukiwanych przez \textbf{rg},
+pominiętych archiwów dla \textbf{rg} oraz pominiętych archiwów przeszukanych przez \textbf{gsearch}.
 
 \begin{table}[htbp]
     \centering
@@ -526,12 +527,12 @@ pominiętych archiwów dla rg oraz pominiętych archiwów przeszukanych przez gs
 \end{table}
 
 Należy wspomnieć, iż jedno wystąpienie dla narzędzia \textbf{ripgrep} to pojawienie się frazy
-w danej linijce. W ten sam sposób liczone jest znalezienie wystąpienia w gsearch.
-Implementacja gsearch nie posiada wrażliwości na wielkość liter, dlatego nie 
+w danej linijce. W ten sam sposób liczone jest znalezienie wystąpienia w \textbf{gsearch}.
+Implementacja \textbf{gsearch} nie posiada wrażliwości na wielkość liter, dlatego nie 
 jest testowana.
 
 Tabela (tab. \ref{tabela:iloscWyszukanDziekiProgramom}) przedstawia wyniki ilości 
-wystąpień fraz w zbiorze archiwów. Ponieważ implementacja gsearch nie potrafi
+wystąpień fraz w zbiorze archiwów. Ponieważ implementacja \textbf{gsearch} nie potrafi
 przeszukać określonych archiwów, zdecydowano się na zestawienie rezultatów
 \textbf{ripgrepa} ze wszystkich archiwów, oraz z tego samego zbioru archiwów pominiętych. 
 
@@ -596,7 +597,7 @@ znalezienie konkretnego pliku w którym fraza się znajduje.
 \section{Porównanie prędkości wyszukiwania programów}
 
 Porównane zostaną programy, które pozwoliły uzyskać oczekiwany rezultat i są to
-\textbf{ripgrep} oraz implementowany gsearch. 
+\textbf{ripgrep} oraz implementowany \textbf{gsearch}. 
 Porównanie szybkości wyszukiwania zostanie wykonane na pomniejszonym zbiorze,
 aby porównanie czasów było sprawdzane na tym samym zbiorze, gdzie oba programy
 są w stanie odczytać z nich dane.
@@ -604,14 +605,16 @@ są w stanie odczytać z nich dane.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{./images/example-hyperfine-run.png}
-    \caption{Zdjęcie przedstawia przykładowe test dwóch programów w hyperfine.}
+    \caption{Zdjęcie wyników testów hyperfine.}
     \label{fig:hyperfineExample}
 \end{figure}
 
 Porównanie zostanie przeprowadzone wykorzystując narzędzie \textbf{hyperfine}, które
 jest bardzo dobre do testowania różnic pomiędzy szybkościami podobnych programów.
 Przykładowy rezultat wykonania jednego testu daje dużo informacji i zostaje
-zapisany do pliku csv (rys. \ref{fig:hyperfineExample}).
+zapisany do pliku csv (rys. \ref{fig:hyperfineExample}). Dwa programy \textbf{gseach} 
+oraz \textbf{ripgrep} wykonują się jednokrotnie. Następnie otrzymano czas wykonania obu
+programów i krótkie podsumowanie otrzymanych wyników. 
 
 \begin{figure}[htbp]
     \centering
@@ -641,14 +644,14 @@ zapisany do pliku csv (rys. \ref{fig:hyperfineExample}).
         };
         \end{axis}
     \end{tikzpicture}
-    \caption{Wykres czasów znalezienia fraz w zależności od długości liter dwóch programach}
+    \caption{Wykres czasów wyszukania fraz dwóch programów w zależności od ilości liter}
     \label{fig:wykresPorównaniaCzasówWyszukań}
 \end{figure}
 
 Prędkości wyszukiwania danych za pomocą funkcji \textbf{ripgrep} są znacznie większe niż te
-za pomocą gsearch (rys. \ref{fig:wykresPorównaniaCzasówWyszukań}). Wynika to z
+za pomocą \textbf{gsearch} (rys. \ref{fig:wykresPorównaniaCzasówWyszukań}). Wynika to z
 tego, że \textbf{ripgrep} wykonuje wyszukiwania z wykorzystaniem kilku wątków. Dodatkowo 
-program rg ładuje pliki prosto do pamięci, natomiast program gsearch rozpakowuje
+program \textbf{rg} ładuje pliki prosto do pamięci, natomiast program \textbf{gsearch} rozpakowuje
 zawartość pliku archiwum do folderu, a następnie czyta zawartość każdego pliku.
 
 Takie podejście było konieczne, gdyż Golang ma wbudowane większe ograniczenia w 
@@ -669,17 +672,19 @@ porównania małej frazy z zawartością danych przeszukiwanych.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.7\textwidth]{./images/ripgrep-clear-cache-slow.png}
-    \caption{Narzędzie ripgrep działa wolniej bez pamięci tymczasowej}
+    \caption{Przykład czasu wykonania narzędzia ripgrep z wyczyszczoną pamięcią
+    podręczną i bez wyczyszczenia}
     \label{fig:ClearCacheRipgrep}
 \end{figure}
 
 Komenda \textbf{ripgrep} posiada bardzo nietypowe działanie w przypadku kolejnych wykonań 
 programu. Po pierwszym wykonaniu programu dane z dysku są znacznie dłużej
 wyszukiwane. Pomimo że program nie wykorzystuje operacji zachowania danych
-w pamięci tymczasowej (cache), to system operacyjny zachowuje zawartość plików 
-i ścieżki. To powoduje przyspieszenia wykonania programu ripgrep. Gdy 
+w pamięci tymczasowej (cache), to system operacyjny przechowuje zawartość plików 
+i ścieżki w RAM. To powoduje, że zanim \textbf{ripgrep} zacznie czytać treść z 
+dysku, to sprawdza zawartość pamięci RAM. Gdy 
 wyczyszczono cache jak na obrazie (rys. \ref{fig:ClearCacheRipgrep}),
-zauważyć można znaczną pogorszenie rezultatów.
+zauważyć można znaczną pogorszenie rezultatów \textbf{ripgrep}. 
 
 Pierwsza komenda zapewnia brak utraty
 danych, a następnie druga komenda powoduje zapisanie pliku drop caches z wartością 3.
@@ -687,8 +692,8 @@ Ta komenda czyści wszystkie zapisane zawartości pliku oraz dane o odczytywanyc
 folderach i plikach.
 
 Ta komenda powoduje spowolnienie działania obu programów, jednak w znacznie
-mniejszym stopniu w przypadku gsearch niż \textbf{ripgrep} jak na wykresie (rys. \ref{fig:wykresPorównaniaCzasówWyszukańUncached}).
-Można również zauważyć większy nierówność czasów wyszukiwań, natomiast
+mniejszym stopniu w przypadku \textbf{gsearch} niż \textbf{ripgrep} jak na wykresie (rys. \ref{fig:wykresPorównaniaCzasówWyszukańUncached}).
+Można również zauważyć większe odchylenie standardowe czasów wyszukiwań dla \textbf{gsearch}, natomiast
 ogólny czas działania programu jest o połowę krótszy niż w przypadku polecenia \textbf{ripgrep}.
 
 \begin{figure}[htbp]

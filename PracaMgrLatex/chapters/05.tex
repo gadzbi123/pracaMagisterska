@@ -17,6 +17,52 @@
 
 \section{Opis wykonanych prac}
 
+W pierwszej części przeprowadzono badania na algorytmach, porównując szybkość
+ich wykonania na zbiorze plików. Dowiedziono wtedy, że na czasy wykonania 
+znacznie wpływa czas alokowania nowych zasobów przez program. Udało się dowieść,
+że po wykorzystaniu tego samego bufora (\textbf{BWP}) do kolejnych przeszukań, przyspieszono 
+algorytm BM o około $20 \%$. Wynika to z różnicy pomiędzy
+wykresami \ref{fig:GraphFirstAttempt} oraz \ref{fig:GraphPreAllocBM}.
+
+Zaletą takie rozwiązania jest to, że bufor pozwala na zmniejszenie czasów
+na alokowanie pamięci pomiędzy wykonaniami. \textbf{BWP} zasadniczo nie posiada wad w
+tej implementacji. 
+
+Ponad udało się pokazać, że stworzenie jednego bufora na przechowywanie treści
+pliku redukuje dodatkowo czas pomiędzy wykonaniami o około $8 \%$, co stanowi
+zaletę tego rozwiązania. Można to zaobserwować porównując różnice czasów wykonań
+w \ref{fig:GraphPreAllocBM} i \ref{fig:GraphStaticPreallocAndFileBuffer}. Wadą
+tego rozwiązania jest to, że rozmiar buforu na plik musi być zanany przed
+wykonaniem programu. Ostatecznie dowiedziono, że algorytm Boyera-Moore'a będzie
+najlepszym wyborem dla danego zbioru danych (tab. \ref{tabela:typyMIMEdataset}).
+
+Następnie przeprowadzono badania na zbiorze archiwów, wykorzystując najszybszy algorytm 
+Boyera-Moore'a. Porównano działanie programów \textbf{ugrep}, \textbf{zgrep},
+\textbf{ripgrep} oraz autorskiego \textbf{gsearch}. Z badania wynikło, że
+jedynie narzędzie \textbf{ripgrep} oraz \textbf{gsearch} mogą być mierzone pod
+względem ilości wyszukiwań i prędkości. Narzędzia \textbf{ugrep} oraz 
+\textbf{zgrep} nie znalazły żadnych wyników. 
+
+Zaletą programu \textbf{ripgrep} okazała się szybkość wykonania w przypadku, gdy
+pliki znajdują się w pamięci tymczasowej, co wynika z rysunku 
+\ref{fig:wykresPorównaniaCzasówWyszukań}. Zaletą programu \textbf{gsearch} jest
+jego szybkość wykonania, kiedy pliki zbioru są czytane po raz pierwszy. Wynika
+to z rysunku \ref{fig:wykresPorównaniaCzasówWyszukańUncached}. 
+
+Wadą narzędzia \textbf{ripgrep} okazało się wolniejsze wykonywanie programu po raz pierwszy.
+Wadą \textbf{gsearch} było wolniejsze wykonywanie kolejnego identycznego wyszukiwania.
+
+W ostatniej części badań odkryto, że czas wykonania algorytmu zajmuje jedynie
+$0,3 \%$ całego wykonania programu \textbf{gsearch} (rys. \ref{fig:profilerGsearch1}).
+Z obrazka wynika, że funkcja main wykonywała się 21,57 s, a sam algorytm 
+Boyera-Moore'a jedynie 0,72 s. Zdecydowaną większość czasu oczekiwano na 
+system operacyjny, aby dostarczył zawartości plików w funkcji 'cgocall'. 
+(rys. \ref{fig:profilerGsearch1}). Wadą wykonania ekstrakcji archiwów w funkcji 
+'cgocall' jest dłuższy czas wykonania. Zaletą jest fakt, że otrzymuje się 
+dokładne miejsce wystąpienia frazy w zbiorze danych.
+
+\section{Wnioski}
+
 Przeprowadzone badania koncentrowały się na analizie wydajności algorytmów 
 wyszukujących w kontekście przeszukiwania zawartości tekstowej w różnych formatach 
 plików, ze szczególnym uwzględnieniem archiwów. Metodyka badawcza obejmowała porównanie
@@ -25,73 +71,57 @@ analizę porównawczą narzędzi pod względem liczby i prędkości wyszukiwań 
 nierozpakowanym zbiorze. Testy przeprowadzono na środowisku Linux.
  
 Zbiór danych testowych składał się z różnorodnych formatów plików o łącznym 
-rozmiarze około 15 GB, z dominującymi formatami PDF, ZIP i RAR. W trakcie badań
+rozmiarze około 15 GB. W trakcie badań
 uwzględniono problematykę różnych formatów plików, co pozwoliło na kompleksową
 ocenę wydajności algorytmów w rzeczywistych warunkach. W ramach analizy
-algorytmów porównano implementacje Morris-Pratt, Knuth-Morris-Pratt i Boyer-Moore.
+algorytmów porównano implementacje Morrisa-Pratta, Knutha-Morrisa-Pratta i Boyera-Moore'a.
 Szczególną uwagę poświęcono wpływowi optymalizacji bufora wstępnego przetwarzania
 na wydajność oraz znaczeniu ponownego wykorzystania buforów w kolejnych wyszukiwaniach.
 Badania wykazały istotny wpływ tych optymalizacji na ogólną wydajność wyszukiwania.
+Algorytm Boyera-Moore'a otrzymywał rezultaty najszybciej, dlatego że zachowywał więcej 
+informacji o łańcuchu szukanym. To pokrywa się z hipotezą badań.
 
 Istotnym elementem badań było porównanie autorskiego narzędzia \textbf{gsearch} z 
-popularnymi rozwiązaniami takimi jak \textbf{ugrep}, \textbf{zgrep} i \textbf{ripgrep}. Analiza objęła 
-różnice w funkcjonalności, szczególnie w kontekście obsługi archiwów, oraz wpływ
-pamięci podręcznej na wydajność wyszukiwania. Wykazano, że każde z narzędzi ma
-swoje specyficzne zalety i ograniczenia, zwłaszcza w kontekście obsługi
-zagnieżdżonych archiwów i różnych formatów plików. Profilowanie wydajności 
-pozwoliło zidentyfikować główne wąskie gardła w procesie wyszukiwania. Wykazano,
-że operacje I/O, w tym odczyt z dysku i ekstrakcja archiwów, stanowią największe
+popularnymi rozwiązaniami takimi jak \textbf{ugrep}, \textbf{zgrep} i 
+\textbf{ripgrep}. Analiza objęła 
+różnice działania programów, w kontekście różnych archiwów oraz wpływ pamięci
+podręcznej na wydajność wyszukiwania. 
+
+Wykazano, że operacje I/O, w tym odczyt z dysku i ekstrakcja archiwów, stanowią największe
 obciążenie, podczas gdy sam algorytm wyszukiwania zajmuje relatywnie małą część
 całkowitego czasu wykonania. Autorskie rozwiązanie \textbf{gsearch}, choć ustępuje
-wydajnością \textbf{ripgrep} w przypadku prostych wyszukiwań, oferuje unikalne 
-funkcjonalności, szczególnie w kontekście obsługi złożonych struktur archiwów.
-
-\section{Dowiedzenie celów i wnioski}
-
-Algorytm Boyera-Moore'a wykonał się szybciej, dlatego że zachowywał więcej 
-informacji o łańcuchu szukanym, co pokrywa się z hipotezą badań.
-
-Potwierdza się również hipoteza, iż im większy ciąg znaków wyszukujemy, tym
-rozwiązania mogą szybciej przeszukać zawartość.
-
-Wynik rozwiązania (\textbf{gsearch}) posiada większe odchylenie standardowe od
-wyników z narzędzia \textbf{ripgrep}, co może świadczyć o tym, że Garbage
-Collector wpływa na regularność otrzymanych wyników w wymiarze czasu.
-
-Wnioskiem jest to, że czas odczytywania danych z dysku w przypadku braku
-istnienia ich w pamięci podręcznej (cache), znacznie wpływa na szybkość 
-uzyskanych wyników. 
+wydajnością \textbf{ripgrep} w przypadku kolejnych wyszukiwań, oferuje unikalną 
+funkcjonalność znalezienia wyników w złożonej strukturze zagnieżdżonych archiwów.
+Funkcja \textbf{ripgrep} pozwala znaleźć wystąpienia w archiwum bez dokładnej
+lokalizacji ścieżki w archiwum.
 
 \section{Możliwości rozwoju}
 
 Program można usprawnić w celu wyszukiwania większej ilości zawartości przy
 pomocy dodatkowej implementacji dla transkrypcji. Pozwoliłaby ona na wyszukanie
-treści w plikach audio, a istnieje wiele narzędzi, które są darmowe i już
-na to pozwalają.
+treści w plikach audio, ponieważ istnieją darmowe narzędzia pozwalające na taką
+konwersję.
 
 Kolejnym elementem, który można rozważyć w celu kontynuacji pracy, byłoby 
 wykorzystanie OCR (ang. \english{Optical Character Recognition}). Zaimplementowanie
-takiego rozwiązania pozwoli pozyskać treść ze zdjęć oraz pdfów, które składają 
+takiego rozwiązania pozwoli pozyskać treść ze zdjęć oraz plików pdf, które składają 
 się ze zdjęć i tekstowych skanów treści.
 
-W celu uzyskania lepszych rezultatów można, zamiast wykorzystywać gotową 
-bibliotekę to stworzyć bibliotekę dekompresującą, wszystkich brakujących i nie
-poprawnie działających formatów archiwów. Jest to jednak dość wymagające zadanie
-oraz możliwość testowania tego rozwiązania jest ograniczona do tego zbioru archiwów. 
-Należy postawić pytanie, jak bardzo plik może być uszkodzony, żeby można było
-odczytać z niego dane.
+W celu uzyskania lepszych rezultatów można, zamiast wykorzystania gotowej 
+biblioteki, stworzyć autorską bibliotekę dekompresującą. Obejmowałaby ona 
+brakujące i nie poprawnie działania niektórych formatów archiwów. To zadanie
+wymaga ustalenia granicy, jak bardzo archiwum może być uszkodzone, żeby można
+było odczytać z niego dane.
 
 Kolejnym usprawnieniem dla programu byłoby wprowadzenie pamięci podręcznej (ang. \english{caching}).
 Takie rozwiązanie pozwoliłoby na zapamiętanie plików, które już kiedyś dekompresowano.
-Pliki skompresowane zwykle nie mogą być zapisane, wiec po pierwszej dekompresji
-można zachować tylko znalezione wystąpienia. Należy jednak przechować 
-informacje o tym, czy suma kontrolna (ang. \english{hash}) archiwum się nie 
-zmieniła.
+Należy jednak przechować informacje o tym, czy suma kontrolna (ang. \english{hash})
+archiwum nie zmieniła się, pomiędzy wykonaniami programu.
 
-Dodatkowo warto by pozwolić programowi działać na większej ilości wątków. To 
+Dodatkowo można pozwolić programowi działać na większej ilości wątków. To 
 wymaga dodatkowej synchronizacji pomiędzy odczytem archiwów, natomiast
 Golang jest bardzo łatwym językiem do wprowadzania takich zmian.
 
 Kolejnym kierunkiem do rozwoju jest wykorzystanie wyrażeń regularnych podczas
 wyszukiwania zawartości. Taka implementacja na pewno spowolni algorytm 
-wyszukujący, natomiast da więcej rezultatów.
+wyszukujący, natomiast pozwoli na uzyskanie większej ilości rezultatów.

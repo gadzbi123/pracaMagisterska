@@ -11,7 +11,7 @@ innych użytkowników. Otrzymana biblioteka danych była przekazana do analizy w
 celu wykonania tejże pracy.
 
 W kwestii technicznej należało rozważyć sposób efektywnego zarządzania pamięcią
-w przypadku czytania dużej ilości danych z dysku, opóźnienia związane z 
+w przypadku czytania dużej ilości danych z dysku, jak i opóźnienia związane z 
 wydajnością operacji I/O.
 
 Problem wyszukiwania danych nastąpił w momencie wyszukiwania dużej ilość 
@@ -26,10 +26,12 @@ Implementacja poznanych algorytmów pozwoliła na określenie, który algorytm
 optymalnie wyszukuje zawartość w wykorzystywanym zbiorze danych. A niewielkie
 różnice sposobu odczytu danych wpływały na prędkość wydajność wyszukania.
 
-Dodatkowe odczytywanie archiwów w archiwach wymaga kilkukrotnej dekompresji
-danych. Aby otrzymać odpowiednią ilość wyników, należy wykonać dekompresję 
-wszystkich zagnieżdżonych archiwów. Odczytanie zawartości odbędzie się poprzez 
-przejście po drzewie plików.
+Dodatkowo odczytywanie archiwów w archiwach wymaga kilkukrotnego wyodrębnienia
+danych. Aby otrzymać odpowiednią ilość wyników, należy wyodrębnić 
+wszystkie zagnieżdżone archiwa. Zasadniczo archiwa po wydobyciu,
+tworzą drzewo plików, w którym mogą znajdować się kolejne archiwa, z kolejnym drzewem
+plików itd. Odczytanie zawartości odbędzie się poprzez przejście po drzewie 
+każdego z wyodrębnionego archiwum.
 
 \section{Cel Pracy}
 

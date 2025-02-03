@@ -49,7 +49,7 @@ zaistniała potrzeba odkrycia algorytmów wyszukujących zawartość pamięci.
 Procesor Intel 8008 zaprezentowany w 1972 posiadał jedynie 14-bitową magistralę
 adresową, co pozwalało na 16 KB pamięci \cite{bib:internet:Intel8008}. 
 Obecna ilość pamięci, którą można otrzymać po założeniu konta z chmury Google'a to 15 GB
-\cite{bib:internet:GoogleCloud} co stanowi milion maksymalnych bloków pamięci w 
+\cite{bib:internet:GoogleCloud}, co stanowi milion maksymalnych bloków pamięci w 
 urządzeniu ze wspomnianym procesorem Intela. Należy zauważyć, że lokalne zasoby
  pamięci znacznie przewyższają te, które możemy otrzymać za darmo w chmurze.
 
@@ -65,13 +65,14 @@ Podjęcie problemu wyszukiwania plików po nazwach oraz zawartości jest bardzo
 złożonym i trudnym problemem w sferze programistycznej. Istnieje kilka rozwiązań
 tego problemu. Narzędzia takie jak \textbf{find}, \textbf{grep} czy \textbf{ripgrep} 
 \cite{bib:internet:ripgrep} pozwalają na wyszukiwanie tekstu. Narzędzia te nie 
-są przystosowane do znalezienia pełnej ścieżki pliku dla archiwów.
+są przystosowane do znalezienia pełnej ścieżki pliku dla archiwów, a są jedynie
+w stanie określić kontekst znalezienia, bez dokładniej ścieżki pliku.
 
 \subsection{Przykładowe narzędzia dostępne do wykorzystania}
 
 Narzędzie \textbf{find} to znane i popularne narzędzie w systemie z jądrem Linux.
-Już bardzo często wykorzystywany do znajdowania plików w systemie po nazwie, 
-jednak nie nadaje się do znajdowania zawartości plików.
+Jest ono bardzo często wykorzystywane do znajdowania plików w systemie po nazwie, 
+jednak nie jest przystosowane do znajdowania zawartości plików.
 
 \begin{figure}[htbp]
   \centering
@@ -117,7 +118,7 @@ przy użyciu tar lub innego podobnego narzędzia. Taki proces nie jest jednak
 prosty w przypadku wielu typów archiwów.
 
 Do przeszukiwania zawartości plików dobrze nadaje się narzędzie grep, które jest
-dostępny ogólnodostępnym narzędziem GNU (def. \ref{skrót:GNU}). Jego działanie jest dość podobne do \textbf{find'a},
+dostępny ogólnodostępnym narzędziem GNU (skrót \ref{skrót:GNU}). Jego działanie jest dość podobne do \textbf{find'a},
 gdyż posiada on możliwość wyszukiwania treść w plikach tekstowych. Grep również nie 
 posiada też możliwość szukania zawartości archiwów oraz nie wspiera wielu 
 formatów. Jest możliwość binarnego przeszukania plików, lecz archiwa nie będą 
@@ -449,17 +450,17 @@ implementację przedstawioną w algorytmie Morisa-Pratta. Różnice można zauwa
 (rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}).
 
 Gdy nie osiągnięto długości łańcucha i obecny znak jest równy temu, który 
-znajduje się w łańcuchu szukany (rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}
+znajduje się w łańcuchu szukanym (rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}
 linijka 10), to można wykonać skok do znaku znajdującego się w tablicy
 przygotowanej (rys. \ref{fig:code:KurtMorisPrattVsMorisPratt} linijka 13).
-Nie należy sprawdzać kolejny znak w pętli. Ta różnica powoduje, że algorytm 
+Nie należy sprawdzać kolejnego znak w pętli. Ta różnica powoduje, że algorytm 
 wykonuje się szybciej.
 
 Złożoność tego algorytmu wynosi $O(2*{len(pattern)})$, gdzie pattern to długość
 tekstu przeszukiwanego. W najbardziej pesymistycznym przypadku, gdy nie 
 znaleziono dopasowania, będzie to wymagało ilości operacji powrotu równej długości 
 łańcucha szukanego. Powoduje to, że złożoność obliczeniowa sprowadza się do
-$O({len(substr)}*{len(pattern)})$ co posiada tę samą złożoność co algorytm naiwny. 
+$O({len(substr)}*{len(pattern)})$, co posiada tę samą złożoność co algorytm naiwny. 
 
 \begin{table}[hbtp]
   \centering
@@ -482,7 +483,7 @@ W scenariuszu wykorzystania algorytmu Kurta-Morrisa-Pratt (tab. \ref{tabela:KMPE
 można zaobserwować działanie na przykładzie tekstu przeszukiwanego S = 
 'AAAAAABAAAAAABAAAAAAA' oraz frazy szukanej W = 'AAAAAA'. W tym przypadku algorytm musi sprawdzić każde
 wystąpienie 'A' przed dotarciem do 'B', co jest bardzo nieefektywne, ponieważ
-pisany tekst miałby większą różnorodność liter i to proces przeszukiwania mógłby 
+pisany tekst miałby większą różnorodność liter i proces przeszukiwania mógłby 
 zacząć się od symbolu B. Sytuacja 
 pogarsza się wraz ze wzrostem liczby powtórzeń fragmentu "AAAAAAB". Mimo że 
 metoda tablicowa \textbf{preproc} działa tu sprawnie (bez potrzeby cofania się), to jej 
@@ -570,7 +571,7 @@ if bm.preproc == nil {
 
 W kontekście implementacji algorytm Boyera-Moore'a wymaga utworzenia tokenów dla
 każdego znaku w ASCII (rys. \ref{fig:code:BMpreproc}) w buforze wcześniejszego 
-procesowania (def. \ref{skrót:BWP}), co zwiększa złożoność pamięciową w porównaniu do pojedynczej 
+procesowania (skrót \ref{skrót:BWP}), co zwiększa złożoność pamięciową w porównaniu do pojedynczej 
 tablicy prefiksowej w KMP i MP. Jednak ta dodatkowa pamięć przekłada się na 
 możliwość wykonywania większych skoków w tekście. KMP i MP różnią się między 
 sobą głównie w sposobie konstrukcji tablicy prefiksowej. KMP wykorzystuje 
