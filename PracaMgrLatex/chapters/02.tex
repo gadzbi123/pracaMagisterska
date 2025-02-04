@@ -270,10 +270,10 @@ digitalizacji piśmiennictwa można znaleźć analogię do rozwiązywanego probl
 Dodatkowym problemem odczytywanie dużych zarchiwizowanych danych. W książce W.
 Curtis Prestona można przeczytać o problemie odczytania tych danych w przypadku
 uszkodzonych zawartości \cite{bib:ksiazka:ArchiwizacjaIOdzyskiwanie}. Sugeruje
-on wiele narzędzi pozwalające na odzyskanie zawartości z archiwów i problem
+on wiele narzędzi pozwalających na odzyskanie zawartości z archiwów i problem
 z radzeniem sobie w przypadkach uszkodzenia danych.
 
-Problemem odczytywania danych mocno skompresowanych zajmowali się również 
+Problemem odczytywania danych mocno skompresowanych, zajmowali się również 
 doktorzy z Uniwersytetu w Dublinie \cite{bib:internet:KompresjaDanych}. Odnosili
 się oni do skomplikowania odczytu i redundancji w przypadku transportu danych
 przez sieć.
@@ -295,9 +295,9 @@ for i := 0; i<len(pattern); i++{
   \label{fig:code:bruteForceComparison}
 \end{figure}
 
-Jest wiele algorytmów, które wyszukują tekst. Jednym z takich algorytmów jest 
+Jest wiele algorytmów, które wyszukują tekst. Jednym z takich algorytmów, jest 
 algorytm typu brute-force. Polega na sprawdzaniu każdego bajtu, a jego implementacja
-jest jest traktowana jako naiwna. Złożoność czasowa tego rozwiązania wynosi
+jest traktowana jako naiwna. Złożoność czasowa tego rozwiązania wynosi
 $O(len(pattern) * len(substring))$, gdzie len(pattern) to długość bloku 
 przeszukiwanego, a len(substring) to długość tekstu szukanego. Nie jest wykonana
 żadna optymalizacja w tym algorytmie, jak np. przesunięcie się do następnej
@@ -333,8 +333,8 @@ for i := 1; i <= len(substr); i++ {
   \label{fig:code:preprocessMorisPratt}
 \end{figure}
 
-Algorytm Morisa-Pratta jest algorytmem, wykorzystującym możliwość procesowania 
-łańcucha wyszukiwanego w tekście wykorzystując wcześniej pasującą do siebie część
+Algorytm Morisa-Pratta, jest algorytmem wykorzystującym możliwość procesowania 
+łańcucha w tekście, aby dopasować wcześniej odpowiadającą część zbioru
 (rys. \ref{fig:code:preprocessMorisPratt}). Polega on na wykorzystaniu faktu
  istnienia pasującego prefikso-sufiksu. Pozwala on na pominięcie porównania
  znaków, które się powtarzają w łańcuchu poszukiwanym.
@@ -370,7 +370,7 @@ jako tablica \textbf{preproc}.
   \end{figure}
 
 Tablice \textbf{preproc} należy wypełnić poprzednią wartości tak długo, aż zaistnieje
-różnica pomiędzy obecnym a następnym znakiem tablicy szukanej (tablicy 
+różnica pomiędzy obecnym, a następnym znakiem tablicy szukanej (tablicy 
 \textbf{substr}). W przypadku różnicy obu znaków — zwiększa się wartość zapisywaną 
 do tablicy \textbf{preproc} o odległość różnicy znaków. W ten sposób następnym
  razem będzie możliwość pominięcia porównania tych znaków.
@@ -445,7 +445,7 @@ mp.preproc = preproc
   \label{fig:code:KurtMorisPrattVsMorisPratt}
 \end{listing}
 
-Kolejny rozpatrywany algorytm jest implementacja rozszerzająca poprzednią 
+Kolejny rozpatrywany algorytm jest implementacja, rozszerzająca poprzednią 
 implementację przedstawioną w algorytmie Morisa-Pratta. Różnice można zauważyć na podstawie rysunku
 (rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}).
 

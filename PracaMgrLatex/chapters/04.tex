@@ -113,11 +113,11 @@ wyszukań.
 \subsection{Hipoteza badań}
 
 Hipotezą badań jest to, że kolejne algorytmy posiadające większe zużycie zasobów
-na przygotowanie wyszukania będą wykonywały się szybciej niż te z mniejszym
+na przygotowanie wyszukania, będą wykonywały się szybciej, niż te z mniejszym
 zużyciem. Hipotezą pomocniczą jest to, iż im większy zbiór informacji zebrany
 na podstawie łańcucha szukanego, tym większa prędkość algorytmu. Dodatkową hipotezą jest
 to, iż wykorzystanie \english{Garbage Collectora} wpływa na stabilny czas
-działania programu pomiędzy wykonaniami oraz że czas wykonywania odczytów danych z dysku zajmuje
+działania programu pomiędzy wykonaniami, oraz że czas wykonywania odczytów danych z dysku zajmuje
 zdecydowaną ilość czasu.
 
 % \section{Sposób przeprowadzenia badań}
@@ -217,7 +217,7 @@ postaci zdjęcia, które nie można odczytać użytym rozwiązaniem.
 
 Możliwość odczytania zawartości daje narzędzie OCR (ang. \english{Optical Character Recognition}).
 Narzędzie może służyć do oczytania zawartości plików pdf oraz tekstu z obrazów.
-Takie rozwiązanie nie zostanie użyte w pracy, gdyż nie praca nie skupia się na 
+Takie rozwiązanie nie zostanie użyte w pracy, gdyż praca nie skupia się na 
 algorytmach sztucznej inteligencji.
 
 Pliki audio to piosenki oraz podcasty, których nie można łatwo odczytać algorytmem.
@@ -339,7 +339,114 @@ Garbage Collectora.
 
 W badaniu porównawczym dla programów w następnej sekcji zdecydowano się na
 czytanie pojedynczej linii z pliku, który skanujemy. Niestety to podejście
-skutkowało takim samym problem jak ten w przypadku bufora pamięci statycznej.
+powodowało taki sam problem jak ten w przypadku bufora pamięci statycznej.
+
+\subsection{Omówienie otrzymanych wyników}
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./images/benchstat-results-sumup.png}
+    \caption{Obraz przedstawiający wynik działania programu 'benchstat'}
+    \label{fig:benchstatResults}
+\end{figure}
+
+Otrzymane wyniki z testów wydajności algorytmów zestawiono z przedstawionych
+danych otrzymanych z programu \textbf{benchstat} \ref{fig:benchstatResults}.
+Program pozwolił na zorganizowanie 
+danych przedstawionych na rysunku \ref{fig:perfTestResults}.
+
+Z wyjścia programu \textbf{benchstat} wynika, że średnia odchylenia standardowego
+wynosi około 3 \%, wiec nie została przedstawiona na wykresach 
+\ref{fig:GraphFirstAttempt}, 
+\ref{fig:GraphPreAllocBM},
+\ref{fig:GraphStaticPreallocAndFileBuffer}.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{./images/tabela-wyników-algo-all.png}
+    \caption{Obraz przedstawiający wynik dla wszystkich algorytmów i ich iteracji.}
+    \label{fig:algoAllTabela}
+\end{figure}
+
+W tabeli przedstawiono wyniki dla każdego z algorytmów, a wyniki podzielono
+na liczbę znaków testowanego słowa \ref{fig:algoAllTabela}. Kolejne wiersze
+przedstawiają wyniki, gdy nie zastosowano \textbf{BWP}, zastosowano \textbf{BWP}
+jedynie dla algorytmu Boyera-Moore'a oraz kiedy wykorzystano \textbf{BWP} dla
+wszystkich algorytmów. Dodatkowo w ostatnim wierszu dodano bufor dla 
+przechowywanego pliku. 
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./images/tabela-algo-4-znaki.png}
+    \caption{Obraz przedstawiający wynik dla 4 znaków wszystkich algorytmów.}
+    \label{fig:algo4znakiTabela}
+\end{figure}
+
+Implementacja algorytmu Morisa-Pratta dla konfiguracji bez bufora, okazała się
+najszybsza spośród wszystkich algorytmów. Najkrótszy czas wykonania został
+oznaczony na ciemno zielono w tej iteracji algorytmów \ref{fig:algo4znakiTabela}.
+
+Implementacja z buforem wcześniejszego procesowania spowodowała znaczne
+przyspieszenie algorytmu BM w drugiej iteracji (kolor jasny czerwony). Nie zmieniono implementacji
+pomiędzy testami w pierwszej i drugiej iteracją dla algorytmów MP i KMP.
+Otrzymane wyniki pomiędzy dwoma iteracjami mieszczą się w średniej odchylenia 
+standardowego słupka błędu. 
+
+Z powodu znacznego przyspieszenia wykonania algorytmu BM, zdecydowano się na
+dodanie \textbf{BWP} w 3 iteracji dla wszystkich algorytmów. Pomimo dodania jedynie 
+statycznego bufora pliku dla BM, algorytm ten wciąż wykonywał się znacznie
+szybciej od pozostałych rozwiązań (kolor czerwony). W trzeciej iteracji dodano implementację 
+\textbf{BWP} dla MP i KMP. Dodatkowo wprowadzono bufor statyczny
+plików dla wszystkich algorytmów, aby zmniejszyć
+prawdopodobieństwo dealokacji bufora pliku.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./images/tabela-algo-6-znakow.png}
+    \caption{Obraz przedstawiający wynik dla 6 znaków wszystkich algorytmów.}
+    \label{fig:algo6znakowTabela}
+\end{figure}
+
+Dla 6 znaków wyniki prezentują się podobnie jak dla 4 
+\ref{fig:algo6znakowTabela}. Ponownie algorytm MP wygrywa nieznacznie z KMP 
+(zielony kolor), jednak po wprowadzeniu \textbf{BWP} i bufora pliku algorytm BM
+wciąż ma przewagę szybkości wyszukiwania (kolor czerwony).
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./images/tabela-algo-8-znakow.png}
+    \caption{Obraz przedstawiający wynik dla 8 znaków wszystkich algorytmów.}
+    \label{fig:algo8znakowTabela}
+\end{figure}
+
+W przypadku 8 znaków czas wykonania algorytmów MP i KMP jest identyczny dla
+pierwszej iteracji (kolor fioletowy \ref{fig:algo8znakowTabela}). Algorytm 
+BM wykonuje się szybciej w drugiej i trzeciej iteracji, dokładnie tak samo,
+jak w poprzednich przypadkach.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./images/tabela-algo-srednia.png}
+    \caption{Obraz przedstawiający wynik średnie znaków wszystkich algorytmów.}
+    \label{fig:algoAvgTabela}
+\end{figure}
+
+Zestawiając wyniki w postaci średniej ze wszystkich ilości znaków, można
+porównać prędkości algorytmów w całości w zależności od iteracji 
+\ref{fig:algoAvgTabela}. Z tabeli można wywnioskować, że dla wariantu bez
+bufora, algorytm MP posiada najszybszą implementację. W przypadku zastosowania
+\textbf{BWP}, który nie posiada znacznych wad, otrzymujemy dwukrotnie szybszy
+algorytm w odniesieniu do BM oraz o 40\% szybszą implementację od 
+wariantu bez \textbf{BWP} dla MP. 
+
+Pomimo przyspieszenia algorytmów MP i KMP w trzeciej iteracji, nie udało się
+dorównać prędkości BM z drugiej iteracji, a implementacja BM w trzeciej iteracji
+uzyskała jeszcze lepszy wynik (czerwony i jasny czerwony \ref{fig:algoAvgTabela}).
+Niestety zastosowanie bufora statycznego pliku, nie zwiększa znacznie prędkości
+wykonywania obu algorytmów, a wymaga od użytkownika programu informacji o 
+największym pliku ze zbioru przeszukiwanego. Z tego powodu w przypadku badania
+archiwów, zdecydowano się na wykorzystanie algorytmu z \textbf{BWP} bez
+bufora pliku.
 
 \section{Badanie ilość otrzymanych wyników z programów dla zbioru archiwów}
 
@@ -416,7 +523,7 @@ autora do \textbf{ugrep} (ug), \textbf{zgrep} oraz \textbf{ripgrep} (rg).
 
 Wiele z tych narzędzi nie działało poprawnie, gdy próbowano odczytać zawartość
 archiwów. Przykładowo narzędzie ugrep (rys. \ref{fig:ugrepErrors}) nie rozpoznawało 
-metody kompresji plików zip, co spowodowało, że nie nie otrzymano ani 
+metody kompresji plików zip, co spowodowało, że nie otrzymano ani 
 jednego rezultatu z programu. To powoduje, że narzędzie zostanie wykluczone z 
 dalszej analizy.
 

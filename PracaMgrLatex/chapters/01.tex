@@ -4,23 +4,27 @@
 Analiza przeszukiwania struktur danych o dużych rozmiarach z wieloma typami danych stanowi
 istotne wyzwanie w dziedzinie inżynierii oprogramowania i zarządzania danymi. 
 
-Jednym ze sposobów zachowywania danych i zmniejszenia ich objętości jest 
-archiwizacja plików. Takie rozwiązanie jest bardzo przydatne w przypadku chęci
+Jednym ze sposobów zachowywania danych jest archiwizacja plików. Innym 
+rozwiązaniem redukującym rozmiar danych jest kompresja. Takie rozwiązanie jest
+bardzo przydatne w przypadku chęci
 zmniejszenia ilości danych przechowywanych, a także w dystrybucji danych dla
-innych użytkowników. Otrzymana biblioteka danych była przekazana do analizy w 
-celu wykonania tejże pracy.
+innych użytkowników.
+
+Otrzymana biblioteka jako zbiór książek i dokumentów była przekazana do analizy.
+Celem przekazania było wykonanie odszukań tekstu w zbiorze i zlokalizowania
+ścieżki pliku, znalezionego tekstu.
 
 W kwestii technicznej należało rozważyć sposób efektywnego zarządzania pamięcią
 w przypadku czytania dużej ilości danych z dysku, jak i opóźnienia związane z 
 wydajnością operacji I/O.
 
-Problem wyszukiwania danych nastąpił w momencie wyszukiwania dużej ilość 
-zawartości. Oryginalne archiwum wynosi 15 GB danych, gdzie pliki są 
+Problem wyszukiwania danych nastąpił w momencie wyszukiwania dużej ilości 
+zawartości danych. Oryginalne archiwum zajmuje 15 GB danych, gdzie pliki są 
 zarchiwizowane, co utrudnia odczytanie z nich danych. 
 
 Wykonanie operacji odczytu archiwów będzie miało kluczowe znaczenie w 
-otrzymaniu informacje o miejscu znajdowania się treści, choć może znacznie 
-wpłynąć na wydajność programu.
+otrzymaniu informacji o miejscu znajdowania się treści, choć może znacznie 
+wpłynąć na kompleksowość rozwiązania \cite{bib:ksiazka:kompleksowośćArchiwów}.
 
 Implementacja poznanych algorytmów pozwoliła na określenie, który algorytm 
 optymalnie wyszukuje zawartość w wykorzystywanym zbiorze danych. A niewielkie

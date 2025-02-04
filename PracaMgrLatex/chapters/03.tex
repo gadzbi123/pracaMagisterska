@@ -96,7 +96,7 @@ odrzucone zostają pliki z takimi rozszerzeniami jak:
 \end{table}
 
 
-Innym sposobem na rozwiązanie problemu jest wykorzystanie dostępnych narzędzi i
+Innym sposobem na rozwiązanie problemu, jest wykorzystanie dostępnych narzędzi i
 dostosowanie ich do problemu, który jest rozwiązywany. Wykorzystanie wielu narzędzi
 zaimplementowanych w jednym celu (\textbf{tar}, \textbf{gzip}, \textbf{grep}) i połączenie ich do 
 skomplikowanej operacji przeszukiwania archiwów zajełoby więcej czasu
@@ -106,7 +106,7 @@ skompresowanej treści, gdzie należy wykorzystać narzędzie \textbf{gzip}.
 
 \section{Rozwiązanie problemu zarchiwizowanych plików w zbiorze danych}
 
-Zbiór danych składa się danych zawierających archiwa oraz pliki skompresowane,
+Zbiór biblioteki, składa się danych zawierających archiwa oraz pliki skompresowane,
 które zawierają drzewo innych plików skompresowanych i archiwów.
 Aby odczytać wystąpienia, należy je rozpakować, jednak to powoduje ciągłe 
 wydłużanie się ścieżki, a w Windows jest ona ograniczona do 256 znaków. Na 
@@ -155,8 +155,7 @@ jak obiekty wykorzystywane w zbiorze korzenia (ang. \english{Root Set}) oznaczon
 niebiesko, zostaną utrzymane w pamięci z powodu powiązania z innymi elementami
 łączącymi się do zbioru korzenia. Kolorem czerwonym oznaczone są elementy, które
 przestały być powiązane z jakimkolwiek elementem, więc zostaną zwolnienie z 
-użycia, po zakończeniu operacji sprawdzania. Obraz był wzorowany na przykładzie z
-Wikipedii (str. \cite{bib:internet:GCImageWiki}).
+użycia, po zakończeniu operacji sprawdzania \cite{bib:internet:GCImageWiki}.
 
 GC wykorzystuje dwa warianty oznaczania danych. Pierwszy to tradycyjny sposób
 skalarny, w którym każde wykorzystanie elementu w kodzie jest liczone i
