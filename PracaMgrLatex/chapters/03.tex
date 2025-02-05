@@ -17,7 +17,7 @@ Przed wyborem metody sprawdzającej należy wykonać heurystykę danych. Jest to
 wymagane, ponieważ wydajność algorytmu jest ściśle powiązana z danymi, które
 będą przeszukiwane. Jeżeli większość analizowanych danych mają charakter
 tekstowy, to lepszym rozwiązaniem będzie skorzystanie z ostatniego algorytmu BM
-(rys. \ref{sch:algoBoyerMoore}), jednak w innym przypadku warto wykorzystać jeden z 
+(rozdział \ref{sch:algoBoyerMoore}), jednak \\ w innym przypadku warto wykorzystać jeden z 
 pozostałych.
 
 Przedstawiony program został stworzony do ustalenia typów plików w zbiorze 
@@ -109,7 +109,7 @@ skompresowanej treści, gdzie należy wykorzystać narzędzie \textbf{gzip}.
 Zbiór biblioteki, składa się danych zawierających archiwa oraz pliki skompresowane,
 które zawierają drzewo innych plików skompresowanych i archiwów.
 Aby odczytać wystąpienia, należy je rozpakować, jednak to powoduje ciągłe 
-wydłużanie się ścieżki, a w Windows jest ona ograniczona do 256 znaków. Na 
+wydłużanie się ścieżki, \\ a w Windows jest ona ograniczona do 256 znaków. Na 
 systemie Linux ten limit nie powinien być problemem, gdyż system pozwala na 
 ścieżki długości 4096 znaków, jednak ta różnica może wpływać na jakość działania
 programu na różnych systemach.
@@ -152,14 +152,14 @@ kontroli pamięci. Język wykorzystuje ang. \english{Garbage Collector} (zbierac
 śmieci), który jest alternatywą do sposobu manualnej alokacji pamięci. Można 
 zaobserwować działanie Garbage Collectora (GC) (rys. \ref{fig:GarbageCollectorImage}),
 jak obiekty wykorzystywane w zbiorze korzenia (ang. \english{Root Set}) oznaczone na 
-niebiesko, zostaną utrzymane w pamięci z powodu powiązania z innymi elementami
+niebiesko, zostaną utrzymane w pamięci z powodu powiązania \\ z innymi elementami
 łączącymi się do zbioru korzenia. Kolorem czerwonym oznaczone są elementy, które
 przestały być powiązane z jakimkolwiek elementem, więc zostaną zwolnienie z 
 użycia, po zakończeniu operacji sprawdzania \cite{bib:internet:GCImageWiki}.
 
 GC wykorzystuje dwa warianty oznaczania danych. Pierwszy to tradycyjny sposób
 skalarny, w którym każde wykorzystanie elementu w kodzie jest liczone i
-zapisywane. W przypadku, gdy żaden fragment kodu nie wykorzystuje pamięci,
+zapisywane. \\ W przypadku, gdy żaden fragment kodu nie wykorzystuje pamięci,
 \english{Garbage Collector} uwalnia przydzieloną pamięć. Problem może skutkować
  wolniejszą egzekucją oraz pauzami w celu oczyszczenia pamięci.
 

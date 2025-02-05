@@ -39,7 +39,7 @@ short : $(f).tex
 	pdflatex $(minted) -synctex=1 $(f)
 
 clean : 
-	for p in *.aux *.bbl *.bcf *.blg *.lof *.log *.lot *.out *.toc *.xml *.gz *-blx.bib ; \
+	for p in *.aux *.bbl *.bcf *.blg *.lof *.log *.lot *.out *.toc *.xml *.gz *-blx.bib main.pdf; \
 	do \
 		if [ -f $$p ] ; then rm $$p; fi; \
 	done;  \

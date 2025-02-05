@@ -31,7 +31,7 @@ tej implementacji.
 Ponad udało się pokazać, że stworzenie jednego bufora na przechowywanie treści
 pliku redukuje dodatkowo czas pomiędzy wykonaniami o około $8 \%$, co stanowi
 zaletę tego rozwiązania. Można to zaobserwować porównując różnice czasów wykonań
-w \ref{fig:GraphPreAllocBM} i \ref{fig:GraphStaticPreallocAndFileBuffer}. Wadą
+w \ref{fig:GraphPreAllocBM} oraz \ref{fig:GraphStaticPreallocAndFileBuffer}. Wadą
 tego rozwiązania jest to, że rozmiar buforu na plik musi być zanany przed
 wykonaniem programu. Ostatecznie dowiedziono, że algorytm Boyera-Moore'a będzie
 najlepszym wyborem dla danego zbioru danych (tab. \ref{tabela:typyMIMEdataset}).
@@ -79,7 +79,7 @@ Szczególną uwagę poświęcono wpływowi optymalizacji bufora wstępnego przet
 na wydajność oraz znaczeniu ponownego wykorzystania buforów w kolejnych wyszukiwaniach.
 Badania wykazały istotny wpływ tych optymalizacji na ogólną wydajność wyszukiwania.
 Algorytm Boyera-Moore'a otrzymywał rezultaty najszybciej, dlatego że zachowywał więcej 
-informacji o łańcuchu szukanym. To pokrywa się z hipotezą badań.
+informacji o łańcuchu szukanym. To pokrywa się \\ z hipotezą badań.
 
 Istotnym elementem badań było porównanie autorskiego narzędzia \textbf{gsearch} z 
 popularnymi rozwiązaniami takimi jak \textbf{ugrep}, \textbf{zgrep} i 

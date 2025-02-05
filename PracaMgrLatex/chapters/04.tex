@@ -147,7 +147,7 @@ w architekturze amd64.
 
 Przeprowadzenie badań polegało na uruchomieniu komendy w pierwszej linii (rys. 
 \ref{fig:code:examplePerfTest}) i wykonaniu funkcji na algorytmie Morisa Pratta. 
-Wykonano 20 testów na wyszukaniu 3 słów, które mogły występować w zbiorze danych,
+Wykonano 20 testów na wyszukaniu trzech słów, które mogły występować w zbiorze danych,
 ze względu na wcześniej przeanalizowaną zawartość. Tymi słowami były 
 'main', 'window', 'function'.
 
@@ -171,8 +171,8 @@ zbioru danych oraz przyjmuje funkcje zdefiniowaną jako \textbf{WalkFunc} jak w 
 (def. \ref{def:WalkFuncGolang}). Z powodu potrzeby czytania tylko zawartości plików,
 wykorzystano funkcje \textbf{WalkAndFindByAlgo}, która będzie czytała pliki, ale 
 pozwoli algorytmom podanym w argumencie na przeszukanie zawartości w celu 
-znalezienia słowa 'window'. Po zakończeniu funkcji Walk otrzymano 
-tablice znalezionych \textbf{founds}, wypełnioną miejscami, w których wystąpiło 
+znalezienia słowa 'window'. \\ Po zakończeniu funkcji Walk otrzymano 
+tablice znalezionych \textbf{founds}, wypełnioną miejscami, \\ w których wystąpiło 
 znalezienie podanego ciągu. W liniach 8-10 każdy test posiada walidacje, aby wszystkie wyniki 
 otrzymane przez algorytm, były zgodne z wcześniej ustaloną sumą.
 
@@ -205,6 +205,8 @@ BenchmarkBoyerMooreFunction-8 1	1128862027 ns/op 264270616 B/op 193811 allocs/op
 
 W rezultacie wykonania otrzymano dane o czasie przebiegu funkcji, ilości 
 alokacji oraz ile bajtów wykorzystano na operacje (rys. \ref{fig:perfTestResults}).
+Zebrane dane zostały zaprezentowane oraz omówione w sekcjach 
+\ref{rozdzial:porównanieBenchmarkowAlgos} oraz \ref{rozdzial:wynikiBenchmarkowAlgos}.
 
 \section{Zbiór badań}
 
@@ -237,7 +239,7 @@ Niestety w przypadku starych plików doc, nie ma możliwości rozpakowania treś
 pliku i otrzymania zawartości. Dodatkowo pliki posiadają nietypowe kodowania,
 co powoduje dalsze skomplikowanie z odczytania ich treści.
 
-Archiwa posiadają również różne algorytmy kompresji oraz różne sposoby zapisu w zależności od
+Archiwa posiadają również różne algorytmy kompresji oraz różne sposoby zapisu \\ w zależności od
 rozszerzenia np. zip, rar, 7z, tar. To powoduje, że należy wykorzystać wiele
 metod konwersji tych plików do faktycznej struktury możliwej do odczytania. 
 Biblioteka, którą wykorzystano nie obsługuje plików skompresowanych przez gzip.
@@ -261,6 +263,7 @@ plików ze zbioru. Wykonano testy na 3 algorytmach, gdzie odczytywano 5191 plik�
 i łącznie 240 MB danych. Oto rezultaty określonych algorytmów.
 
 \subsection{Porównanie czasów algorytmów}
+\label{rozdzial:porównanieBenchmarkowAlgos}
 
 \begin{figure}[htbp]
     \centering
@@ -277,7 +280,7 @@ zauważyć, KMP w niektórych przypadkach jest wolniejszy, niż algorytm MP.
 
 Algorytm Boyera-Moore'a wykorzystywany w takich narzędziach jak grep, ma 
 wolniejszy czas egzekucji, co wynika z rysunku (rys. \ref{fig:GraphFirstAttempt}), ale 
-algorytm może zostać poprawiony. Z powodu błędnej implementacji, wykonywano
+algorytm może zostać poprawiony. \\ Z powodu błędnej implementacji, wykonywano
 ponowną kalkulację BWP podczas otwarcia nowego pliku, choć szukana fraza pozostawała
 taka sama. Wykorzystanie wcześniejszego przeliczonego bufora ponownie wpłyneło na znaczne
 przyspieszenie algorytmu.
@@ -297,8 +300,8 @@ wykorzystanie tej tablicy we wszystkich odczytach.
 \end{figure}
 
 Na następnym wykresie (rys. \ref{fig:GraphPreAllocBM}) można zauważyć poprawę, gdy
-implementacja algorytmu Boyer-Moora wykorzystuje ten sam bufor wcześniejszego procesowania, a
-pozostałe algorytmy tworzą go od nowa, kiedy otwierany jest kolejny plik. Celem 
+implementacja algorytmu Boyer-Moora wykorzystuje ten sam bufor wcześniejszego procesowania, \\
+a pozostałe algorytmy tworzą go od nowa, kiedy otwierany jest kolejny plik. Celem 
 takiej implementacji było uzyskanie informacji o wpływie ponownego wykorzystania
 bufora wcześniejszego procesowania na czas wykonania. 
 
@@ -342,6 +345,7 @@ czytanie pojedynczej linii z pliku, który skanujemy. Niestety to podejście
 powodowało taki sam problem jak ten w przypadku bufora pamięci statycznej.
 
 \subsection{Omówienie otrzymanych wyników}
+\label{rozdzial:wynikiBenchmarkowAlgos}
 
 \begin{figure}[htb]
     \centering
@@ -396,7 +400,7 @@ Z powodu znacznego przyspieszenia wykonania algorytmu BM, zdecydowano się na
 dodanie \textbf{BWP} w 3 iteracji dla wszystkich algorytmów. Pomimo dodania jedynie 
 statycznego bufora pliku dla BM, algorytm ten wciąż wykonywał się znacznie
 szybciej od pozostałych rozwiązań (kolor czerwony). W trzeciej iteracji dodano implementację 
-\textbf{BWP} dla MP i KMP. Dodatkowo wprowadzono bufor statyczny
+\textbf{BWP} dla MP \\ i KMP. Dodatkowo wprowadzono bufor statyczny
 plików dla wszystkich algorytmów, aby zmniejszyć
 prawdopodobieństwo dealokacji bufora pliku.
 
@@ -407,7 +411,7 @@ prawdopodobieństwo dealokacji bufora pliku.
     \label{fig:algo6znakowTabela}
 \end{figure}
 
-Dla 6 znaków wyniki prezentują się podobnie jak dla 4 
+Dla 6 znaków wyniki prezentują się podobnie jak dla czterech
 \ref{fig:algo6znakowTabela}. Ponownie algorytm MP wygrywa nieznacznie z KMP 
 (zielony kolor), jednak po wprowadzeniu \textbf{BWP} i bufora pliku algorytm BM
 wciąż ma przewagę szybkości wyszukiwania (kolor czerwony).
@@ -421,7 +425,7 @@ wciąż ma przewagę szybkości wyszukiwania (kolor czerwony).
 
 W przypadku 8 znaków czas wykonania algorytmów MP i KMP jest identyczny dla
 pierwszej iteracji (kolor fioletowy \ref{fig:algo8znakowTabela}). Algorytm 
-BM wykonuje się szybciej w drugiej i trzeciej iteracji, dokładnie tak samo,
+BM wykonuje się szybciej w drugiej \\ i trzeciej iteracji, dokładnie tak samo,
 jak w poprzednich przypadkach.
 
 \begin{figure}[htb]
@@ -444,7 +448,7 @@ dorównać prędkości BM z drugiej iteracji, a implementacja BM w trzeciej iter
 uzyskała jeszcze lepszy wynik (czerwony i jasny czerwony \ref{fig:algoAvgTabela}).
 Niestety zastosowanie bufora statycznego pliku, nie zwiększa znacznie prędkości
 wykonywania obu algorytmów, a wymaga od użytkownika programu informacji o 
-największym pliku ze zbioru przeszukiwanego. Z tego powodu w przypadku badania
+największym pliku ze zbioru przeszukiwanego. \\ Z tego powodu w przypadku badania
 archiwów, zdecydowano się na wykorzystanie algorytmu z \textbf{BWP} bez
 bufora pliku.
 
@@ -584,7 +588,7 @@ jak na rysunku (rys. \ref{fig:ripgrepResultMain}).
 Narzędzie niestety nie posiada dokładnej lokalizacji, w której wystąpiło wyszukanie,
 tylko jest w stanie wskazać miejsce w pliku skompresowanym.
 Taki rezultat nie mówi, w którym pliku znajdują się frazy, a jedynie może znaleźć 
-kontekst w pliku lub podać ilość wystąpień.
+kontekst \\ w pliku lub podać ilość wystąpień.
 
 Różnica ta jest znacząca w celu znalezienia frazy w konkretnym pliku. 
 Implementacja \textbf{gsearch} pozwala na wyszukanie linii pliku, w którym fraza się znajduje. 
@@ -600,7 +604,7 @@ Autorskim programem do przeszukiwania treści w archiwach jest \textbf{gsearch}.
 wszystkie odniesienia do implementacji będą odnosiły się do nazwy programu.
 
 Gdy \textbf{gsearch} próbuje przeszukać archiwum z niepoprawną sumą kontrolną, program
-zostaje wyłączony z powodu błędu. Program \textbf{gsearch} może wykonać pełne szukanie w przypadku,
+zostaje wyłączony z powodu błędu. Program \textbf{gsearch} może wykonać pełne szukanie \\ w przypadku,
 gdy suma kontrola plików archiwów jest poprawna.
 
 Gdy \textbf{gsearch} przeszukuje archiwa nieuszkodzone, przedstawione na rysunku (rys. \ref{fig:ripgrepRemoveSkipped}),
@@ -644,7 +648,7 @@ przeszukać określonych archiwów, zdecydowano się na zestawienie rezultatów
 \textbf{ripgrepa} ze wszystkich archiwów, oraz z tego samego zbioru archiwów pominiętych. 
 
 Należy zauważyć, że pozostałe programy (\textbf{ugrep}, \textbf{zgrep}) nie 
-zostały zamieszczone w tabeli, z powodu braku uzyskania wyników.
+zostały zamieszczone \\ w tabeli, z powodu braku uzyskania wyników.
 Każdy z tych programów miałby wartość 0 dla każdej frazy.
 
 \begin{figure}[htbp]
@@ -679,12 +683,6 @@ Każdy z tych programów miałby wartość 0 dla każdej frazy.
     \label{fig:wykresPorównaniaIlosciWystapień}
 \end{figure}
 
-Ostatni wiersz pokazuje jakie znaczenie ma wyszukiwanie po wielkości liter 
-(tab. \ref{tabela:iloscWyszukanDziekiProgramom}). Program \textbf{ripgrep} posiada 
-możliwość ignorowania wielkości liter czego nie robi program gsearch. Jeżeli
-nieznana jest dokładna wielkości liter frazy, to może to spowodować brak 
-znalezienia frazy (rys. \ref{fig:wykresPorównaniaIlosciWystapień}). 
-
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{./images/gsearch-result-informatyka.png}
@@ -692,12 +690,18 @@ znalezienia frazy (rys. \ref{fig:wykresPorównaniaIlosciWystapień}).
     \label{fig:wykonanieProgramuGsearch}
 \end{figure}
 
+Ostatni wiersz pokazuje jakie znaczenie ma wyszukiwanie po wielkości liter 
+(tab. \ref{tabela:iloscWyszukanDziekiProgramom}). Program \textbf{ripgrep} posiada 
+możliwość ignorowania wielkości liter czego nie robi program gsearch. Jeżeli
+nieznana jest dokładna wielkości liter frazy, to może to spowodować brak 
+znalezienia frazy (rys. \ref{fig:wykresPorównaniaIlosciWystapień}). 
+
 Na obrazie (rys. \ref{fig:wykonanieProgramuGsearch}) można zauważyć przykładowy
 rezultat programu \textbf{gsearch}. Zapisany zostaje strumień wyjścia jako zawartość do pliku
 przy użyciu programu \textbf{tee}. Następnie obliczana jest ilość znalezionych linii,
 na podstawie zawartości pliku używając \textbf{wc -l}.
 
-Program \textbf{ripgrep} nie jest w stanie znaleźć zawartości archiwów zagnieżdżonych w
+Program \textbf{ripgrep} nie jest w stanie znaleźć zawartości archiwów zagnieżdżonych \\ w
 innych archiwach. Rozwiązuje ten problem gsearch i pozwala na wyszukanie 
 znalezienie konkretnego pliku w którym fraza się znajduje.
 
@@ -766,7 +770,7 @@ proces alokowania danych i tego ile danych może przechowywać w pamięci w dany
 
 Wykorzystanie innego języka dającego większą swobodę w manipulowaniu pamięcią 
 dałoby lepsze czasy wykonania, jednak wykorzystanie języka niskopoziomowego,
-wiąże się z większym czasem implementacji algorytmów oraz trudniejszym procesem
+wiąże się \\ z większym czasem implementacji algorytmów oraz trudniejszym procesem
 analizowania błędów.
 
 Program \textbf{ripgrep} dla fraz o długości 3 lub mniejszych używa algorytmu Teddy. Ten algorytm
@@ -865,12 +869,12 @@ przeszukiwania folderów i rozpakowywania zawartości.
 
 Można zauważyć, że większość czasu programu wykorzystywana jest na operacje 
 ekstrakcji archiwów i czytania archiwów. Sam algorytm przeszukujący (dolny lewy 
-róg rys. \ref{fig:profilerGsearch1}) wykonuje się jedynie 0.72 sekundy.
+róg rys. \ref{fig:profilerGsearch1}) wykonuje się jedynie 0,72 sekundy.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=1\textwidth]{./images/profiler2.png}
-\caption{Zdjęcie pokazujące procent czasu w wykonania funkcji 'runtime cgocall' w gsearch}
+\caption{Zdjęcie pokazujące procent czasu wykonania 'runtime cgocall' w gsearch}
 \label{fig:profilerGsearch2}
 \end{figure}
 

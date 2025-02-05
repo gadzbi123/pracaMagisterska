@@ -106,7 +106,7 @@ umożliwi wyszukanie plików z rozszerzeniem .py. Dodatkowo odrzucone zostaną
 pliki z paczek pobocznych (ang. \english{site-packages}).
 
 Kolejna komenda wyszuka wszystkie pliki znajdujące się tylko w folderze 
-/biblioteka (\textbf{-maxdepth 2}) oraz jednym zagnieżdżonym folderze poniżej.
+/biblioteka \\ (\textbf{-maxdepth 2}) oraz jednym zagnieżdżonym folderze poniżej.
 Dodatkowo pokazane zostaną pliki większe niż 500 KB i mniejsze niż 10 MB.
 
 Ostatnia komenda z rysunku (rys. \ref{fig:cmd:findExamples}) daje możliwość usunięcia 
@@ -118,8 +118,8 @@ przy użyciu tar lub innego podobnego narzędzia. Taki proces nie jest jednak
 prosty w przypadku wielu typów archiwów.
 
 Do przeszukiwania zawartości plików dobrze nadaje się narzędzie grep, które jest
-dostępny ogólnodostępnym narzędziem GNU (skrót \ref{skrót:GNU}). Jego działanie jest dość podobne do \textbf{find'a},
-gdyż posiada on możliwość wyszukiwania treść w plikach tekstowych. Grep również nie 
+dostępny narzędziem GNU's not unix. Jego działanie jest dość podobne do \textbf{find'a},
+gdyż posiada on możliwość wyszukiwania treść w plikach tekstowych. Narzędzie grep również nie 
 posiada też możliwość szukania zawartości archiwów oraz nie wspiera wielu 
 formatów. Jest możliwość binarnego przeszukania plików, lecz archiwa nie będą 
 odczytane w przypadku użycia kompresji.
@@ -197,11 +197,11 @@ zbiorze danych.
 
 \section{Odniesienia do literatury}
 
-Istnieje wiele odniesień do wyszukiwania danych w literaturze. Praca Google 
-\cite{bib:internet:htmlSearchGoogle} odnosi się do problemu wyszukiwania tekstu 
-w dobie internetu i ilości danych, która jest przechowywana w chmurze. 
+Istnieje wiele odniesień do wyszukiwania danych w literaturze. Problem wyszukiwania tekstu 
+w dobie internetu, gdzie wiele zasobów przechowywana jest w chmurze,
+wymaga stworzenia rozwiązania pozwalającego na szybkie znajdowanie treści.
 Indeksowanie stron przyspiesza wyszukiwanie, ale wymaga dodatkowej przestrzeni
-pamięci na przechowywanie zaindeksowanych danych.
+pamięci na przechowywanie zaindeksowanych danych \cite{bib:internet:htmlSearchGoogle}.
 
 Ilość wydobywanych i dostarczanych danych poprzez operacje wejścia i wyjścia stanowi duże wyzwanie
 oraz wymaga wykorzystania skomplikowanych algorytmów i jest skomplikowanym
@@ -210,10 +210,13 @@ problemem.
 Operacje wejścia-wyjścia (I/O) stanowią kluczowy element w architekturze 
 komputerowej, wpływając na ogólną wydajność systemu. W artykule 'W skrócie o 
 wydajności pamięci' porównano zarządzanie danymi w komputerze do 
-organizacji przedmiotów w domu, podkreślając znaczenie efektywnego 
-rozmieszczenia i dostępu do zasobów. W kontekście operacji I/O analogie do 
+organizacji przedmiotów \\ w domu, podkreślając znaczenie efektywnego 
+rozmieszczenia i dostępu do zasobów. W kontekście operacji I/O, analogie do 
 fizycznych obiektów pomagają zrozumieć, jak istotne jest minimalizowanie 
-opóźnień \cite{bib:internet:IntelMemoryPerformance}. 
+opóźnień. Kolejnym istotnym aspektem jest zarządzanie pamięcią podręczną (cache) w 
+kontekście operacji wejścia / wyjścia. Efektywne wykorzystanie pamięci cache może znacząco 
+zmniejszyć opóźnienia dostępu do danych, jednak wymaga to zaawansowanych 
+mechanizmów koherencji, zwłaszcza w systemach wieloprocesorowych \cite{bib:internet:IntelMemoryPerformance}. 
 
 Jednym z głównych wyzwań w operacjach I/O jest różnorodność i zmienność 
 urządzeń peryferyjnych. Urządzenia te różnią się pod względem szybkości 
@@ -223,17 +226,10 @@ problem identyfikacji źródła przerwania. Konieczność obsługi współbieżn
 wielu urządzeń komplikuje proces zarządzania operacjami I/O co opisane
 zostało na wykładzie \cite{bib:internet:UrzadzeniaWejsciaWyjscia}. 
 
-Kolejnym istotnym aspektem jest zarządzanie pamięcią podręczną (cache) w 
-kontekście operacji I/O. Efektywne wykorzystanie pamięci cache może znacząco 
-zmniejszyć opóźnienia dostępu do danych, jednak wymaga to zaawansowanych 
-mechanizmów koherencji, zwłaszcza w systemach wieloprocesorowych. W artykule 
-'W skrócie o wydajności pamięci' omówiono hierarchię pamięci oraz znaczenie 
-odpowiedniego rozmieszczenia danych w celu optymalizacji wydajności \cite{bib:internet:IntelMemoryPerformance}.
-
-Na ten temat w swojej pracy doktorskiej odniósł się też dr Artur Malinowski \cite{bib:internet:ArturMalinowskiIO}.
+Na ten temat w swojej pracy doktorskiej odniósł się też dr Artur Malinowski \cite{bib:internet:ArturMalinowskiIO}. \\
 W tej pracy do złożoności systemów odzyskiwania danych (str. 24). Dane 
 przetrzymywane w określonym obszarze pamięci L1, L2, L3 znajdują się
-bliżej niż na dysku SSD lub HDD i przez to zostaną znacznie szybciej odszukane. 
+bliżej niż na dysku SSD lub HDD \\ i przez to zostaną znacznie szybciej odszukane. 
 
 Artykuł 'Love your cache' \cite{bib:internet:TwojaPamiećPodręczna} przedstawia
 kompleksowe podejście do zarządzania 
@@ -245,7 +241,7 @@ do współczesnych wymagań aplikacji internetowych. Proponowane jest wprowadzen
 bardziej zaawansowanych mechanizmów kontroli, które pozwalają na optymalizację
 wydajności przy jednoczesnym zachowaniu aktualności danych.
 
-Istotnym elementem omawianym w artykule jest koncepcja odcisków cyfrowych w
+Istotnym elementem omawianym w artykule jest koncepcja odcisków cyfrowych \\ w
 nazwach plików. Polega ona na dodawaniu unikalnych identyfikatorów do nazw 
 zasobów, co umożliwia efektywne zarządzanie przechowywanym danymi w pamięci 
 podręcznej. Jest to szczególnie ważne w kontekście optymalizacji wydajności.
@@ -253,7 +249,7 @@ podręcznej. Jest to szczególnie ważne w kontekście optymalizacji wydajności
 Podczas konferencji TREC \cite{bib:konferencja:TRECDuplicates} jeden z zespołów 
 napotkał problem zduplikowanych danych. Chęć wydobycia danych w celu utworzenia
 tekstów wymagało usunięcia duplikacji dokumentów oraz wyborze tej treści,
-która posiada najwięcej wartości. Mogłoby to być tematem rozszerzenie pracy. 
+która posiada najwięcej wartości, co mogłoby być dodatkowym aspektem do wzbogacenia pracy. 
 
 Archiwizacja danych stanowi istotne wyzwanie w różnych dziedzinach, od medycyny 
 po zarządzanie dokumentami historycznymi. Analiza systemów archiwizacji obrazów
@@ -264,36 +260,22 @@ archiwizacji i komunikacji obrazów medycznych' \cite{bib:internet:ArchiwizacjaD
 
 Archiwa przechowywane mogą też być w różnym stanie. Niektóre dane mogą być
 uszkodzone z powodu złego przechowywania, sposobu pozyskanych danych lub 
-niepoprawnej implementacji odczytu danych z archiwów. W rządowym artykule o
+niepoprawnej implementacji odczytu danych z archiwów. W artykule o
 digitalizacji piśmiennictwa można znaleźć analogię do rozwiązywanego problemu \cite{bib:internet:GovDigitalizacjaPiśmiennictwa}.
 
-Dodatkowym problemem odczytywanie dużych zarchiwizowanych danych. W książce W.
-Curtis Prestona można przeczytać o problemie odczytania tych danych w przypadku
+W książce W. Curtis Prestona można przeczytać o problemie odczytania tych danych w przypadku
 uszkodzonych zawartości \cite{bib:ksiazka:ArchiwizacjaIOdzyskiwanie}. Sugeruje
 on wiele narzędzi pozwalających na odzyskanie zawartości z archiwów i problem
 z radzeniem sobie w przypadkach uszkodzenia danych.
 
 Problemem odczytywania danych mocno skompresowanych, zajmowali się również 
 doktorzy z Uniwersytetu w Dublinie \cite{bib:internet:KompresjaDanych}. Odnosili
-się oni do skomplikowania odczytu i redundancji w przypadku transportu danych
+się oni do skomplikowania odczytu \\ i redundancji w przypadku transportu danych
 przez sieć.
 
 \section{Opis poznanych rozwiązań}
 
 \subsection{Algorytm brute force}
-
-\begin{figure}[htbp]
-  \centering
-  \begin{lstlisting}
-for i := 0; i<len(pattern); i++{
-  for j := 0; j<len(substring); j++{
-    // compare bytes
-  }
-}
-  \end{lstlisting}
-  \caption{Przykład algorytmu brute force}
-  \label{fig:code:bruteForceComparison}
-\end{figure}
 
 Jest wiele algorytmów, które wyszukują tekst. Jednym z takich algorytmów, jest 
 algorytm typu brute-force. Polega na sprawdzaniu każdego bajtu, a jego implementacja
@@ -304,14 +286,58 @@ przeszukiwanego, a len(substring) to długość tekstu szukanego. Nie jest wykon
  instancji znaku powtórzonego. Przykładową implementację algorytmu można znaleźć
   na rysunku (rys. \ref{fig:code:bruteForceComparison}).
 
-%\begin{figure}[htbp]
-%  \centering
-%  \includegraphics[width=0.9\textwidth]{./images/historical-mem-price.png}
-%  \caption{Historyczne dane cen pamięci w latach 1993-2023}
-%  \label{screenshot:MemPrices}
-%\end{figure}
-%\cite{internet:HistoricalMemPrice}
-%https://jcmit.net/memoryprice.htm
+\begin{figure}[htbp]
+\centering
+\begin{lstlisting}
+for i := 0; i<len(pattern); i++{
+for j := 0; j<len(substring); j++{
+    // compare bytes
+}
+}
+\end{lstlisting}
+\caption{Przykład algorytmu brute force}
+\label{fig:code:bruteForceComparison}
+\end{figure}
+
+\subsection{Interpretacja prefixo-sufiksu}
+
+W algorytmie Morrisa-Pratta (MP) oraz KMP prefikso-sufiks jest kluczowym elementem, który
+pozwala na efektywne wyszukiwanie wzorca w tekście.
+Prefikso-sufiks to ciąg znaków, który jest jednocześnie prefiksem (początkiem)
+i sufiksem (końcem) danego wzorca, ale nie jest całym wzorcem. Innymi słowy, 
+jest to wspólna część występująca zarówno na początku, jak i na końcu wzorca.
+
+W algorytmie Morrisa-Pratta (MP) prefikso-sufiks stanowi fundamentalny element 
+sposobu wyszukiwania wzorca w tekście. Jest to specyficzna
+sekwencja znaków, która występuje jednocześnie na początku (jako prefiks) i na
+końcu (jako sufiks) analizowanego wzorca.
+Ta właściwość pozwala algorytmowi na znacznie efektywniejsze
+działanie \\ w porównaniu do prostego, naiwnego przeszukiwania tekstu.
+
+Działanie prefikso-sufiksu można najlepiej zrozumieć na konkretnym przykładzie.
+Weźmy wzorzec 'ABABCA'. W tym przypadku możemy znaleźć różne prefiksy (takie 
+jak 'A', 'AB', 'ABA', 'ABAB', 'ABABC') oraz sufiksy ('A', 'CA', 'BCA', 'ABCA',
+'BABCA'). Analizując te zbiory, znajdujemy części wspólne, które spełniają 
+definicję prefikso-sufiksu. Dla tego konkretnego wzorca, 'AB' jest przykładem 
+prefikso-sufiksu, ponieważ występuje zarówno na początku, jak i końcu pewnego 
+prefiksu wzorca ('ABAB').
+
+Kluczowym elementem algorytmu MP jest wykorzystanie prefikso-sufiksów do 
+konstrukcji tablicy prefiksowej (\textbf{preproc}). Tablica ta przechowuje informacje o 
+długościach najdłuższych prefikso-sufiksów dla każdej pozycji we wzorcu. To 
+właśnie ta struktura danych pozwala algorytmowi na inteligentne przesuwanie 
+wzorca w przypadku wystąpienia niedopasowania, eliminując potrzebę cofania się 
+w tekście. Wykorzystanie prefikso-sufiksów w algorytmach MP i KMP prowadzi do znaczącej 
+optymalizacji czasowej.
+
+W praktycznych zastosowaniach, zrozumienie koncepcji prefikso-sufiksu jest 
+kluczowe w celu zrozumienia działania algorytmów omówionych w tej pracy. 
+Właściwości prefikso-sufiksów znajdują również zastosowanie w innych 
+algorytmach tekstowych, jak na przykład w algorytmie Aho-Corasick, 
+używanym do jednoczesnego wyszukiwania wielu wzorców. Ta uniwersalność 
+koncepcji prefikso-sufiksu sprawia, że jest ona jednym z fundamentalnych 
+pojęć w dziedzinie algorytmów tekstowych. Algorytm wyszukiwania
+wielu wzorców nie będzie omawiany w tej pracy.
 
 \subsection{Algorytm Morisa-Pratta}
 
@@ -336,8 +362,8 @@ for i := 1; i <= len(substr); i++ {
 Algorytm Morisa-Pratta, jest algorytmem wykorzystującym możliwość procesowania 
 łańcucha w tekście, aby dopasować wcześniej odpowiadającą część zbioru
 (rys. \ref{fig:code:preprocessMorisPratt}). Polega on na wykorzystaniu faktu
- istnienia pasującego prefikso-sufiksu. Pozwala on na pominięcie porównania
- znaków, które się powtarzają w łańcuchu poszukiwanym.
+istnienia pasującego prefikso-sufiksu. Pozwala on na pominięcie porównania
+znaków, które się powtarzają w łańcuchu poszukiwanym.
 
 Dzięki wykorzystaniu tej zależności można uniknąć cofania się indeksu i. 
 Od teraz jako tablicę przechowującą informacje o przesunięciu w przypadku 
@@ -375,9 +401,9 @@ różnica pomiędzy obecnym, a następnym znakiem tablicy szukanej (tablicy
 do tablicy \textbf{preproc} o odległość różnicy znaków. W ten sposób następnym
  razem będzie możliwość pominięcia porównania tych znaków.
 
-W drugim etapie można wykorzystać wcześniej przygotowaną tablice przemieszczeń 
-\textbf{preproc}, aby obliczyć ilość przesunięcia w przypadku znalezienia 
-niepasującego prefiksu (rys. \ref{fig:code:algoMorisPratt}). Dzięki temu zwykle 
+W drugim etapie można wykorzystać wcześniej przygotowaną tablicę przemieszczeń 
+\textbf{preproc} (rys. \ref{fig:code:algoMorisPratt}), aby obliczyć przesunięcia w przypadku znalezienia 
+niepasującego prefiksu. Dzięki temu zwykle 
 dłuższy tekst znajdujący się we wzorcu \textbf{pattern} można przeanalizować szybciej
 niż w przypadku algorytmu brute-force.
 
@@ -396,19 +422,26 @@ func Index(pattern, substr string) int {
     // brute-force kiedy pattern jest krotki
     if len(pattern) <= bytealg.MaxBruteForce /* max == 64 */{
       return bytealg.IndexString(pattern, substr)
-  }
-  [...]
+    } else { 
+    // implementacja BM
+    [...]
+    }
   }
 }
 \end{lstlisting}
 \caption{Szukanie łańcucha w standardowej bibliotece Golang}
 \label{fig:code:golangSearchInsideString}
 \end{figure}
+
 W podstawowej bibliotece języka Golang, w pakiecie \textit{strings} istnieje 
 implementacja metody \textit{Index()}. Nie jest ona jednak w pełni przedstawiona
 w kodzie, natomiast w jej implementacji można zauważyć, że algorytm brute-force
-jest wykorzystywany tylko w przypadku, gdy długość wzorca wynosi więcej niż 64 
-(rys. \ref{fig:code:golangSearchInsideString}).
+jest wykorzystywany tylko \\ w przypadku, gdy długość wzorca \textbf{pattern} wynosi
+mniej lub równo 64 bajty (rys. \ref{fig:code:golangSearchInsideString}).
+W przypadku większego tekstu przeszukiwanego wykorzystuje się podobny algorytm 
+do implementacji BM. Wartość stała \textbf{bytealg.MaxBruteForce} jest 
+zadeklarowana w innym miejscu, ale jej wartość wynosi 64, o czym informuje komentarz.
+Do pełnej implementacji zamieszczono odniesienie \cite{bib:online:IndexSearchGolang}.
 
 W implementacji wyszukiwania w Golang, gdy bufor szukany jest mniejszy niż 64 bajty,
 obliczenie bufora wcześniejszego procesowania \textbf{BWP} nie jest wykonywane, 
@@ -422,7 +455,7 @@ przypadku odkrycia wyniku fałszywie dodatniego. Algorytm Morisa-Pratta nie
 
 \subsection{Algorytm Kurta-Morisa-Pratta}
 
-\begin{listing}[H]
+\begin{figure}[htbp]
     \begin{minted}[xleftmargin=0.15\textwidth,xrightmargin=0.2\textwidth,linenos]{diff}
 preproc := make([]int, lensubstr+1)
 preproc[0] = -1
@@ -443,7 +476,7 @@ mp.preproc = preproc
     \end{minted}
   \caption{Różnica pomiędzy algorytmami KMP i MP}
   \label{fig:code:KurtMorisPrattVsMorisPratt}
-\end{listing}
+\end{figure}
 
 Kolejny rozpatrywany algorytm jest implementacja, rozszerzająca poprzednią 
 implementację przedstawioną w algorytmie Morisa-Pratta. Różnice można zauważyć na podstawie rysunku
@@ -453,7 +486,7 @@ Gdy nie osiągnięto długości łańcucha i obecny znak jest równy temu, któr
 znajduje się w łańcuchu szukanym (rys. \ref{fig:code:KurtMorisPrattVsMorisPratt}
 linijka 10), to można wykonać skok do znaku znajdującego się w tablicy
 przygotowanej (rys. \ref{fig:code:KurtMorisPrattVsMorisPratt} linijka 13).
-Nie należy sprawdzać kolejnego znak w pętli. Ta różnica powoduje, że algorytm 
+Nie należy sprawdzać kolejnego znak \\ w pętli. Ta różnica powoduje, że algorytm 
 wykonuje się szybciej.
 
 Złożoność tego algorytmu wynosi $O(2*{len(pattern)})$, gdzie pattern to długość
@@ -485,7 +518,7 @@ można zaobserwować działanie na przykładzie tekstu przeszukiwanego S =
 wystąpienie 'A' przed dotarciem do 'B', co jest bardzo nieefektywne, ponieważ
 pisany tekst miałby większą różnorodność liter i proces przeszukiwania mógłby 
 zacząć się od symbolu B. Sytuacja 
-pogarsza się wraz ze wzrostem liczby powtórzeń fragmentu "AAAAAAB". Mimo że 
+pogarsza się wraz ze wzrostem liczby powtórzeń fragmentu 'AAAAAAB'. Mimo że 
 metoda tablicowa \textbf{preproc} działa tu sprawnie (bez potrzeby cofania się), to jej 
 jednokrotne wykonanie dla łańcucha szukanego W wykona się podobnie jak w algorytmie
 brute-force. Proces ten wyszukiwania często wymaga wielokrotnych powtórzonych przebiegów. 
@@ -544,8 +577,8 @@ Algorytm Boyera-Moore'a wprowadza rewolucyjne podejście poprzez skanowanie
 wzorca od prawej do lewej strony, w przeciwieństwie do MP i KMP, które 
 analizują tekst od lewej do prawej. Ta fundamentalna różnica pozwala algorytmowi BM na 
 znacznie efektywniejsze przeskakiwanie fragmentów tekstu (rys. \ref{fig:code:BMmain}), które na pewno nie 
-zawierają wzorca. BM wykorzystuje dwie heurystyki: "złego znaku" oraz "dobrego
-sufiksu", podczas gdy KMP i MP opierają się na pojedynczej tablicy prefiksowej.
+zawierają wzorca. BM wykorzystuje dwie heurystyki: 'złego znaku' oraz 'dobrego
+sufiksu', podczas gdy KMP \\ i MP opierają się na pojedynczej tablicy prefiksowej.
 
 Zaletą algorytmu jest to, że ilość skoków pomiędzy porównaniami jest zwykle 
 większa od 1, a gdy istnieje sytuacja, w której litery w łańcuchu szukanym nie
@@ -571,7 +604,7 @@ if bm.preproc == nil {
 
 W kontekście implementacji algorytm Boyera-Moore'a wymaga utworzenia tokenów dla
 każdego znaku w ASCII (rys. \ref{fig:code:BMpreproc}) w buforze wcześniejszego 
-procesowania (skrót \ref{skrót:BWP}), co zwiększa złożoność pamięciową w porównaniu do pojedynczej 
+procesowania (\textbf{BWP}), co zwiększa złożoność pamięciową w porównaniu do pojedynczej 
 tablicy prefiksowej w KMP i MP. Jednak ta dodatkowa pamięć przekłada się na 
 możliwość wykonywania większych skoków w tekście. KMP i MP różnią się między 
 sobą głównie w sposobie konstrukcji tablicy prefiksowej. KMP wykorzystuje 
@@ -584,6 +617,50 @@ napisanych w językach naturalnych, gdzie występuje duża różnorodność znak
 KMP i MP są bardziej przewidywalne w działaniu i mogą być lepszym wyborem dla 
 krótkich wzorców lub tekstów o ograniczonym alfabecie jak na przykład sekwencje
 DNA.
+
+W algorytmie BM heurystyka 'złego znaku' w algorytmie Boyer-Moore jest jedną \\ z
+dwóch głównych heurystyk wykorzystywanych do przyspieszenia procesu wyszukiwania
+wzorca w tekście. Jej podstawową zasadą jest przesunięcie wzorca w prawo, gdy 
+napotkany zostanie znak w tekście, który nie pasuje do odpowiadającego mu znaku 
+we wzorcu. Wielkość tego przesunięcia jest określana na podstawie ostatniego 
+wystąpienia "złego znaku" we wzorcu, lub jeśli znak nie występuje we wzorcu,
+wzorzec można przesunąć całkowicie poza ten znak.
+
+Działanie tej heurystyki polega na utworzeniu tablicy przesunięć dla wszystkich 
+możliwych znaków w alfabecie. Dla każdego znaku występującego we wzorcu 
+zapisywana jest pozycja jego ostatniego wystąpienia (licząc od prawej strony 
+wzorca). Gdy podczas porównywania tekstu ze wzorcem napotkany zostanie 
+niedopasowany znak, algorytm sprawdza jego pozycję w tablicy przesunięć i 
+przesuwa wzorzec w prawo o odpowiednią liczbę pozycji, tak aby ten znak mógł 
+zostać dopasowany do jego ostatniego wystąpienia we wzorcu.
+
+Heurystyka 'złego znaku' jest szczególnie efektywna w przypadkach, gdy 
+wzorzec zawiera znaki, które rzadko występują w przeszukiwanym tekście, ponieważ 
+pozwala na wykonanie dużych przesunięć wzorca. Jest ona również bardzo skuteczna
+w połączeniu \\ z drugą heurystyką algorytmu Boyer-Moore - heurystyką 'dobrego 
+sufiksu'.
+
+Heurystyka 'dobrego sufiksu' w algorytmie Boyer-Moore 
+jest drugą z głównych heurystyk tego algorytmu, która współpracuje z heurystyką 
+'złego znaku'. Działa ona w sytuacji, gdy podczas porównywania wzorca z tekstem
+znajdziemy częściowe dopasowanie — czyli gdy pewien sufiks wzorca został 
+dopasowany do tekstu, ale wystąpiło niedopasowanie na wcześniejszej pozycji. 
+W takim przypadku, algorytm próbuje wykorzystać informację \\ o tym dopasowanym 
+sufiksie, aby wykonać jak największe bezpieczne przesunięcie wzorca.
+
+Implementacja tej heurystyki wymaga wstępnego przetworzenia wzorca i utworzenia 
+tablic pomocniczych. Tablica przechowuje informacje o najdalszym 
+wystąpieniu każdego sufiksu wzorca w jego wcześniejszej części, pod warunkiem, 
+że przed tym wystąpieniem znajduje się inny znak niż we wzorcu. Następnie tablica 
+zawiera długości najdłuższych sufiksów, które są jednocześnie prefiksami wzorca.
+Te tablice są wykorzystywane do określenia, o ile pozycji można bezpiecznie 
+przesunąć wzorzec w prawo, gdy nastąpi częściowe dopasowanie.
+
+Siła heurystyki 'dobrego sufiksu' ujawnia się szczególnie w przypadkach, gdy 
+wzorzec zawiera powtarzające się podciągi znaków. Jest ona niezwykle skuteczna
+w sytuacjach, gdy długi sufiks został dopasowany, ale wystąpiło niedopasowanie
+na wcześniejszej pozycji. W takich przypadkach możliwe jest wykonanie dużych 
+przesunięć wzorca, co znacząco przyspiesza proces wyszukiwania. 
 
 Z tego też powodu należy wykonać heurystykę danych, które są analizowane.
 Można to zrobić na kilka sposobów i zostanie to przedstawione w następnych rozdziałach.
